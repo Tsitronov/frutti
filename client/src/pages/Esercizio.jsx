@@ -43,7 +43,7 @@ const Ezercizio = () => {
 
   return (
     <div>
-      <h2>🍎 Lista dei Frutti (Express + JSON)</h2>
+      <h2>🍎 Lista </h2>
 
       <input
         value={nome}
