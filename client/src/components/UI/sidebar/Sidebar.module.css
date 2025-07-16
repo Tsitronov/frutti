@@ -1,0 +1,13 @@
+.sidebar{
+  display: flex;   
+  justify-content:start;
+  flex-direction: column;
+  gap: 20px;
+  background-color: rgb(215, 295, 210);
+  width: 20%;
+  height: 100%;
+}
+.sidebar >p{
+  padding: 20px 0 0 20px;
+  color: red;
+}

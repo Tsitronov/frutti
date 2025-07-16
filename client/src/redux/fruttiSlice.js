@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const URL = "https://frutti-backend.onrender.com/api/frutti";
+//const URL = "https://frutti-backend.onrender.com/api/frutti";
+
+const URL = "http://localhost:3001/api/frutti";
 
 // 📥 Carica frutti dal server
 export const fetchFrutti = createAsyncThunk('frutti/fetchFrutti', async () => {
@@ -29,26 +31,34 @@ export const modificaFrutto = createAsyncThunk('frutti/modificaFrutto', async (f
 
 const fruttiSlice = createSlice({
   name: 'frutti',
-  initialState: [],
-  reducers: {},
+  initialState: {
+    lista: [],
+    currentPage: 1,
+  },
+  reducers: {
+    setCurrentPage(state, action) {
+      state.currentPage = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchFrutti.fulfilled, (state, action) => {
-        return action.payload;
+        state.lista = action.payload;
       })
       .addCase(aggiungiFrutto.fulfilled, (state, action) => {
-        state.push(action.payload);
+        state.lista.push(action.payload);
       })
       .addCase(eliminaFrutto.fulfilled, (state, action) => {
-        return state.filter(item => item.id !== action.payload);
+        state.lista = state.lista.filter(item => item.id !== action.payload);
       })
       .addCase(modificaFrutto.fulfilled, (state, action) => {
-        const index = state.findIndex(i => i.id === action.payload.id);
+        const index = state.lista.findIndex(i => i.id === action.payload.id);
         if (index !== -1) {
-          state[index] = action.payload;
+          state.lista[index] = action.payload;
         }
       });
   }
 });
 
+export const { setCurrentPage } = fruttiSlice.actions;
 export default fruttiSlice.reducer;
