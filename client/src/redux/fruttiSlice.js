@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-//const URL = "https://frutti-backend.onrender.com/api/frutti";
-
+// URL del backend
 const URL = "http://localhost:3001/api/frutti";
 
 // 📥 Carica frutti dal server
@@ -23,9 +22,16 @@ export const eliminaFrutto = createAsyncThunk('frutti/eliminaFrutto', async (id)
   return id;
 });
 
-// ✏️ Modifica frutto
+// ✏️ Modifica frutto (invia solo i campi rilevanti)
 export const modificaFrutto = createAsyncThunk('frutti/modificaFrutto', async (frutto) => {
-  const res = await axios.put(`${URL}/${frutto.id}`, frutto);
+  const { id, nome, descrizione, categoria } = frutto;
+
+  const res = await axios.put(`${URL}/${id}`, {
+    nome,
+    descrizione,
+    categoria
+  });
+
   return res.data;
 });
 
@@ -52,9 +58,9 @@ const fruttiSlice = createSlice({
         state.lista = state.lista.filter(item => item.id !== action.payload);
       })
       .addCase(modificaFrutto.fulfilled, (state, action) => {
-        const index = state.lista.findIndex(i => i.id === action.payload.id);
+        const index = state.lista.findIndex(item => item.id === action.payload.id);
         if (index !== -1) {
-          state.lista[index] = action.payload;
+          state.lista[index] = action.payload; // Sostituisce tutto, incl. descrizione
         }
       });
   }

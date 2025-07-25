@@ -54,13 +54,13 @@ app.post('/api/frutti', (req, res) => {
 // ✅ Modifica un frutto
 app.put('/api/frutti/:id', (req, res) => {
   const id = parseInt(req.params.id);
-  const { nome, categoria } = req.body;
+  const { nome, descrizione, categoria } = req.body;
   fs.readFile(FRUTTI_PATH, 'utf8', (err, data) => {
     if (err) return res.status(500).json({ error: 'Errore lettura' });
     let frutti = JSON.parse(data);
     const index = frutti.findIndex(f => f.id === id);
     if (index === -1) return res.status(404).json({ error: 'Non trovato' });
-    frutti[index] = { ...frutti[index], nome, categoria };
+    frutti[index] = { ...frutti[index], nome, descrizione, categoria };
     fs.writeFile(FRUTTI_PATH, JSON.stringify(frutti, null, 2), err => {
       if (err) return res.status(500).json({ error: 'Errore scrittura' });
       res.json(frutti[index]);

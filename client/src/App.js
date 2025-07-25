@@ -4,7 +4,7 @@ import {Route, Routes} from 'react-router-dom';
 
 import Login from './components/pages/Login';
 
-import Esercizio from './components/pages/Esercizio';
+import Generale from './components/pages/Generale';
 import Utenti from './components/pages/Utenti';
 import { AuthContext } from './context';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -15,12 +15,12 @@ function App() {
   return (
       <AuthContext.Provider value={{ isAuth, setIsAuth }}>
             <Routes>
-              <Route path = "/utenti" element = {<Utenti />} />
+              <Route path = "/utenti" element = {<ProtectedRoute> <Utenti /> </ProtectedRoute>} />
               <Route path = "/login" element = {<Login />} />
-              <Route path = "/" element = {<Login />} />
-              <Route path = "/esercizio" element = {<ProtectedRoute> <Esercizio /> </ProtectedRoute>} />
-              <Route index element = {<Login />} />
-              <Route path = "*" element = {<Login />} />
+              <Route path = "/" element = {<Generale />} />
+              <Route path = "/generale" element = {<Generale />} />
+              <Route index element = {<Generale />} />
+              <Route path = "*" element = {<Generale />} />
             </Routes>
       </AuthContext.Provider>
   );

@@ -95,6 +95,12 @@ button {
   background-color: #34495e;
 }
 
+.sidebarDisplayNone{
+  display: none;
+}
+
+
+
 .main-content,
 .wide-content {
   flex: 1;
@@ -111,97 +117,8 @@ button {
   margin-bottom: 40px;
 }
 
-.search-bar {
-  position: relative;
-  width: 300px;
-}
+ 
 
-.search-bar input {
-  width: 100%;
-  padding: 10px 20px;
-  border-radius: 25px;
-  border: 1px solid #bdc3c7;
-  outline: none;
-}
-
-.search-bar .icon {
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
-  font-size: 18px;
-  color: #bdc3c7;
-}
-
-/* Scrollbar styles */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: #ecf0f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #7f8c8d;
-  border-radius: 10px;
-}
-
-.add-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 3px dashed grey;
-}
-
-.add-item p {
-  font-size: 20px;
-  color: #7f8c8d;
-}
-
-/*** PAGINAZIONE ***/
-.pagination {
-  display: flex;
-  justify-content: center;
-  padding: 20px 0;
-  gap: 10px;
-}
-
-.pagination .page-link {
-  background-color: #2c3e50;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.pagination .page-link a {
-  color: white;
-  text-decoration: none;
-}
-
-.pagination .page-link:hover {
-  opacity: 0.8;
-}
-
-.pagination .page-link.backgroundRed {
-  background-color: #e74c3c;
-}
-
-.pagination .page-link.backgroundRed:hover {
-  background-color: #c0392b;
-}
-
-.pagination .active .page-link {
-  background-color: #2c3e50;
-  color: white;
-  border-color: #007bff;
-}
 
 /*** LINK SUPERIORI ***/
 .top-nav {
@@ -250,50 +167,59 @@ button {
   gap: 16px;
   padding: 10px;
 }
-
  
 .article-item {
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 5px;
   border-radius: 8px;
+  height: 200px;
+  max-height: 220px;
+  overflow-y: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   transition: background 0.3s;
 }
 
-.article-item.open {
-  background-color: #eef;
+.item-lungo-container {
+  position: relative;
+  padding-bottom: 1rem;
 }
 
-.item-extra {
-  margin-top: 10px;
-  font-size: 0.9em;
+.testo-lungo {
+  max-height: 120px;
+  overflow-y: auto;
+  opacity: 0.4;
+  font-style: italic;
+  transition: opacity 0.3s ease;
+  padding-right: 12px; /* per spazio a destra */
+}
+
+.testo-lungo:hover {
+  opacity: 1;
+  font-style: normal;
+}
+
+.freccia-scroll {
+  position: absolute;
+  right: 0;
+  bottom: 14px;
+  font-size: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
   color: #444;
+  opacity: 0.6;
+  padding: 2px 6px;
 }
 
-
+.freccia-scroll:hover {
+  opacity: 1;
+}
 
 .article-item:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.article-item p {
-  font-size: 18px;
-  white-space: pre-wrap;
-}
-
-.article-item .tags {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.article-item .tag {
-  background-color: #3498db;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 12px;
 }
 
 .article-item .actions {
@@ -331,6 +257,49 @@ button {
 }
 
 
+/*** PAGINAZIONE ***/
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  gap: 10px;
+}
+
+.pagination .page-link {
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.pagination .page-link a {
+  color: white;
+  text-decoration: none;
+}
+
+.pagination .page-link:hover {
+  opacity: 0.8;
+}
+
+.pagination .page-link.backgroundRed {
+  background-color: #e74c3c;
+}
+
+.pagination .page-link.backgroundRed:hover {
+  background-color: #c0392b;
+}
+
+.pagination .active .page-link {
+  background-color: #2c3e50;
+  color: white;
+  border-color: #007bff;
+}
+
+
+
 .rosso {
   color: red;
   font-weight: bold;
@@ -343,6 +312,7 @@ button {
   color: blue;
   font-weight: bold;
 }
+
 
 
 

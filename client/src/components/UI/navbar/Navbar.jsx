@@ -15,12 +15,12 @@ const Navbar = () => {
       <ul className="top-nav-links">
         <li>
           <NavLink
-            to="/esercizio"
+            to="/generale"
             className={({ isActive }) =>
               isActive ? 'nav-link active' : 'nav-link'
             }
           >
-            Esercizio
+            Generale
           </NavLink>
         </li>
         <li>
