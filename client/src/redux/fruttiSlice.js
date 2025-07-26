@@ -1,8 +1,8 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+ndimport { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // URL del backend
-const URL = "https://tuo-backend.onrender.com/frutti";
+const URL = "https://tuo-backend.onrender.com/frutti-backend";
 //const URL = "http://localhost:3001/api/frutti";
 
 // 📥 Carica frutti dal server
