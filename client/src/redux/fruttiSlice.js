@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // URL del backend
-const URL = "http://localhost:3001/api/frutti";
+const URL = "https://tuo-backend.onrender.com/api/utenti";
+//const URL = "http://localhost:3001/api/frutti";
 
 // 📥 Carica frutti dal server
 export const fetchFrutti = createAsyncThunk('frutti/fetchFrutti', async () => {
