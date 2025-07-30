@@ -14,6 +14,11 @@ import Pagination from "../UI/pagination/Pagination";
 const Utenti = () => {
   const dispatch = useDispatch();
   const utenti = useSelector((state) => state.utenti.lista);
+  const [lista, setLista] = useState([]);
+  useEffect(() => {
+    dispatch(fetchUtenti()).then(data => setLista(data));
+  });
+
   const currentPage = useSelector((state) => state.utenti.currentPage);
 
   const reparti = [...new Set(utenti.map((u) => u.reparto))].sort();
@@ -41,9 +46,9 @@ const Utenti = () => {
 
   const [modificaId, setModificaId] = useState(null);
 
-  useEffect(() => {
+  {/**useEffect(() => {
     dispatch(fetchUtenti());
-  }, [dispatch]);
+  }, [dispatch]);**/}
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -51,13 +56,14 @@ const Utenti = () => {
 
   const handleAggiungi = () => {
     if (form.stanza && form.cognome) {
-      dispatch(aggiungiUtente(form));
+      const nuovoUtente = { ...form, id: crypto.randomUUID() };
+      dispatch(aggiungiUtente(nuovoUtente));
       resetForm();
     }
   };
 
   const handleModifica = (utente) => {
-    setForm({ ...utente });
+    setForm(structuredClone(utente));
     setModificaId(utente.id);
   };
 
@@ -154,7 +160,20 @@ const Utenti = () => {
     : utenti;
 
   const cognomiUnici = [...new Set(utenti.map((u) => u.cognome))].sort();
-  const utentiVisibili = utentiFiltrati.slice(indexOfFirst, indexOfLast);
+
+  const [utentiVisibili, setUtentiVisibili] = useState([]);
+
+  useEffect(() => {
+    const filtrati = repartoSelezionato
+      ? utenti.filter((u) => u.reparto === repartoSelezionato).sort((a, b) => Number(a.stanza) - Number(b.stanza))
+      : utenti;
+
+    const indexOfLast = currentPage * itemsPerPage;
+    const indexOfFirst = indexOfLast - itemsPerPage;
+
+    setUtentiVisibili(filtrati.slice(indexOfFirst, indexOfLast));
+  }, [utenti, currentPage, repartoSelezionato]);
+
 
   const cambiaPagina = (numero) => {
     dispatch(setCurrentPage(numero));
@@ -284,6 +303,7 @@ const Utenti = () => {
                   e.stopPropagation();
                   if (window.confirm("Sicuro che delete?")) {
                     dispatch(eliminaUtente(item.id));
+                    {/***await dispatch(fetchUtenti());**/}
                   }
                 }}>❌</button>
               </div>

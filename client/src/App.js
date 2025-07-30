@@ -15,6 +15,7 @@ function App() {
   return (
       <AuthContext.Provider value={{ isAuth, setIsAuth }}>
             <Routes>
+              {/**<Route path = "/utenti" element = {<Utenti />} />**/}
               <Route path = "/utenti" element = {<ProtectedRoute> <Utenti /> </ProtectedRoute>} />
               <Route path = "/login" element = {<Login />} />
               <Route path = "/" element = {<Generale />} />

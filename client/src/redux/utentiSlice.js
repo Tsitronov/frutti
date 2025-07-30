@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// const URL = "https://tuo-backend.onrender.com/api/utenti";
+//const URL = "https://frutti-backend.onrender.com/api/utenti";
 const URL = "http://localhost:3001/api/utenti";
 
 // 📥 Carica tutti gli utenti

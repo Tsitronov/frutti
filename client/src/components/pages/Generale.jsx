@@ -152,6 +152,7 @@ const Generale = () => {
         </div>
 
         <div className="main-content wide-content">
+          
           <Navbar />
  
           <div id="poloski" title="visible Menu" onClick={toggleSidebar}>
