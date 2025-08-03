@@ -6,6 +6,8 @@ import { AuthContext } from '../../context/';
 
 import Navbar from '../UI/navbar/Navbar';
 
+const URL = "http://localhost:3001/api/login";   // ------------------------
+
 const Login = () => {
   const { setIsAuth } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -19,7 +21,8 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, data);
+      //const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, data);  // ------
+      const response = await axios.post(URL, data);
 
       if (response.data.message === 'Login riuscito') {
         setIsAuth(true);

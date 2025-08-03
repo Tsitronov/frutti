@@ -4,16 +4,27 @@ import {
   aggiungiUtente,
   eliminaUtente,
   modificaUtente,
-  setCurrentPage
+  setCurrentPage,
+  caricaUtentiLocalStorage
 } from "../../redux/utentiSlice";
 import { useState, useEffect, useRef } from "react";
 
 import Navbar from "../UI/navbar/Navbar";
 import Pagination from "../UI/pagination/Pagination";
+import ModalUtenteCercato from "../UI/modal/ModalUtenteCercato";
+import ModalUtente from "../UI/modal/ModalUtente";
 
 const Utenti = () => {
   const dispatch = useDispatch();
   const utenti = useSelector((state) => state.utenti.lista);
+  const [lista, setLista] = useState([]);
+  useEffect(() => {
+    dispatch(caricaUtentiLocalStorage()); // 👈 Prima mostra i vecchi
+    dispatch(fetchUtenti()).then(data => setLista(data));
+  }, [dispatch]);
+  const isLoading = useSelector((state) => state.utenti.isLoading);
+  const error = useSelector((state) => state.utenti.error);
+
   const currentPage = useSelector((state) => state.utenti.currentPage);
 
   const reparti = [...new Set(utenti.map((u) => u.reparto))].sort();
@@ -41,23 +52,20 @@ const Utenti = () => {
 
   const [modificaId, setModificaId] = useState(null);
 
-  useEffect(() => {
-    dispatch(fetchUtenti());
-  }, [dispatch]);
-
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleAggiungi = () => {
     if (form.stanza && form.cognome) {
-      dispatch(aggiungiUtente(form));
+      const nuovoUtente = { ...form, id: crypto.randomUUID() };
+      dispatch(aggiungiUtente(nuovoUtente));
       resetForm();
     }
   };
 
   const handleModifica = (utente) => {
-    setForm({ ...utente });
+    setForm(structuredClone(utente));
     setModificaId(utente.id);
   };
 
@@ -154,7 +162,20 @@ const Utenti = () => {
     : utenti;
 
   const cognomiUnici = [...new Set(utenti.map((u) => u.cognome))].sort();
-  const utentiVisibili = utentiFiltrati.slice(indexOfFirst, indexOfLast);
+
+  const [utentiVisibili, setUtentiVisibili] = useState([]);
+
+  useEffect(() => {
+    const filtrati = repartoSelezionato
+      ? utenti.filter((u) => u.reparto === repartoSelezionato).sort((a, b) => Number(a.stanza) - Number(b.stanza))
+      : utenti;
+
+    const indexOfLast = currentPage * itemsPerPage;
+    const indexOfFirst = indexOfLast - itemsPerPage;
+
+    setUtentiVisibili(filtrati.slice(indexOfFirst, indexOfLast));
+  }, [utenti, currentPage, repartoSelezionato]);
+
 
   const cambiaPagina = (numero) => {
     dispatch(setCurrentPage(numero));
@@ -185,7 +206,7 @@ const Utenti = () => {
       <div className="sidebar">
         <div className="categories">
           {repartoSelezionato && (
-            <div className="sidebar-filters">
+            <div>
               <h4> reparto {repartoSelezionato}</h4>
               {["bagno", "barba", "alimentazione", "dentiera", "autonomia", "malattia"].map((campo) => (
                 <div key={campo}>
@@ -196,34 +217,49 @@ const Utenti = () => {
           )}
         </div>
 
-        <input
-          type="text"
-          list="cognomi-lista"
-          placeholder="Cerca per cognome"
-          value={cognomeRicerca}
-          onChange={(e) => setCognomeRicerca(e.target.value)}
-          style={{ margin: "10px", padding: "5px", width: "80%" }}
-        />
+        <div className="forma-ricerca">
+          <input
+            type="text"
+            list="cognomi-lista"
+            placeholder="Cerca per cognome"
+            value={cognomeRicerca}
+            onChange={(e) => setCognomeRicerca(e.target.value)}
+            style={{ margin: "10px", padding: "5px", width: "80%" }}
+          />
 
-        <datalist id="cognomi-lista">
-          {cognomiUnici.map((cognome, index) => (
-            <option key={index} value={cognome} />
-          ))}
-        </datalist>
+          <datalist id="cognomi-lista">
+            {cognomiUnici.map((cognome, index) => (
+              <option key={index} value={cognome} />
+            ))}
+          </datalist>
 
-        <button type="button" onClick={() => {
-          const trovato = utenti.find((u) => u.cognome.toLowerCase() === cognomeRicerca.toLowerCase());
-          setUtenteTrovato(trovato || null);
-          setMostraModalInfo(true);
-        }}>ℹ️ Info</button>
+          <button type="button" onClick={() => {
+            const trovato = utenti.find((u) => u.cognome.toLowerCase() === cognomeRicerca.toLowerCase());
+            setUtenteTrovato(trovato || null);
+            setMostraModalInfo(true);
+          }}>ℹ️ Info</button>
+        </div>
       </div>
 
-      <div className="main-content wide-content">
+      <div className="main-content">
         <Navbar />
 
         <div id="poloski" title="visible Menu" onClick={toggleSidebar}>categorie</div>
 
         <h2>👥 Utenti</h2>
+        
+      {isLoading && (
+        <p style={{ color: "orange" }}>
+          ⏳ Caricamento dati dal server... (ora vedi dati locali)
+        </p>
+      )}
+
+      {error && (
+        <p style={{ color: "red" }}>
+          ⚠️ Errore: {error}
+        </p>
+      )}
+
         <ul>
           {reparti.map((reparto, i) => (
             <li key={i}>
@@ -297,47 +333,23 @@ const Utenti = () => {
           currentPage={currentPage}
           onPageChange={cambiaPagina}
         />
+
       </div>
 
       {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <h3><em>{modalData.campo}</em></h3>
-            <ul>
-              {modalData.risultati.map((item, i) => (
-                <li key={i}>
-                  {item.cognome} — <strong className={getColorClass(item.valore)}>{item.valore}</strong>
-                </li>
-              ))}
-            </ul>
-            <button type="button" onClick={() => setShowModal(false)}>Chiudi</button>
-          </div>
-        </div>
+        <ModalUtente 
+          modalData={modalData}
+          getColorClass={getColorClass}
+          setShowModal={setShowModal} 
+        />
       )}
 
       {mostraModalInfo && (
-        <div className="modal">
-          <div className="modal-content">
-            <h3>🧾 Info utente</h3>
-            {utenteTrovato ? (
-              <ul>
-                <li><strong>Reparto:</strong> {utenteTrovato.reparto}</li>
-                <li><strong>Stanza:</strong> {utenteTrovato.stanza}</li>
-                <li className="blue"> {utenteTrovato.cognome}</li>
-                <li className="verde"><strong>bagno:</strong> {utenteTrovato.bagno}</li>
-                <li className="verde"><strong>Barba:</strong> {utenteTrovato.barba}</li>
-                <li><strong>Autonomia:</strong> {utenteTrovato.autonomia}</li>
-                <li><strong>malattia:</strong> {utenteTrovato.malattia}</li>
-                <li><strong className={getColorClass(utenteTrovato.alimentazione)}>Alimentazione:</strong> {utenteTrovato.alimentazione}</li>
-                <li><strong>Dentiera:</strong> {utenteTrovato.dentiera}</li>
-                <li><strong>Altro:</strong> {utenteTrovato.altro}</li>
-              </ul>
-            ) : (
-              <p>⚠️ Utente non trovato.</p>
-            )}
-            <button type="button" onClick={() => setMostraModalInfo(false)}>❌ Chiudi</button>
-          </div>
-        </div>
+        <ModalUtenteCercato 
+          utenteTrovato={utenteTrovato} 
+          getColorClass={getColorClass(utenteTrovato.alimentazione)}
+          setMostraModalInfo = {setMostraModalInfo}
+        />
       )}
     </div>
   );

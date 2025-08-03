@@ -326,3 +326,10 @@ button {
     display: none;
   }
 }
+
+@media (max-width: 480px) {
+  .pagination .page-link {
+    padding: 10px 10px;
+  }
+
+}
