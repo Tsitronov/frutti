@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 
 import Navbar from '../UI/navbar/Navbar';
 import Pagination from "../UI/pagination/Pagination.jsx";
+import ModaleGenerale from "../UI/modal/ModaleGenerale";
 
 import { useRef } from "react";
 
@@ -233,17 +234,11 @@ const Generale = () => {
           />
 
         {categoriaSelezionata && (
-          <div className="modal">
-            <div className="modal-content">
-              <h3>Categoria: {categoriaSelezionata}</h3>
-              <ul>
-                {fruttiFiltrati.map(f => (
-                  <li key={f.id}>{f.nome} - {f.descrizione}</li>
-                ))}
-              </ul>
-              <button type="button" type="button" onClick={() => setCategoriaSelezionata(null)}>❌ Chiudi</button>
-            </div>
-          </div>
+          <ModaleGenerale 
+            categoriaSelezionata={categoriaSelezionata}
+            setCategoriaSelezionata= {setCategoriaSelezionata}
+            fruttiFiltrati = {fruttiFiltrati}
+          />
         )}
         </div>
       </div>

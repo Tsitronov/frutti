@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-//const URL = "https://frutti-backend.onrender.com/api/utenti";
-const URL = "http://localhost:3001/api/utenti";
+const URL = "https://frutti-backend.onrender.com/api/utenti";
+//const URL = "http://localhost:3001/api/utenti";
+
 
 // 📥 Carica tutti gli utenti
 export const fetchUtenti = createAsyncThunk('utenti/fetchUtenti', async () => {
@@ -28,11 +29,27 @@ export const eliminaUtente = createAsyncThunk('utenti/eliminaUtente', async (id)
   return id;
 });
 
+// ✅ Carica utenti da localStorage
+export const caricaUtentiLocalStorage = () => (dispatch) => {
+  const localData = localStorage.getItem("utenti");
+  if (localData) {
+    const utenti = JSON.parse(localData);
+    dispatch({
+      type: fetchUtenti.fulfilled.type,
+      payload: utenti,
+    });
+  }
+};
+
+
+
 const utentiSlice = createSlice({
   name: 'utenti',
   initialState: {
-    lista: [],
+    lista: JSON.parse(localStorage.getItem("utenti")) || [],
     currentPage: 1,
+    isLoading: false,
+    error: null,
   },
   reducers: {
     setCurrentPage(state, action) {
@@ -41,8 +58,18 @@ const utentiSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchUtenti.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(fetchUtenti.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.lista = action.payload;
+        localStorage.setItem("utenti", JSON.stringify(action.payload));
+      })
+      .addCase(fetchUtenti.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
       })
       .addCase(aggiungiUtente.fulfilled, (state, action) => {
         state.lista.push(action.payload);
@@ -55,7 +82,7 @@ const utentiSlice = createSlice({
       })
       .addCase(eliminaUtente.fulfilled, (state, action) => {
         state.lista = state.lista.filter(u => u.id !== action.payload);
-      });
+      })
   }
 });
 
