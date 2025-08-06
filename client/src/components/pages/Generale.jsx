@@ -1,23 +1,34 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect, useRef } from "react";
+
 import {
   fetchFrutti,
   aggiungiFrutto,
   eliminaFrutto,
   modificaFrutto,
-  setCurrentPage
+  setCurrentPage,
+  caricaFruttiLocalStorage
 } from "../../redux/fruttiSlice";
-import { useState, useEffect } from "react";
 
 import Navbar from '../UI/navbar/Navbar';
 import Pagination from "../UI/pagination/Pagination.jsx";
 import ModaleGenerale from "../UI/modal/ModaleGenerale";
+import GeneraleForm from "../UI/forms/GeneraleForm";
+import Loader from "../UI/Loader";
 
-import { useRef } from "react";
 
 const Generale = () => {
   const dispatch = useDispatch();
   const frutti = useSelector(state => state.frutti.lista);
   const currentPage = useSelector((state) => state.frutti.currentPage);
+
+  useEffect(() => {
+    dispatch(caricaFruttiLocalStorage()); // 👈 Prima mostra i vecchi
+    dispatch(fetchFrutti()).then(frutti);
+  }, [dispatch]);
+
+  const isLoading = useSelector((state) => state.frutti.isLoading);
+  const error = useSelector((state) => state.frutti.error);
 
   const [nome, setNome] = useState("");
   const [descrizione, setDescrizione] = useState("");
@@ -33,11 +44,6 @@ const Generale = () => {
   // Filtra i frutti per la categoria selezionata
   const fruttiFiltrati = frutti.filter(f => f.categoria === categoriaSelezionata);
 
-
-  // 📥 carica i dati al primo render
-  useEffect(() => {
-    dispatch(fetchFrutti());
-  }, [dispatch]);
 
   const handleAggiungiFrutto = () => {
     if (form.nome && form.descrizione && form.categoria) {
@@ -90,13 +96,7 @@ const Generale = () => {
     }
   };
 
-  const toggleSidebar = () => {
-    const sidebar = document.querySelector('.sidebar');
-    sidebar.classList.toggle('sidebarDisplayNone');
-  };
-
   const itemsPerPage = 4;
-
 
     // 🧮 Calcola gli elementi da mostrare
   const listaDaMostrare = categoriaSelezionata
@@ -135,95 +135,69 @@ const Generale = () => {
   };
 
 
-
   return (
     <>
       <div className="container">
         <div className="sidebar">
           <div className="categories">
-            <ul>
             {categorieUniche.map((cat, index) => (
-              <li key={index} onClick={() => setCategoriaSelezionata(cat)}>
-                {cat}
-              </li>
+              <div key={index}>
+                <a onClick={() => setCategoriaSelezionata(cat)}>
+                  {cat}
+                </a>
+              </div>
             ))}
-
-            </ul>
           </div>
         </div>
 
-        <div className="main-content wide-content">
-          
-          <Navbar />
- 
-          <div id="poloski" title="visible Menu" onClick={toggleSidebar}>
-            naschondiSidebar
-          </div>
+        <div className="main-content">
+          <div className="content">
 
-          <h2>🍎 Lista </h2>
+            <Navbar />
 
-        <input
-          value={form.nome || ""}
-          onChange={(e) => setForm({ ...form, nome: e.target.value })}
-          placeholder="nome"
-        />
+            <Loader isLoading={isLoading} error={error} />
 
-        <input
-          value={form.descrizione || ""}
-          onChange={(e) => {setForm({ ...form, descrizione: e.target.value })}}
-          placeholder="Descrizione"
-        />
+            <GeneraleForm
+              form={form} 
+              setForm={setForm} 
+              categorieUniche={categorieUniche}
+              handleSalva={handleSalva}
+              handleAggiungiFrutto={handleAggiungiFrutto}
+            />
+              
+            <div className="article-list">
+              {fruttiVisibili.map(item => (
+                <div className="article-item" key={item.id} style={{ cursor: "pointer" }}>
+                  <div className="item-info">
+                    {item.nome}  –  {item.categoria}
+                     
+                  </div>
+                  <div className="item-lungo-container">
+                    <div
+                      ref={(el) => (testoRefs.current[item.id] = el)}
+                      onScroll={() => handleScroll(item.id)}
+                      className={isLungo(item.descrizione) ? 'testo-lungo' : ''}
+                    >
+                      {item.descrizione}
+                    </div>
 
-        <input
-          list="suggestions"
-          value={form.categoria || ""}
-          onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-          placeholder="Categoria"
-        />
-          <datalist id="suggestions">
-            {categorieUniche.map((cat, i) => (
-              <option key={i} value={cat} />
-            ))}
-          </datalist>
-
-        {form.id !== null ? (
-          <button type="button" onClick={handleSalva}> 💾 Salva </button>
-        ) : (
-          <button type="button" onClick={handleAggiungiFrutto}> ➕ Aggiungi </button>
-        )}
-
-          <div className="article-list">
-            {fruttiVisibili.map(item => (
-              <div className="article-item" key={item.id} style={{ cursor: "pointer" }}>
-                <div className="item-info">
-                  {item.nome}  –  {item.categoria}
-                   
-                </div>
-                <div className="item-lungo-container">
-                  <div
-                    ref={(el) => (testoRefs.current[item.id] = el)}
-                    onScroll={() => handleScroll(item.id)}
-                    className={isLungo(item.descrizione) ? 'testo-lungo' : ''}
-                  >
-                    {item.descrizione}
+                    {isLungo(item.descrizione)  && scrollStates[item.id] && (
+                      <button
+                        className="freccia-scroll"
+                        onClick={() => scrollToTop(item.id)}
+                      >
+                        ↑
+                      </button>
+                    )}
                   </div>
 
-                  {isLungo(item.descrizione)  && scrollStates[item.id] && (
-                    <button
-                      className="freccia-scroll"
-                      onClick={() => scrollToTop(item.id)}
-                    >
-                      ↑
-                    </button>
-                  )}
+                  <div className="actions">
+                    <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
+                    <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Sicuro che delete?") && dispatch(eliminaFrutto(item.id))}>❌</button>
+                  </div>
                 </div>
-
-                <div className="actions">
-                  <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
-                  <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Sicuro che delete?") && dispatch(eliminaFrutto(item.id))}>❌</button>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           <Pagination
@@ -231,16 +205,15 @@ const Generale = () => {
             itemsPerPage={itemsPerPage}
             currentPage={currentPage}
             onPageChange={cambiaPagina}
-          />
-
-        {categoriaSelezionata && (
-          <ModaleGenerale 
-            categoriaSelezionata={categoriaSelezionata}
-            setCategoriaSelezionata= {setCategoriaSelezionata}
-            fruttiFiltrati = {fruttiFiltrati}
-          />
-        )}
+          />    
         </div>
+      {categoriaSelezionata && (
+        <ModaleGenerale 
+          categoriaSelezionata={categoriaSelezionata}
+          setCategoriaSelezionata= {setCategoriaSelezionata}
+          fruttiFiltrati = {fruttiFiltrati}
+        />
+      )}
       </div>
     </>
   );

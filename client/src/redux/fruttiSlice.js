@@ -2,8 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // URL del backend
-
-//const URL = "https://frutti-backend.onrender.com/api/frutti";
+// const URL = "https://frutti-backend.onrender.com/api/frutti";
 const URL = "http://localhost:3001/api/frutti";
 
 
@@ -38,11 +37,25 @@ export const modificaFrutto = createAsyncThunk('frutti/modificaFrutto', async (f
   return res.data;
 });
 
+// ✅ Carica frutti da localStorage
+export const caricaFruttiLocalStorage = () => (dispatch) => {
+  const localData = localStorage.getItem("frutti");
+  if (localData) {
+    const frutti = JSON.parse(localData);
+    dispatch({
+      type: fetchFrutti.fulfilled.type,
+      payload: frutti,
+    });
+  }
+};
+
 const fruttiSlice = createSlice({
   name: 'frutti',
   initialState: {
-    lista: [],
+    lista: JSON.parse(localStorage.getItem("frutti")) || [],
     currentPage: 1,
+    isLoading: false,
+    error: null,
   },
   reducers: {
     setCurrentPage(state, action) {
@@ -51,8 +64,18 @@ const fruttiSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchFrutti.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(fetchFrutti.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.lista = action.payload;
+        localStorage.setItem("frutti", JSON.stringify(action.payload));
+      })
+      .addCase(fetchFrutti.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
       })
       .addCase(aggiungiFrutto.fulfilled, (state, action) => {
         state.lista.push(action.payload);

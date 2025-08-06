@@ -1,4 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect, useRef } from "react";
+
 import {
   fetchUtenti,
   aggiungiUtente,
@@ -7,23 +9,27 @@ import {
   setCurrentPage,
   caricaUtentiLocalStorage
 } from "../../redux/utentiSlice";
-import { useState, useEffect, useRef } from "react";
 
 import Navbar from "../UI/navbar/Navbar";
 import Pagination from "../UI/pagination/Pagination";
 import ModalUtenteCercato from "../UI/modal/ModalUtenteCercato";
 import ModalUtente from "../UI/modal/ModalUtente";
 
+import RicercaUtenteForm from "../UI/forms/RicercaUtenteForm";
+import Loader from "../UI/Loader";
+
 const Utenti = () => {
   const dispatch = useDispatch();
   const utenti = useSelector((state) => state.utenti.lista);
   const [lista, setLista] = useState([]);
+
   useEffect(() => {
     dispatch(caricaUtentiLocalStorage()); // 👈 Prima mostra i vecchi
     dispatch(fetchUtenti()).then(data => setLista(data));
   }, [dispatch]);
   const isLoading = useSelector((state) => state.utenti.isLoading);
   const error = useSelector((state) => state.utenti.error);
+
 
   const currentPage = useSelector((state) => state.utenti.currentPage);
 
@@ -147,13 +153,13 @@ const Utenti = () => {
     }
   }, [utenti]);
 
-  const toggleSidebar = () => {
-    const sidebar = document.querySelector('.sidebar');
-    sidebar.classList.toggle('sidebarDisplayNone');
+  const toggleUtentiForm = () => {
+    const utentiForm = document.querySelector('.utentiForm');
+    utentiForm.classList.toggle('utentiFormDisplayNone');
   };
 
 
-  const itemsPerPage = 4;
+  const itemsPerPage = 2;
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
 
@@ -206,134 +212,113 @@ const Utenti = () => {
       <div className="sidebar">
         <div className="categories">
           {repartoSelezionato && (
-            <div>
+            <>
               <h4> reparto {repartoSelezionato}</h4>
               {["bagno", "barba", "alimentazione", "dentiera", "autonomia", "malattia"].map((campo) => (
                 <div key={campo}>
                   <a href="#" onClick={(e) => { e.preventDefault(); apriFinestraFiltro(campo); }} style={{ textTransform: "capitalize" }}>{campo}</a>
                 </div>
               ))}
-            </div>
+            </>
           )}
         </div>
 
-        <div className="forma-ricerca">
-          <input
-            type="text"
-            list="cognomi-lista"
-            placeholder="Cerca per cognome"
-            value={cognomeRicerca}
-            onChange={(e) => setCognomeRicerca(e.target.value)}
-            style={{ margin: "10px", padding: "5px", width: "80%" }}
-          />
+        <RicercaUtenteForm 
+          cognomeRicerca={cognomeRicerca}
+          setCognomeRicerca={setCognomeRicerca}
+          cognomiUnici={cognomiUnici}
+          utenti={utenti} 
+          setUtenteTrovato={setUtenteTrovato}
+          setMostraModalInfo={setMostraModalInfo}
+        />
 
-          <datalist id="cognomi-lista">
-            {cognomiUnici.map((cognome, index) => (
-              <option key={index} value={cognome} />
-            ))}
-          </datalist>
-
-          <button type="button" onClick={() => {
-            const trovato = utenti.find((u) => u.cognome.toLowerCase() === cognomeRicerca.toLowerCase());
-            setUtenteTrovato(trovato || null);
-            setMostraModalInfo(true);
-          }}>ℹ️ Info</button>
-        </div>
       </div>
 
       <div className="main-content">
-        <Navbar />
+        <div className="content">
 
-        <div id="poloski" title="visible Menu" onClick={toggleSidebar}>categorie</div>
+          <Navbar />
 
-        <h2>👥 Utenti</h2>
-        
-      {isLoading && (
-        <p style={{ color: "orange" }}>
-          ⏳ Caricamento dati dal server... (ora vedi dati locali)
-        </p>
-      )}
+          <Loader isLoading={isLoading} error={error} />
 
-      {error && (
-        <p style={{ color: "red" }}>
-          ⚠️ Errore: {error}
-        </p>
-      )}
+          <ul className="repartoNome"> 👥 reparti: 
+            {reparti.map((reparto, i) => (
+              <li key={i}>
+                <a href="#" onClick={() => {
+                  setRepartoSelezionato(reparto);
+                  localStorage.setItem("ultimoReparto", reparto);
+                }} style={{ fontWeight: reparto === repartoSelezionato ? "bold" : "normal" }}>{reparto}</a>
+              </li>
+            ))}
+          </ul>
 
-        <ul>
-          {reparti.map((reparto, i) => (
-            <li key={i}>
-              <a href="#" onClick={() => {
-                setRepartoSelezionato(reparto);
-                localStorage.setItem("ultimoReparto", reparto);
-              }} style={{ fontWeight: reparto === repartoSelezionato ? "bold" : "normal" }}>{reparto}</a>
-            </li>
+          <div className="toggleUtentiLink" onClick={toggleUtentiForm}> forma creare e modifica utente </div>
+
+          <div className="utentiForm utentiFormDisplayNone">
+          {["reparto", "stanza", "cognome", "bagno", "barba", "autonomia", "malattia", "alimentazione", "dentiera", "altro"].map((campo) => (
+            <input
+              key={campo}
+              name={campo}
+              placeholder={campo}
+              value={form[campo]}
+              onChange={handleChange}
+            />
           ))}
-        </ul>
+          {modificaId ? (
+            <>
+              <button type="button" className="btn-modifica" onClick={handleSalva}>💾 Cambia</button>
+              <button type="button" className="btn-salva" onClick={handleAggiungi}>➕ Inserisci</button>
+              <button type="button" className="btn-elimina" onClick={resetForm}>❌ Annulla</button>
+            </>
+          ) : (
+            <button type="button" className="btn-salva" onClick={handleAggiungi}>➕ Aggiungi</button>
+          )}
+          </div>
 
-        {["reparto", "stanza", "cognome", "bagno", "barba", "autonomia", "malattia", "alimentazione", "dentiera", "altro"].map((campo) => (
-          <input
-            key={campo}
-            name={campo}
-            placeholder={campo}
-            value={form[campo]}
-            onChange={handleChange}
-          />
-        ))}
 
-        {modificaId ? (
-          <>
-            <button type="button" onClick={handleSalva}>💾 Cambia</button>
-            <button type="button" onClick={handleAggiungi}>➕ Inserisci</button>
-            <button type="button" onClick={resetForm}>❌ Annulla</button>
-          </>
-        ) : (
-          <button type="button" onClick={handleAggiungi}>➕ Aggiungi</button>
-        )}
-
-        <div className="article-list">
-          {utentiVisibili.map((item) => (
-            <div className="article-item" key={item.id} style={{ cursor: "pointer" }}>
-              <div className="item-info">
-                <strong> stanza - {item.stanza}</strong>
-                <strong className="blue"> – {item.cognome} </strong>
-                <div className={getColorClass(item.alimentazione)}>{item.alimentazione}</div>
-                <div>{item.autonomia}</div>
-                <div>{item.malattia}</div>
-                <div>{item.dentiera}</div>
-                <div><strong>Bagno:</strong> {item.bagno}</div>
-                <div><strong>Barba:</strong> {item.barba}</div>
-              </div>
-              <div className="item-lungo-container">
-                <div ref={(el) => testoRefs.current[item.id] = el}
-                  onScroll={() => handleScroll(item.id)}
-                  className={isLungo(item.altro) ? 'testo-lungo' : ''}>
-                  {item.altro}
+          <div className="article-list">
+            {utentiVisibili.map((item) => (
+              <div className="article-item" key={item.id} style={{ cursor: "pointer" }}>
+                <div className="item-info">
+                  <strong> stanza - {item.stanza}</strong>
+                  <strong className="blue"> – {item.cognome} </strong>
+                  <div className={getColorClass(item.alimentazione)}>{item.alimentazione}</div>
+                  <div>{item.autonomia}</div>
+                  <div>{item.malattia}</div>
+                  <div>{item.dentiera}</div>
+                  <div><strong>Bagno:</strong> {item.bagno}</div>
+                  <div><strong>Barba:</strong> {item.barba}</div>
                 </div>
-                {isLungo(item.altro) && scrollStates[item.id] && (
-                  <button className="freccia-scroll" onClick={() => scrollToTop(item.id)}>↑</button>
-                )}
+                <div className="item-lungo-container">
+                  <div ref={(el) => testoRefs.current[item.id] = el}
+                    onScroll={() => handleScroll(item.id)}
+                    className={isLungo(item.altro) ? 'testo-lungo' : ''}>
+                    {item.altro}
+                  </div>
+                  {isLungo(item.altro) && scrollStates[item.id] && (
+                    <button className="freccia-scroll" onClick={() => scrollToTop(item.id)}>↑</button>
+                  )}
+                </div>
+                <div className="actions">
+                  <button type="button" className="btn-azione btn-update" onClick={(e) => { e.stopPropagation(); handleModifica(item); toggleUtentiForm()}}>✏️</button>
+                  <button type="button" className="btn-azione btn-delete" onClick={(e) => {
+                    e.stopPropagation();
+                    if (window.confirm("Sicuro che delete?")) {
+                      dispatch(eliminaUtente(item.id));
+                    }
+                  }}>❌</button>
+                </div>
               </div>
-              <div className="actions">
-                <button type="button" className="btn-azione btn-update" onClick={(e) => { e.stopPropagation(); handleModifica(item); }}>✏️</button>
-                <button type="button" className="btn-azione btn-delete" onClick={(e) => {
-                  e.stopPropagation();
-                  if (window.confirm("Sicuro che delete?")) {
-                    dispatch(eliminaUtente(item.id));
-                  }
-                }}>❌</button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
         </div>
-
-        <Pagination
-          totalItems={utentiFiltrati.length}
-          itemsPerPage={itemsPerPage}
-          currentPage={currentPage}
-          onPageChange={cambiaPagina}
-        />
-
+          <Pagination
+            totalItems={utentiFiltrati.length}
+            itemsPerPage={itemsPerPage}
+            currentPage={currentPage}
+            onPageChange={cambiaPagina}
+          />
       </div>
 
       {showModal && (
