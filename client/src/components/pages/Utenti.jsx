@@ -159,7 +159,7 @@ const Utenti = () => {
   };
 
 
-  const itemsPerPage = 2;
+  const itemsPerPage = 4;
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
 
