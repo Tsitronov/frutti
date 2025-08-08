@@ -159,7 +159,7 @@ const Utenti = () => {
   };
 
 
-  const itemsPerPage = 2;
+  const itemsPerPage = 4;
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
 
@@ -209,6 +209,9 @@ const Utenti = () => {
 
   return (
     <div className="container">
+      
+      <Navbar />
+
       <div className="sidebar">
         <div className="categories">
           {repartoSelezionato && (
@@ -231,14 +234,10 @@ const Utenti = () => {
           setUtenteTrovato={setUtenteTrovato}
           setMostraModalInfo={setMostraModalInfo}
         />
-
       </div>
 
       <div className="main-content">
         <div className="content">
-
-          <Navbar />
-
           <Loader isLoading={isLoading} error={error} />
 
           <ul className="repartoNome"> 👥 reparti: 

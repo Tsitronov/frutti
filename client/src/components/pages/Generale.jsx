@@ -15,6 +15,7 @@ import Pagination from "../UI/pagination/Pagination.jsx";
 import ModaleGenerale from "../UI/modal/ModaleGenerale";
 import GeneraleForm from "../UI/forms/GeneraleForm";
 import Loader from "../UI/Loader";
+import Eserc from "./Eserc/LungoText";
 
 
 const Generale = () => {
@@ -45,6 +46,14 @@ const Generale = () => {
   const fruttiFiltrati = frutti.filter(f => f.categoria === categoriaSelezionata);
 
 
+  const [form, setForm] = useState({
+    id: null,
+    nome: "",
+    descrizione: "",
+    categoria: ""
+  });
+
+
   const handleAggiungiFrutto = () => {
     if (form.nome && form.descrizione && form.categoria) {
       dispatch(aggiungiFrutto({ 
@@ -60,13 +69,6 @@ const Generale = () => {
       });
     }
   };
-
-  const [form, setForm] = useState({
-    id: null,
-    nome: "",
-    descrizione: "",
-    categoria: ""
-  });
 
   const handleModifica = (item) => {
     setForm({
@@ -134,10 +136,20 @@ const Generale = () => {
     }
   };
 
+  const getColorClass = (valore) => {
+    if (!valore) return "";
+    const blue = valore.toLowerCase();
+    if (blue.includes("bla_bla")) return "rosso";
+    return "blue";
+  };
+
 
   return (
     <>
       <div className="container">
+
+        <Navbar />
+
         <div className="sidebar">
           <div className="categories">
             {categorieUniche.map((cat, index) => (
@@ -152,8 +164,6 @@ const Generale = () => {
 
         <div className="main-content">
           <div className="content">
-
-            <Navbar />
 
             <Loader isLoading={isLoading} error={error} />
 
@@ -212,6 +222,7 @@ const Generale = () => {
           categoriaSelezionata={categoriaSelezionata}
           setCategoriaSelezionata= {setCategoriaSelezionata}
           fruttiFiltrati = {fruttiFiltrati}
+          getColorClass = {getColorClass}
         />
       )}
       </div>

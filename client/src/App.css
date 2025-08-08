@@ -369,6 +369,10 @@ input,textarea:focus{
   color: blue;
   font-weight: bold;
 }
+.gray {
+  color: gray;
+  font-weight: bold;
+}
 
 @media (max-width: 1440px) {
   .forma-ricerca input{
@@ -456,6 +460,10 @@ input,textarea:focus{
 }
 
 @media (max-width: 480px) {
+  .generaleForm {
+    margin-top: 1px;
+    margin-bottom: 1rem;
+  }
   .pagination .page-link {
     padding: 10px 10px;
   }

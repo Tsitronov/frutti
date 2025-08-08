@@ -1,14 +1,17 @@
-const ModaleGenerale = ({categoriaSelezionata, setCategoriaSelezionata, fruttiFiltrati}) => {
+const ModaleGenerale = ({categoriaSelezionata, setCategoriaSelezionata, fruttiFiltrati, getColorClass}) => {
 	return(
 		<div className="modal">
             <div className="modal-content">
-              <h3>Categoria: {categoriaSelezionata}</h3>
+              <h2 className="verde">Categoria: {categoriaSelezionata}</h2>
               <ul>
                 {fruttiFiltrati.map(f => (
-                  <li key={f.id}>{f.nome} - {f.descrizione}</li>
+                  <li key={f.id}>
+                    <p className={getColorClass(f.nome)}>{f.nome}</p> 
+                    <p> {f.descrizione} </p>
+                  </li>
                 ))}
               </ul>
-              <button type="button" type="button" onClick={() => setCategoriaSelezionata(null)}>❌ Chiudi</button>
+              <button type="button" onClick={() => setCategoriaSelezionata(null)}>❌ Chiudi</button>
             </div>
           </div>
           );
