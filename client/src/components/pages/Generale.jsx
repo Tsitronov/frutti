@@ -15,7 +15,7 @@ import Pagination from "../UI/pagination/Pagination.jsx";
 import ModaleGenerale from "../UI/modal/ModaleGenerale";
 import GeneraleForm from "../UI/forms/GeneraleForm";
 import Loader from "../UI/Loader";
-import Eserc from "./Eserc/LungoText";
+ 
 
 
 const Generale = () => {
@@ -46,6 +46,11 @@ const Generale = () => {
   const fruttiFiltrati = frutti.filter(f => f.categoria === categoriaSelezionata);
 
 
+  const toggleFruttiForm = () => {
+    const fruttiForm = document.querySelector('.generaleForm');
+    fruttiForm.classList.toggle('fruttiFormDisplayNone');
+  };
+
   const [form, setForm] = useState({
     id: null,
     nome: "",
@@ -68,6 +73,7 @@ const Generale = () => {
         categoria: ""
       });
     }
+    toggleFruttiForm();
   };
 
   const handleModifica = (item) => {
@@ -77,6 +83,7 @@ const Generale = () => {
       descrizione: item.descrizione || "",
       categoria: item.categoria || ""
     });
+    toggleFruttiForm();
   };
   
   const handleSalva = () => {
@@ -96,6 +103,7 @@ const Generale = () => {
         categoria: ""
       });
     }
+    toggleFruttiForm();
   };
 
   const itemsPerPage = 4;
@@ -164,8 +172,9 @@ const Generale = () => {
 
         <div className="main-content">
           <div className="content">
-
             <Loader isLoading={isLoading} error={error} />
+
+            <div className="toggleLink" onClick={toggleFruttiForm}>Add a new one  + </div>
 
             <GeneraleForm
               form={form} 
@@ -177,7 +186,9 @@ const Generale = () => {
               
             <div className="article-list">
               {fruttiVisibili.map(item => (
-                <div className="article-item" key={item.id} style={{ cursor: "pointer" }}>
+                <div  key={item.id} className="article-item-wrapper">
+
+                <div className="article-item" style={{ cursor: "pointer" }}>
                   <div className="item-info">
                     {item.nome}  –  {item.categoria}
                      
@@ -199,11 +210,12 @@ const Generale = () => {
                         ↑
                       </button>
                     )}
-                  </div>
+                    </div>
 
-                  <div className="actions">
-                    <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
-                    <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Sicuro che delete?") && dispatch(eliminaFrutto(item.id))}>❌</button>
+                    <div className="actions">
+                      <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
+                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Sicuro che delete?") && dispatch(eliminaFrutto(item.id))}>❌</button>
+                    </div>
                   </div>
                 </div>
               ))}

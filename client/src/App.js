@@ -9,7 +9,7 @@ import Utenti from './components/pages/Utenti';
 import { AuthContext } from './context';
 import ProtectedRoute from './components/ProtectedRoute';
 
-import Eserc from './components/pages/Eserc/LungoText';
+import Eserc from './components/pages/Eserc/Fetch';
 import './App.css';
 
 function App() {
@@ -17,7 +17,6 @@ function App() {
   return (
       <AuthContext.Provider value={{ isAuth, setIsAuth }}>
             <Routes>
-              {/**<Route path = "/utenti" element = {<Utenti />} />**/}
               <Route path = "/utenti" element = {<ProtectedRoute> <Utenti /> </ProtectedRoute>} />
               <Route path = "/login" element = {<Login />} />
               <Route path = "/" element = {<Generale />} />

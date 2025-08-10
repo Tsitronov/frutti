@@ -43,6 +43,13 @@ const Utenti = () => {
   const valoriUnici = (campo) =>
     [...new Set(utentiDelReparto.map((u) => u[campo]).filter(Boolean))];
 
+
+  const toggleUtentiForm = () => {
+    const utentiForm = document.querySelector('.utentiForm');
+    utentiForm.classList.toggle('utentiFormDisplayNone');
+  };
+
+
   const [form, setForm] = useState({
     reparto: "",
     stanza: "",
@@ -55,6 +62,24 @@ const Utenti = () => {
     dentiera: "",
     altro: "",
   });
+
+  const resetForm = () => {
+  setForm({
+    reparto: "",
+    stanza: "",
+    cognome: "",
+    bagno: "",
+    barba: "",
+    autonomia: "",
+    malattia: "",
+    alimentazione: "",
+    dentiera: "",
+    altro: "",
+  });
+  setModificaId(null);
+  toggleUtentiForm();
+};
+
 
   const [modificaId, setModificaId] = useState(null);
 
@@ -82,21 +107,6 @@ const Utenti = () => {
     }
   };
 
-  const resetForm = () => {
-    setForm({
-      reparto: "",
-      stanza: "",
-      cognome: "",
-      bagno: "",
-      barba: "",
-      autonomia: "",
-      malattia: "",
-      alimentazione: "",
-      dentiera: "",
-      altro: "",
-    });
-    setModificaId(null);
-  };
 
   const [campoFiltro, setCampoFiltro] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -153,11 +163,6 @@ const Utenti = () => {
     }
   }, [utenti]);
 
-  const toggleUtentiForm = () => {
-    const utentiForm = document.querySelector('.utentiForm');
-    utentiForm.classList.toggle('utentiFormDisplayNone');
-  };
-
 
   const itemsPerPage = 4;
   const indexOfLast = currentPage * itemsPerPage;
@@ -213,6 +218,15 @@ const Utenti = () => {
       <Navbar />
 
       <div className="sidebar">
+
+        <RicercaUtenteForm 
+          cognomeRicerca={cognomeRicerca}
+          setCognomeRicerca={setCognomeRicerca}
+          cognomiUnici={cognomiUnici}
+          utenti={utenti} 
+          setUtenteTrovato={setUtenteTrovato}
+          setMostraModalInfo={setMostraModalInfo}
+        />
         <div className="categories">
           {repartoSelezionato && (
             <>
@@ -225,15 +239,6 @@ const Utenti = () => {
             </>
           )}
         </div>
-
-        <RicercaUtenteForm 
-          cognomeRicerca={cognomeRicerca}
-          setCognomeRicerca={setCognomeRicerca}
-          cognomiUnici={cognomiUnici}
-          utenti={utenti} 
-          setUtenteTrovato={setUtenteTrovato}
-          setMostraModalInfo={setMostraModalInfo}
-        />
       </div>
 
       <div className="main-content">
@@ -251,61 +256,74 @@ const Utenti = () => {
             ))}
           </ul>
 
-          <div className="toggleUtentiLink" onClick={toggleUtentiForm}> forma creare e modifica utente </div>
+          <div className="toggleLink" onClick={toggleUtentiForm}>Add a new one  + </div>
 
           <div className="utentiForm utentiFormDisplayNone">
-          {["reparto", "stanza", "cognome", "bagno", "barba", "autonomia", "malattia", "alimentazione", "dentiera", "altro"].map((campo) => (
-            <input
-              key={campo}
-              name={campo}
-              placeholder={campo}
-              value={form[campo]}
-              onChange={handleChange}
-            />
-          ))}
-          {modificaId ? (
-            <>
-              <button type="button" className="btn-modifica" onClick={handleSalva}>💾 Cambia</button>
-              <button type="button" className="btn-salva" onClick={handleAggiungi}>➕ Inserisci</button>
-              <button type="button" className="btn-elimina" onClick={resetForm}>❌ Annulla</button>
-            </>
-          ) : (
-            <button type="button" className="btn-salva" onClick={handleAggiungi}>➕ Aggiungi</button>
-          )}
+            <div className="modal">
+              <div className="modal-content">
+              {["reparto", "stanza", "cognome", "bagno", "barba", "autonomia", "malattia", "alimentazione", "dentiera", "altro"].map((campo) => (
+                <input
+                  key={campo}
+                  name={campo}
+                  placeholder={campo}
+                  value={form[campo]}
+                  onChange={handleChange}
+                />
+              ))}
+              {modificaId ? (
+                <>
+                  <button type="button" className="btn-modifica" onClick={handleSalva}>💾 Cambia</button>
+                  <button type="button" className="btn-salva" onClick={handleAggiungi}>➕ Inserisci</button>
+                  <button type="button" className="btn-elimina" onClick={resetForm}>❌ Annulla</button>
+                </>
+              ) : (
+                <>
+                  <button type="button" className="btn-salva" onClick={handleAggiungi}>➕ Aggiungi</button>
+                  <button type="button" className="btn-elimina" onClick={resetForm}>❌ Annulla</button>
+                </>
+              )}
+              </div>
+            </div>
           </div>
 
 
           <div className="article-list">
             {utentiVisibili.map((item) => (
-              <div className="article-item" key={item.id} style={{ cursor: "pointer" }}>
-                <div className="item-info">
-                  <strong> stanza - {item.stanza}</strong>
-                  <strong className="blue"> – {item.cognome} </strong>
-                  <div className={getColorClass(item.alimentazione)}>{item.alimentazione}</div>
-                  <div>{item.autonomia}</div>
-                  <div>{item.malattia}</div>
-                  <div>{item.dentiera}</div>
-                  <div><strong>Bagno:</strong> {item.bagno}</div>
-                  <div><strong>Barba:</strong> {item.barba}</div>
-                </div>
-                <div className="item-lungo-container">
-                  <div ref={(el) => testoRefs.current[item.id] = el}
-                    onScroll={() => handleScroll(item.id)}
-                    className={isLungo(item.altro) ? 'testo-lungo' : ''}>
-                    {item.altro}
+              <div  key={item.id} className="article-item-wrapper">
+                <div className="article-item" style={{ cursor: "pointer" }}>
+                  <div className="item-info">
+                    <div className="item-title">
+                      <strong> stanza - {item.stanza}</strong>
+                      <strong className="blue"> – {item.cognome} </strong>
+                    </div>
+                    <div className="item-info">
+                      <div className={getColorClass(item.alimentazione)}>{item.alimentazione}</div>
+                      <div>{item.autonomia}</div>
+                      <div>{item.malattia}</div>
+                      <div>{item.dentiera}</div>
+                      <div><strong>Bagno:</strong> {item.bagno}</div>
+                      <div><strong>Barba:</strong> {item.barba}</div>
+                    </div>
                   </div>
-                  {isLungo(item.altro) && scrollStates[item.id] && (
-                    <button className="freccia-scroll" onClick={() => scrollToTop(item.id)}>↑</button>
-                  )}
-                </div>
-                <div className="actions">
-                  <button type="button" className="btn-azione btn-update" onClick={(e) => { e.stopPropagation(); handleModifica(item); toggleUtentiForm()}}>✏️</button>
-                  <button type="button" className="btn-azione btn-delete" onClick={(e) => {
-                    e.stopPropagation();
-                    if (window.confirm("Sicuro che delete?")) {
-                      dispatch(eliminaUtente(item.id));
-                    }
-                  }}>❌</button>
+                  <div className="item-lungo-container">
+                    <div ref={(el) => testoRefs.current[item.id] = el}
+                      onScroll={() => handleScroll(item.id)}
+                      className={isLungo(item.altro) ? 'testo-lungo' : ''}>
+                      {item.altro}
+                    </div>
+                    {isLungo(item.altro) && scrollStates[item.id] && (
+                      <button className="freccia-scroll" onClick={() => scrollToTop(item.id)}>↑</button>
+                    )}
+                  </div>
+                  <div className="actions">
+                    <button type="button" className="btn-azione btn-update" onClick={(e) => { e.stopPropagation(); handleModifica(item); toggleUtentiForm()}}>✏️</button>
+                    <button type="button" className="btn-azione btn-delete" onClick={(e) => {
+                      e.stopPropagation();
+                      if (window.confirm("Sicuro che delete?")) {
+                        dispatch(eliminaUtente(item.id));
+                      }
+                    }}>❌</button>
+                  </div>
                 </div>
               </div>
             ))}

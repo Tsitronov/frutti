@@ -16,11 +16,22 @@ const RicercaUtenteForm = ({cognomeRicerca, setCognomeRicerca, cognomiUnici, ute
         </datalist>
 
         <button type="button" onClick={() => {
-          const trovato = utenti.find((u) => u.cognome.toLowerCase() === cognomeRicerca.toLowerCase());
+          const normalize = (str) =>
+            str
+              ? str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()
+              : "";
+
+          const trovato = utenti.find(
+            (u) => normalize(u.cognome) === normalize(cognomeRicerca)
+          );
           setUtenteTrovato(trovato || null);
           setMostraModalInfo(true);
-        }}>ℹ️ Info</button>
-      </div>
+          setCognomeRicerca("");
+        }}
+        disabled={!cognomeRicerca.trim()}>
+        ->
+        </button>
+        </div>
       );
-}
+};
 export default RicercaUtenteForm;
