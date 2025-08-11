@@ -164,6 +164,10 @@ const Utenti = () => {
   }, [utenti]);
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 70a8d34ebb87e3c90cb25ab0e2559c3384f047bf
   const itemsPerPage = 4;
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
