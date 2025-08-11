@@ -6,7 +6,8 @@ import { AuthContext } from '../../context/';
 
 import Navbar from '../UI/navbar/Navbar';
 
-const URL = "http://localhost:3001/api/login";   // ------------------------
+
+//const URL = "http://localhost:3001/api/login"
 
 const Login = () => {
   const { setIsAuth } = useContext(AuthContext);
@@ -21,8 +22,8 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      //const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, data);  // ------
-      const response = await axios.post(URL, data);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, data);
+      //const response = await axios.post(URL, data);
 
       if (response.data.message === 'Login riuscito') {
         setIsAuth(true);
@@ -38,30 +39,32 @@ const Login = () => {
 
   return (
     <div className="container">
+      <Navbar />
       <div className="main-content">
-        <Navbar />
-        <h3>Страница для логина</h3>
-        <div className="article-list">
+        <div className="content">
+          <h3>Страница для логина</h3>
+          <div className="article-list">
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <input
-              type="text"
-              placeholder="Введите логин"
-              {...register('username', { required: 'Логин обязателен' })}
-            />
-            {errors.username && <p style={{ color: 'red' }}>{errors.username.message}</p>}
+            <form className="forma-ricerca" onSubmit={handleSubmit(onSubmit)}>
+              <input
+                type="text"
+                placeholder="Введите логин"
+                {...register('username', { required: 'Логин обязателен' })}
+              />
+              {errors.username && <p style={{ color: 'red' }}>{errors.username.message}</p>}
 
-            <input
-              type="password"
-              placeholder="Введите пароль"
-              {...register('password', { required: 'Пароль обязателен' })}
-            />
-            {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
+              <input
+                type="password"
+                placeholder="Введите пароль"
+                {...register('password', { required: 'Пароль обязателен' })}
+              />
+              {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
 
-            <button>Войти</button>
-          </form>
+              <button>Войти</button>
+            </form>
 
-          {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+          </div>
         </div>
       </div>
     </div>

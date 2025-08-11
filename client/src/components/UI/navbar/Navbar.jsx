@@ -36,9 +36,11 @@ const Navbar = () => {
 
         {isAuth ? (
           <li>
-            <span className="nav-link" style={{ cursor: 'pointer' }} onClick={logout}>
+            <NavLink 
+              className='nav-link logout '
+              onClick={logout}>
               Logout
-            </span>
+            </NavLink>
           </li>
         ) : (
           <li>

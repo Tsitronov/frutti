@@ -149,6 +149,10 @@ input,textarea:focus{
   color: lightblue;
 }
 
+.nav-link.logout {
+  color: white;
+}
+
 .main-content{
   flex: 1;
   height: 100%;
@@ -171,7 +175,7 @@ input,textarea:focus{
   color: black;
   cursor: pointer;
   transition: 0.3s ease-in-out;
-  margin: 10px;
+  margin: 10px 10px 10px 0;
   width: 200px;
   text-align: center;
 }
@@ -181,9 +185,14 @@ input,textarea:focus{
   background-color: rgba(255,255,255, 0.5);
 }
 
+.repartoNome {
+  padding-left: 30px;
+
+}
+
 .repartoNome li{
   display: inline;
-  padding:0 10px;
+  padding:0 20px;
 }
 .repartoNome a{
   text-decoration: none;
@@ -221,7 +230,7 @@ input,textarea:focus{
   position: relative;
   height: 210px;
   max-height: 220px;
-  overflow-y: auto;
+  overflow: hidden;
   overflow-wrap: break-word;
   background-color: white;
 }
@@ -237,7 +246,7 @@ input,textarea:focus{
 }
 
 .testo-lungo {
-  max-height: 120px;
+  max-height: 210px;
   overflow-y: auto;
   opacity: 0.4;
   font-style: italic;
@@ -373,13 +382,6 @@ input,textarea:focus{
 }
 
 
-.pagination .active .page-link {
-  background-color: lightblue;
-  color: white;
-  border-color: #007bff;
-}
-
-
 .forma-ricerca button, .forma-ricerca input {
   width: 100%;
   border-radius: 4px;
@@ -466,36 +468,67 @@ input,textarea:focus{
   }
 
   .sidebar {
-    width: 100%;
+    top: 0;
+    width: calc(100% - 20px);
     height: auto;
     position: relative;
     z-index: 2;
+    background: white;
+    margin: 10px;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   }
+
 
   .main-content {
     margin-top: 0;
+    padding: 10px;
     width: 100%;
     height: auto;
     position: relative;
     z-index: 1;
   }
 
+  .toggleLink{
+    margin: 20px 0 20px 0;
+  }
+
+
   .categories div{
     display: inline-block;
     padding-right:10px;
   }
 
-  .forma-ricerca input{
-    width: calc(70% - 12px);
+  .forma-ricerca{
+    width: 100%;
   }
+  .forma-ricerca input {
+    width: calc(100% - 50px);
+    height: 50px;
+    border-right: none;
+    border-radius: 25px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-left: 15px;
+  }
+
   .forma-ricerca button {
-    width: calc(70% - 12px);
+    padding: 0;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    font-size: 12pt;
+    text-align: center;
+    text-anchor: center;
   }
 
 
   .article-list {
     grid-template-columns: 1fr;
   }
+
   .paginationWrap{
     display: flex;
     position: static;
@@ -523,10 +556,14 @@ input,textarea:focus{
   }
 
   .sidebar {
-    width: 100%;
+    width: calc(100% - 20px);
     height: auto;
     position: relative;
     z-index: 2;
+    background: white;
+    margin: 10px;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   }
 
   .main-content {
@@ -537,21 +574,54 @@ input,textarea:focus{
     z-index: 1;
   }
 
+  .repartoNome li{
+    display: inline;
+    padding:0 16px;
+  }
+
   .generaleForm {
     margin-top: 1px;
     margin-bottom: 1rem;
   }
+
   .pagination .page-link {
     padding: 10px 10px;
   }
+
   .paginationWrap{
     display: flex;
     position: static;
     padding-top:1px !important;
     height: 200px;
   }
+
   .pagination{
     width: 100%;
   }
 
+  .forma-ricerca{
+    width: 100%;
+  }
+
+  .forma-ricerca input {
+    width: calc(100% - 50px);
+    height: 50px;
+    border-right: none;
+    border-radius: 25px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-left: 15px;
+  }
+
+  .forma-ricerca button {
+    padding: 0;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    font-size: 12pt;
+    text-align: center;
+    text-anchor: center;
+  }
 }

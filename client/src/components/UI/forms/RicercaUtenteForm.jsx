@@ -29,7 +29,7 @@ const RicercaUtenteForm = ({cognomeRicerca, setCognomeRicerca, cognomiUnici, ute
           setCognomeRicerca("");
         }}
         disabled={!cognomeRicerca.trim()}>
-        ->
+        🔎
         </button>
         </div>
       );

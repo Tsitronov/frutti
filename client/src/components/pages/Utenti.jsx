@@ -289,9 +289,13 @@ const Utenti = () => {
 
           <div className="article-list">
             {utentiVisibili.map((item) => (
-              <div  key={item.id} className="article-item-wrapper">
-                <div className="article-item" style={{ cursor: "pointer" }}>
-                  <div className="item-info">
+              <div  key={item.id} className="article-item-wrapper item-lungo-container">
+
+                <div className="article-item item-info" style={{ cursor: "pointer" }}>
+                  <div  ref={(el) => testoRefs.current[item.id] = el}
+                      onScroll={() => handleScroll(item.id)}
+                      className={isLungo(item.altro) ? 'testo-lungo' : ''}>
+                 
                     <div className="item-title">
                       <strong> stanza - {item.stanza}</strong>
                       <strong className="blue"> – {item.cognome} </strong>
@@ -303,18 +307,15 @@ const Utenti = () => {
                       <div>{item.dentiera}</div>
                       <div><strong>Bagno:</strong> {item.bagno}</div>
                       <div><strong>Barba:</strong> {item.barba}</div>
+                      <div><strong>Barba:</strong> {item.altro}</div>
                     </div>
                   </div>
-                  <div className="item-lungo-container">
-                    <div ref={(el) => testoRefs.current[item.id] = el}
-                      onScroll={() => handleScroll(item.id)}
-                      className={isLungo(item.altro) ? 'testo-lungo' : ''}>
-                      {item.altro}
-                    </div>
+
+
                     {isLungo(item.altro) && scrollStates[item.id] && (
                       <button className="freccia-scroll" onClick={() => scrollToTop(item.id)}>↑</button>
                     )}
-                  </div>
+
                   <div className="actions">
                     <button type="button" className="btn-azione btn-update" onClick={(e) => { e.stopPropagation(); handleModifica(item); toggleUtentiForm()}}>✏️</button>
                     <button type="button" className="btn-azione btn-delete" onClick={(e) => {
@@ -325,6 +326,7 @@ const Utenti = () => {
                     }}>❌</button>
                   </div>
                 </div>
+
               </div>
             ))}
           </div>
