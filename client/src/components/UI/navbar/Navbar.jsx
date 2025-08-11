@@ -35,13 +35,13 @@ const Navbar = () => {
         </li>
 
         {isAuth ? (
-          <li>
-            <NavLink 
+           
+            <span 
               className='nav-link logout '
               onClick={logout}>
               Logout
-            </NavLink>
-          </li>
+            </span>
+           
         ) : (
           <li>
             <NavLink
