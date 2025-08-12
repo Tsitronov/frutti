@@ -9,7 +9,6 @@ import Utenti from './components/pages/Utenti';
 import { AuthContext } from './context';
 import ProtectedRoute from './components/ProtectedRoute';
 
-import Eserc from './components/pages/Eserc/Fetch';
 import './App.css';
 
 function App() {
@@ -23,7 +22,6 @@ function App() {
               <Route path = "/generale" element = {<Generale />} />
               <Route index element = {<Generale />} />
               <Route path = "*" element = {<Generale />} />
-              <Route path = "/eserc" element = {<Eserc />} />
             </Routes>
       </AuthContext.Provider>
   );
