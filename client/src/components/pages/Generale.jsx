@@ -144,13 +144,7 @@ const Generale = () => {
     }
   };
 
-  const getColorClass = (valore) => {
-    if (!valore) return "";
-    const blue = valore.toLowerCase();
-    if (blue.includes("bla_bla")) return "rosso";
-    return "blue";
-  };
-
+ 
 
   return (
     <>
@@ -234,7 +228,6 @@ const Generale = () => {
           categoriaSelezionata={categoriaSelezionata}
           setCategoriaSelezionata= {setCategoriaSelezionata}
           fruttiFiltrati = {fruttiFiltrati}
-          getColorClass = {getColorClass}
         />
       )}
       </div>

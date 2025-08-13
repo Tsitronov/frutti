@@ -149,16 +149,16 @@ input,textarea:focus{
   color: lightblue;
 }
 
-  .nav-link.logout {
-    text-decoration: none;
-    color: #ecf0f1;
-    font-weight: bold;
-    padding: 1px 15px;
-    transition: color 0.3s ease, border-bottom 0.3s ease;
-    border-bottom: 3px solid transparent;
-    display: inline-block;
-    cursor: pointer;
-  }
+.nav-link.logout {
+  text-decoration: none;
+  color: #ecf0f1;
+  font-weight: bold;
+  padding: 1px 15px;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 3px solid transparent;
+  display: inline-block;
+  cursor: pointer;
+}
 
 .main-content{
   flex: 1;
@@ -345,9 +345,11 @@ input,textarea:focus{
   align-items: center;
   z-index: 1000;
 }
+
 .modal-content {
   background: white;
   padding: 2rem;
+  margin: 10%;
   border-radius: 10px;
   max-height: 80%;
   overflow-y: auto;
@@ -479,13 +481,12 @@ input,textarea:focus{
     width: calc(100% - 20px);
     height: auto;
     position: relative;
-    z-index: 2;
+    z-index: 1;
     background: white;
     margin: 10px;
     border-radius: 6px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   }
-
 
   .main-content {
     margin-top: 0;
@@ -510,7 +511,7 @@ input,textarea:focus{
     width: 100%;
   }
   .forma-ricerca input {
-    width: calc(100% - 50px);
+    width: calc(90% - 50px);
     height: 50px;
     border-right: none;
     border-radius: 25px;
@@ -566,11 +567,14 @@ input,textarea:focus{
     width: calc(100% - 20px);
     height: auto;
     position: relative;
-    z-index: 2;
+    z-index: 1;
     background: white;
     margin: 10px;
     border-radius: 6px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  }
+  .modal-content {
+    margin: 10px;
   }
 
   .main-content {
@@ -616,7 +620,7 @@ input,textarea:focus{
   }
 
   .forma-ricerca input {
-    width: calc(100% - 50px);
+    width: calc(90% - 50px);
     height: 50px;
     border-right: none;
     border-radius: 25px;

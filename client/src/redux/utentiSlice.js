@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-//const URL = "https://frutti-backend.onrender.com/api/utenti";
+
 //const URL = "http://localhost:3001/api/utenti";
 
 const URL = `${process.env.REACT_APP_API_URL}/api/utenti`;

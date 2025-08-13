@@ -140,9 +140,9 @@ const Utenti = () => {
   const getColorClass = (valore) => {
     if (!valore) return "";
     const v = valore.toLowerCase();
-    if (v.includes("disfagia")) return "rosso";
-    if (v.includes("morbido")) return "verde";
-    if (v.includes("mattina")) return "verde";
+    if (v.includes("d")) return "rosso";
+    if (v.includes("s")) return "rosso";
+    if (v.includes("m")) return "verde";
     return "blue";
   };
 
@@ -301,13 +301,17 @@ const Utenti = () => {
                       <strong className="blue"> – {item.cognome} </strong>
                     </div>
                     <div className="item-info">
-                      <div className={getColorClass(item.alimentazione)}>{item.alimentazione}</div>
-                      <div>{item.autonomia}</div>
+                      <div> dieta: 
+                        <strong className={getColorClass(item.alimentazione)}> {item.alimentazione} </strong>
+                      </div>
+                      <div> autonomia:
+                        <strong className={getColorClass(item.autonomia)}> {item.autonomia} </strong>
+                      </div>
                       <div>{item.malattia}</div>
                       <div>{item.dentiera}</div>
-                      <div><strong>Bagno:</strong> {item.bagno}</div>
-                      <div><strong>Barba:</strong> {item.barba}</div>
-                      <div><strong>Barba:</strong> {item.altro}</div>
+                      <div><strong>bagno:</strong> {item.bagno}</div>
+                      <div><strong>barba:</strong> {item.barba}</div>
+                      <div>{item.altro}</div>
                     </div>
                   </div>
 

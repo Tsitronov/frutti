@@ -18,10 +18,10 @@ function App() {
             <Routes>
               <Route path = "/utenti" element = {<ProtectedRoute> <Utenti /> </ProtectedRoute>} />
               <Route path = "/login" element = {<Login />} />
-              <Route path = "/" element = {<Generale />} />
-              <Route path = "/generale" element = {<Generale />} />
-              <Route index element = {<Generale />} />
-              <Route path = "*" element = {<Generale />} />
+              <Route path = "/" element = {<ProtectedRoute> <Generale /> </ProtectedRoute>} />
+              <Route path = "/generale" element = {<ProtectedRoute><Generale /> </ProtectedRoute>} />
+              <Route index element = {<ProtectedRoute><Generale /> </ProtectedRoute>} />
+              <Route path = "*" element = {<ProtectedRoute><Generale /> </ProtectedRoute>} />
             </Routes>
       </AuthContext.Provider>
   );
