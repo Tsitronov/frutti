@@ -1,9 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-
-//const URL = "http://localhost:3001/api/utenti";
-
 const URL = `${process.env.REACT_APP_API_URL}/api/utenti`;
 
 
@@ -18,6 +15,7 @@ export const aggiungiUtente = createAsyncThunk('utenti/aggiungiUtente', async (u
   const res = await axios.post(URL, utente);
   return res.data;
 });
+
 
 // ✏️ Modifica utente
 export const modificaUtente = createAsyncThunk('utenti/modificaUtente', async (utente) => {

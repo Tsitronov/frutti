@@ -6,8 +6,8 @@ import { AuthContext } from '../../context/';
 
 import Navbar from '../UI/navbar/Navbar';
 
+//const REACT_APP_API_URL from .env (sul vercell suoi .env = frutti-backend.onrender.com")
 
-//const URL = "http://localhost:3001/api/login"
 
 const Login = () => {
   const { setIsAuth } = useContext(AuthContext);
@@ -72,3 +72,4 @@ const Login = () => {
 };
 
 export default Login;
+
