@@ -57,9 +57,9 @@ const Utenti = () => {
     bagno: "",
     barba: "",
     autonomia: "",
-    malattia: "",
+    vestiti: "",
     alimentazione: "",
-    dentiera: "",
+    accessori: "",
     altro: "",
   });
 
@@ -71,9 +71,9 @@ const Utenti = () => {
     bagno: "",
     barba: "",
     autonomia: "",
-    malattia: "",
+    vestiti: "",
     alimentazione: "",
-    dentiera: "",
+    accessori: "",
     altro: "",
   });
   setModificaId(null);
@@ -231,7 +231,7 @@ const Utenti = () => {
           {repartoSelezionato && (
             <>
               <h4> reparto {repartoSelezionato}</h4>
-              {["bagno", "barba", "alimentazione", "dentiera", "autonomia", "malattia"].map((campo) => (
+              {["bagno", "barba", "alimentazione", "accessori", "autonomia", "vestiti"].map((campo) => (
                 <div key={campo}>
                   <a href="#" onClick={(e) => { e.preventDefault(); apriFinestraFiltro(campo); }} style={{ textTransform: "capitalize" }}>{campo}</a>
                 </div>
@@ -261,7 +261,7 @@ const Utenti = () => {
           <div className="utentiForm utentiFormDisplayNone">
             <div className="modal">
               <div className="modal-content">
-              {["reparto", "stanza", "cognome", "bagno", "barba", "autonomia", "malattia", "alimentazione", "dentiera", "altro"].map((campo) => (
+              {["reparto", "stanza", "cognome", "bagno", "barba", "autonomia", "vestiti", "alimentazione", "accessori", "altro"].map((campo) => (
                 <input
                   key={campo}
                   name={campo}
@@ -307,8 +307,8 @@ const Utenti = () => {
                       <div> autonomia:
                         <strong className={getColorClass(item.autonomia)}> {item.autonomia} </strong>
                       </div>
-                      <div>{item.malattia}</div>
-                      <div>{item.dentiera}</div>
+                      <div>{item.vestiti}</div>
+                      <div>{item.accessori}</div>
                       <div><strong>bagno:</strong> {item.bagno}</div>
                       <div><strong>barba:</strong> {item.barba}</div>
                       <div>{item.altro}</div>

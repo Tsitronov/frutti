@@ -12,6 +12,7 @@ const db = new Pool({
 });
 
 
+<<<<<<< HEAD
 // ✅ Funzione per creare le tabelle (PostgreSQL style)
 async function createTables() {
   try {
@@ -25,6 +26,8 @@ async function createTables() {
 
 createTables();
 
+=======
+>>>>>>> ed3a6849e1b45a75c9b08e83f84d91d1e649bda9
 
 
 // Test connection and show detailed info
@@ -150,11 +153,46 @@ app.get('/api/utenti', async (req, res) => {
       );
     `);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+app.get('/api/utenti', (req, res) => {
+  db.query('SELECT * FROM utenti', (err, results) => {
+    if (err) return res.status(500).json({ error: 'Errore lettura utenti' });
+    res.json(results);
+  });
+});
+
+app.post('/api/utenti', (req, res) => {
+  const nuovo = req.body;
+  db.query(
+    'INSERT INTO utenti (reparto, stanza, cognome, bagno, barba, autonomia, vestiti, alimentazione, accessori, altro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    [
+      nuovo.reparto,
+      nuovo.stanza,
+      nuovo.cognome,
+      nuovo.bagno,
+      nuovo.barba,
+      nuovo.autonomia,
+      nuovo.vestiti,
+      nuovo.alimentazione,
+      nuovo.accessori,
+      nuovo.altro,
+    ],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: 'Errore inserimento' });
+      res.json({ id: result.insertId, ...nuovo });
+=======
+>>>>>>> ed3a6849e1b45a75c9b08e83f84d91d1e649bda9
     if (!tableCheck.rows[0].exists) {
       return res.status(500).json({
         error: 'Tabella utenti non esiste',
         suggestion: 'Creare la tabella utenti nel database'
       });
+<<<<<<< HEAD
+=======
+>>>>>>> b3d150149520deb30083631853d83268ec67744e
+>>>>>>> ed3a6849e1b45a75c9b08e83f84d91d1e649bda9
     }
 
     const result = await db.query('SELECT * FROM utenti');
@@ -176,7 +214,11 @@ app.post('/api/utenti', async (req, res) => {
 
   try {
     const result = await db.query(
+<<<<<<< HEAD
       'INSERT INTO utenti (reparto, stanza, cognome, bagno, barba, autonomia, malattia, alimentazione, dentiera, altro) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
+=======
+      'INSERT INTO utenti (reparto, stanza, cognome, bagno, barba, autonomia, vestiti, alimentazione, accessori, altro) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
+>>>>>>> ed3a6849e1b45a75c9b08e83f84d91d1e649bda9
       [
         nuovo.reparto,
         nuovo.stanza,
@@ -184,10 +226,17 @@ app.post('/api/utenti', async (req, res) => {
         nuovo.bagno,
         nuovo.barba,
         nuovo.autonomia,
+<<<<<<< HEAD
         nuovo.malattia,
         nuovo.alimentazione,
         nuovo.dentiera,
         nuovo.altro
+=======
+        nuovo.vestiti,
+        nuovo.alimentazione,
+        nuovo.accessori,
+        nuovo.altro,
+>>>>>>> ed3a6849e1b45a75c9b08e83f84d91d1e649bda9
       ]
     );
     res.json(result.rows[0]);
@@ -200,10 +249,41 @@ app.post('/api/utenti', async (req, res) => {
 app.put('/api/utenti/:id', async (req, res) => {
   const id = parseInt(req.params.id);
   const modifiche = req.body;
+<<<<<<< HEAD
 
   try {
     const result = await db.query(
       'UPDATE utenti SET reparto = $1, stanza = $2, cognome = $3, bagno = $4, barba = $5, autonomia = $6, malattia = $7, alimentazione = $8, dentiera = $9, altro = $10 WHERE id = $11 RETURNING *',
+=======
+<<<<<<< HEAD
+  db.query(
+    'UPDATE utenti SET reparto = ?, stanza = ?, cognome = ?, bagno = ?, barba = ?, autonomia = ?, vestiti = ?, alimentazione = ?, accessori = ?, altro = ? WHERE id = ?',
+    [
+      modifiche.reparto,
+      modifiche.stanza,
+      modifiche.cognome,
+      modifiche.bagno,
+      modifiche.barba,
+      modifiche.autonomia,
+      modifiche.vestiti,
+      modifiche.alimentazione,
+      modifiche.accessori,
+      modifiche.altro,
+      id,
+    ],
+    (err) => {
+      if (err) return res.status(500).json({ error: 'Errore aggiornamento' });
+      res.json({ id, ...modifiche });
+    }
+  );
+});
+=======
+>>>>>>> b3d150149520deb30083631853d83268ec67744e
+
+  try {
+    const result = await db.query(
+      'UPDATE utenti SET reparto = $1, stanza = $2, cognome = $3, bagno = $4, barba = $5, autonomia = $6, vestiti = $7, alimentazione = $8, accessori = $9, altro = $10 WHERE id = $11 RETURNING *',
+>>>>>>> ed3a6849e1b45a75c9b08e83f84d91d1e649bda9
       [
         modifiche.reparto,
         modifiche.stanza,
@@ -211,11 +291,19 @@ app.put('/api/utenti/:id', async (req, res) => {
         modifiche.bagno,
         modifiche.barba,
         modifiche.autonomia,
+<<<<<<< HEAD
         modifiche.malattia,
         modifiche.alimentazione,
         modifiche.dentiera,
         modifiche.altro,
         id
+=======
+        modifiche.vestiti,
+        modifiche.alimentazione,
+        modifiche.accessori,
+        modifiche.altro,
+        id,
+>>>>>>> ed3a6849e1b45a75c9b08e83f84d91d1e649bda9
       ]
     );
 
