@@ -98,7 +98,7 @@ app.get('/api/utenti', (req, res) => {
 app.post('/api/utenti', (req, res) => {
   const nuovo = req.body;
   db.query(
-    'INSERT INTO utenti (reparto, stanza, cognome, bagno, barba, autonomia, malattia, alimentazione, dentiera, altro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    'INSERT INTO utenti (reparto, stanza, cognome, bagno, barba, autonomia, vestiti, alimentazione, accessori, altro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
     [
       nuovo.reparto,
       nuovo.stanza,
@@ -106,9 +106,9 @@ app.post('/api/utenti', (req, res) => {
       nuovo.bagno,
       nuovo.barba,
       nuovo.autonomia,
-      nuovo.malattia,
+      nuovo.vestiti,
       nuovo.alimentazione,
-      nuovo.dentiera,
+      nuovo.accessori,
       nuovo.altro,
     ],
     (err, result) => {
@@ -122,7 +122,7 @@ app.put('/api/utenti/:id', (req, res) => {
   const id = parseInt(req.params.id);
   const modifiche = req.body;
   db.query(
-    'UPDATE utenti SET reparto = ?, stanza = ?, cognome = ?, bagno = ?, barba = ?, autonomia = ?, malattia = ?, alimentazione = ?, dentiera = ?, altro = ? WHERE id = ?',
+    'UPDATE utenti SET reparto = ?, stanza = ?, cognome = ?, bagno = ?, barba = ?, autonomia = ?, vestiti = ?, alimentazione = ?, accessori = ?, altro = ? WHERE id = ?',
     [
       modifiche.reparto,
       modifiche.stanza,
@@ -130,9 +130,9 @@ app.put('/api/utenti/:id', (req, res) => {
       modifiche.bagno,
       modifiche.barba,
       modifiche.autonomia,
-      modifiche.malattia,
+      modifiche.vestiti,
       modifiche.alimentazione,
-      modifiche.dentiera,
+      modifiche.accessori,
       modifiche.altro,
       id,
     ],
