@@ -6,10 +6,20 @@ const URL = `${process.env.REACT_APP_API_URL}/api/frutti`;
 //const URL = "http://localhost:3001/api/frutti";
 
 
-// 📥 Carica frutti dal server
+
 export const fetchFrutti = createAsyncThunk('frutti/fetchFrutti', async () => {
   const res = await axios.get(URL);
-  return res.data;
+
+  // Если сервер возвращает объект с ключом 'frutti', берем его
+  // Иначе, если возвращается массив, используем напрямую
+  if (Array.isArray(res.data)) {
+    return res.data;
+  } else if (res.data.frutti && Array.isArray(res.data.frutti)) {
+    return res.data.frutti;
+  } else {
+    // На всякий случай возвращаем пустой массив
+    return [];
+  }
 });
 
 // ➕ Aggiungi nuovo frutto
@@ -70,8 +80,7 @@ const fruttiSlice = createSlice({
       })
       .addCase(fetchFrutti.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.lista = action.payload;
-        localStorage.setItem("frutti", JSON.stringify(action.payload));
+        state.lista = action.payload; // всегда массив
       })
       .addCase(fetchFrutti.rejected, (state, action) => {
         state.isLoading = false;
