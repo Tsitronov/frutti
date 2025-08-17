@@ -3,13 +3,12 @@ import axios from 'axios';
 
 // URL del backend
 const URL = `${process.env.REACT_APP_API_URL}/api/frutti`;
-//const URL = "http://localhost:3001/api/frutti";
-
 
 // 📥 Carica frutti dal server
 export const fetchFrutti = createAsyncThunk('frutti/fetchFrutti', async () => {
   const res = await axios.get(URL);
-  return res.data;
+  // Проверяем, что сервер вернул массив, иначе пустой массив
+  return Array.isArray(res.data) ? res.data : [];
 });
 
 // ➕ Aggiungi nuovo frutto
@@ -24,27 +23,26 @@ export const eliminaFrutto = createAsyncThunk('frutti/eliminaFrutto', async (id)
   return id;
 });
 
-// ✏️ Modifica frutto (invia solo i campi rilevanti)
+// ✏️ Modifica frutto
 export const modificaFrutto = createAsyncThunk('frutti/modificaFrutto', async (frutto) => {
   const { id, nome, descrizione, categoria } = frutto;
-
-  const res = await axios.put(`${URL}/${id}`, {
-    nome,
-    descrizione,
-    categoria
-  });
-
+  const res = await axios.put(`${URL}/${id}`, { nome, descrizione, categoria });
   return res.data;
 });
 
 // ✅ Carica frutti da localStorage
 export const caricaFruttiLocalStorage = () => (dispatch) => {
-  const localData = localStorage.getItem("frutti");
-  if (localData) {
-    const frutti = JSON.parse(localData);
+  try {
+    const localData = localStorage.getItem("frutti");
+    const frutti = localData ? JSON.parse(localData) : [];
     dispatch({
       type: fetchFrutti.fulfilled.type,
-      payload: frutti,
+      payload: Array.isArray(frutti) ? frutti : [],
+    });
+  } catch {
+    dispatch({
+      type: fetchFrutti.fulfilled.type,
+      payload: [],
     });
   }
 };
@@ -52,7 +50,14 @@ export const caricaFruttiLocalStorage = () => (dispatch) => {
 const fruttiSlice = createSlice({
   name: 'frutti',
   initialState: {
-    lista: JSON.parse(localStorage.getItem("frutti")) || [],
+    lista: (() => {
+      try {
+        const local = JSON.parse(localStorage.getItem("frutti") || "[]");
+        return Array.isArray(local) ? local : [];
+      } catch {
+        return [];
+      }
+    })(),
     currentPage: 1,
     isLoading: false,
     error: null,
@@ -70,24 +75,22 @@ const fruttiSlice = createSlice({
       })
       .addCase(fetchFrutti.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.lista = action.payload;
-        localStorage.setItem("frutti", JSON.stringify(action.payload));
+        state.lista = Array.isArray(action.payload) ? action.payload : [];
+        localStorage.setItem("frutti", JSON.stringify(state.lista));
       })
       .addCase(fetchFrutti.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
       })
       .addCase(aggiungiFrutto.fulfilled, (state, action) => {
-        state.lista.push(action.payload);
+        if (action.payload) state.lista.push(action.payload);
       })
       .addCase(eliminaFrutto.fulfilled, (state, action) => {
         state.lista = state.lista.filter(item => item.id !== action.payload);
       })
       .addCase(modificaFrutto.fulfilled, (state, action) => {
         const index = state.lista.findIndex(item => item.id === action.payload.id);
-        if (index !== -1) {
-          state.lista[index] = action.payload; // Sostituisce tutto, incl. descrizione
-        }
+        if (index !== -1) state.lista[index] = action.payload;
       });
   }
 });
