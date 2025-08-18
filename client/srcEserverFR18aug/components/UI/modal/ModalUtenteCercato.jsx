@@ -11,9 +11,9 @@ const ModalUtenteCercato = ({utenteTrovato, getColorClass, setMostraModalInfo}) 
                 <li className="verde"><strong>bagno:</strong> {utenteTrovato.bagno}</li>
                 <li className="verde"><strong>Barba:</strong> {utenteTrovato.barba}</li>
                 <li><strong>Autonomia:</strong> {utenteTrovato.autonomia}</li>
-                <li><strong>vestiti:</strong> {utenteTrovato.vestiti}</li>
+                <li><strong>malattia:</strong> {utenteTrovato.malattia}</li>
                 <li><strong className={getColorClass}> Alimentazione: </strong> {utenteTrovato.alimentazione}</li>
-                <li><strong>accessori:</strong> {utenteTrovato.accessori}</li>
+                <li><strong>dentiera:</strong> {utenteTrovato.dentiera}</li>
                 <li><strong>Altro:</strong> {utenteTrovato.altro}</li>
               </ul>
             ) : (
