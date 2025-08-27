@@ -33,6 +33,16 @@ const Navbar = () => {
             Utenti
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            to="/admin"
+            className={({ isActive }) =>
+              isActive ? 'nav-link active' : 'nav-link'
+            }
+          >
+            Admin
+          </NavLink>
+        </li>
 
         {isAuth ? (
            

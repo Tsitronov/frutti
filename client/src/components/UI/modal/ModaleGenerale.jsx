@@ -1,19 +1,25 @@
 const ModaleGenerale = ({categoriaSelezionata, setCategoriaSelezionata, fruttiFiltrati}) => {
 	return(
 		<div className="modal">
-            <div className="modal-content">
-              <h2 className="verde">Categoria: {categoriaSelezionata}</h2>
+        <div className="modal-content">
+          <h2 className="verde">Categoria: {categoriaSelezionata}</h2>
+            {fruttiFiltrati.map(f => (
               <ul>
-                {fruttiFiltrati.map(f => (
-                  <li key={f.id}>
-                    <p className="blue">{f.nome}</p> 
-                    <p> {f.descrizione} </p>
-                  </li>
-                ))}
+                <li key={f.id}>
+                  <p className="blue">{f.nome}</p> 
+                  
+                </li>
+                  
+                <li>
+                  <pre> {f.descrizione} </pre>
+                </li>
               </ul>
-              <button type="button" onClick={() => setCategoriaSelezionata(null)}>❌ Chiudi</button>
-            </div>
-          </div>
-          );
+
+            ))}
+          
+          <button type="button" onClick={() => setCategoriaSelezionata(null)}>❌ Chiudi</button>
+        </div>
+    </div>
+    );
 }
 export default ModaleGenerale;

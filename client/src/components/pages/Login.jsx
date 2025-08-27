@@ -6,9 +6,6 @@ import { AuthContext } from '../../context/';
 
 import Navbar from '../UI/navbar/Navbar';
 
-//const REACT_APP_API_URL from .env (sul vercell suoi .env = frutti-backend.onrender.com")
-
-
 const Login = () => {
   const { setIsAuth } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -45,7 +42,7 @@ const Login = () => {
           <h3>Страница для логина</h3>
           <div className="article-list">
 
-            <form className="forma-ricerca" onSubmit={handleSubmit(onSubmit)}>
+            <form className="forma-login" onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="text"
                 placeholder="Введите логин"

@@ -168,7 +168,7 @@ const Generale = () => {
           <div className="content">
             <Loader isLoading={isLoading} error={error} />
 
-            <div className="toggleLink" onClick={toggleFruttiForm}>Add a new one  + </div>
+            <div className="toggleLink" onClick={toggleFruttiForm}> Add new &nbsp;&nbsp;<p>+</p></div>
 
             <GeneraleForm
               form={form} 
@@ -176,6 +176,7 @@ const Generale = () => {
               categorieUniche={categorieUniche}
               handleSalva={handleSalva}
               handleAggiungiFrutto={handleAggiungiFrutto}
+              toggleFruttiForm={toggleFruttiForm}
             />
               
             <div className="article-list">
@@ -188,13 +189,13 @@ const Generale = () => {
                      
                   </div>
                   <div className="item-lungo-container">
-                    <div
+                    <pre
                       ref={(el) => (testoRefs.current[item.id] = el)}
                       onScroll={() => handleScroll(item.id)}
                       className={isLungo(item.descrizione) ? 'testo-lungo' : ''}
                     >
                       {item.descrizione}
-                    </div>
+                    </pre>
 
                     {isLungo(item.descrizione)  && scrollStates[item.id] && (
                       <button

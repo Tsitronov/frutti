@@ -193,7 +193,7 @@ const Utenti = () => {
   };
 
   const testoRefs = useRef({});
-  const isLungo = (testo) => testo && testo.length > 300;
+  const isLungo = (testo) => testo && testo.length > 7;
 
   const scrollToTop = (id) => {
     const div = testoRefs.current[id];
@@ -245,31 +245,40 @@ const Utenti = () => {
         <div className="content">
           <Loader isLoading={isLoading} error={error} />
 
-          <ul className="repartoNome"> 👥 reparti: 
-            {reparti.map((reparto, i) => (
-              <li key={i}>
-                <a href="#" onClick={() => {
-                  setRepartoSelezionato(reparto);
-                  localStorage.setItem("ultimoReparto", reparto);
-                }} style={{ fontWeight: reparto === repartoSelezionato ? "bold" : "normal" }}>{reparto}</a>
-              </li>
-            ))}
-          </ul>
+          <div className="reparti">
+            <ul className="repartoNome"> Reparti - 
+              {reparti.map((reparto, i) => (
+                <li key={i}>
+                  <a href="#" onClick={() => {
+                    setRepartoSelezionato(reparto);
+                    localStorage.setItem("ultimoReparto", reparto);
+                  }} style={{ color: reparto === repartoSelezionato ? "#0606ff" : "#777", fontWeight: reparto === repartoSelezionato ? "700" : "300" }}>{reparto}</a>
+                </li>
+              ))}
+            </ul>
 
-          <div className="toggleLink" onClick={toggleUtentiForm}>Add a new one  + </div>
+            <div className="toggleLink" onClick={toggleUtentiForm}>Add new &nbsp;&nbsp;<p>+</p></div>
+          </div>
 
           <div className="utentiForm utentiFormDisplayNone">
             <div className="modal">
               <div className="modal-content">
-              {["reparto", "stanza", "cognome", "bagno", "barba", "autonomia", "vestiti", "alimentazione", "accessori", "altro"].map((campo) => (
+              {["reparto", "stanza", "cognome", "bagno", "barba", "autonomia", "vestiti", "alimentazione", "accessori"].map((campo) => (
                 <input
                   key={campo}
                   name={campo}
-                  placeholder={campo}
+                  placeholder={campo === "cognome" ? "nome" : campo}
                   value={form[campo]}
                   onChange={handleChange}
                 />
               ))}
+                <textarea
+                  name="altro"
+                  placeholder="altro"
+                  value={form.altro}
+                  onChange={handleChange}
+                  rows={4}
+                />
               {modificaId ? (
                 <>
                   <button type="button" className="btn-modifica" onClick={handleSalva}>💾 Cambia</button>
@@ -301,17 +310,17 @@ const Utenti = () => {
                       <strong className="blue"> – {item.cognome} </strong>
                     </div>
                     <div className="item-info">
-                      <div> dieta: 
+                      <div> <strong> alimentazione: </strong>  
                         <strong className={getColorClass(item.alimentazione)}> {item.alimentazione} </strong>
                       </div>
-                      <div> autonomia:
+                      <div> <strong> autonomia:</strong> 
                         <strong className={getColorClass(item.autonomia)}> {item.autonomia} </strong>
                       </div>
-                      <div>{item.vestiti}</div>
-                      <div>{item.accessori}</div>
-                      <div><strong>bagno:</strong> {item.bagno}</div>
-                      <div><strong>barba:</strong> {item.barba}</div>
-                      <div>{item.altro}</div>
+                      <div><strong> bagno: </strong> {item.bagno} </div>
+                      <div><strong> barba: </strong> {item.barba} </div>
+                      <div><strong> vestiti: </strong> {item.vestiti} </div>
+                      <div><strong> accessori: </strong> {item.accessori} </div>
+                      <div> <strong> altro: </strong><pre> {item.altro} </pre></div>
                     </div>
                   </div>
 

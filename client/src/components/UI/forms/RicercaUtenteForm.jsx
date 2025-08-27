@@ -4,7 +4,7 @@ const RicercaUtenteForm = ({cognomeRicerca, setCognomeRicerca, cognomiUnici, ute
         <input
           type="text"
           list="cognomi-lista"
-          placeholder="Cerca per cognome"
+          placeholder="Cerca per nome"
           value={cognomeRicerca}
           onChange={(e) => setCognomeRicerca(e.target.value)}
         />
