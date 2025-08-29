@@ -320,7 +320,7 @@ const Utenti = () => {
                       <div><strong> barba: </strong> {item.barba} </div>
                       <div><strong> vestiti: </strong> {item.vestiti} </div>
                       <div><strong> accessori: </strong> {item.accessori} </div>
-                      <div> <strong> altro: </strong><pre> {item.altro} </pre></div>
+                      <div> <strong> altro: </strong> {item.altro} </div>
                     </div>
                   </div>
 

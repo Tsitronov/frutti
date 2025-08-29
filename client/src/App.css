@@ -10,6 +10,7 @@ body, html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   height: 100%;
   background-color: #ecf0f1;
+  font-size:18px;
 }
 
 li {
@@ -52,15 +53,6 @@ input,textarea:focus{
   border: 2px solid #ccc;
 }
 
-pre{
-  font-size: 16px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin-bottom: 10px;
-  padding: 5px;
-  width: auto;
-  word-break: break-all;
-  word-break: break-word;
-}
 
 .container {
   display: flex;
@@ -306,8 +298,6 @@ pre{
 .testo-lungo {
   max-height: 210px;
   overflow-y: auto;
-  opacity: 0.4;
-  font-style: italic;
   transition: opacity 0.3s ease;
   padding-right: 12px; /* per spazio a destra */
 }
@@ -524,11 +514,6 @@ pre{
 
 /* MEDIA QUERY */
 @media (max-width: 768px) {
-
-  pre{
-    font-size: 14px;
-  }
-
   .container {
     display: flex;
     flex-direction: column;

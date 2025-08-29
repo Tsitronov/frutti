@@ -189,13 +189,13 @@ const Generale = () => {
                      
                   </div>
                   <div className="item-lungo-container">
-                    <pre
+                    <p
                       ref={(el) => (testoRefs.current[item.id] = el)}
                       onScroll={() => handleScroll(item.id)}
                       className={isLungo(item.descrizione) ? 'testo-lungo' : ''}
                     >
                       {item.descrizione}
-                    </pre>
+                    </p>
 
                     {isLungo(item.descrizione)  && scrollStates[item.id] && (
                       <button
