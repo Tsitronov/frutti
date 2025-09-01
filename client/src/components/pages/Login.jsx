@@ -2,35 +2,38 @@ import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { AuthContext } from '../../context/';
-
+import { AuthContext } from '../../context';
 import Navbar from '../UI/navbar/Navbar';
 
 const Login = () => {
-  const { setIsAuth } = useContext(AuthContext);
+  const { setIsAuth, setUserCategoria } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState('');
 
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, data);
-      //const response = await axios.post(URL, data);
 
       if (response.data.message === 'Login riuscito') {
         setIsAuth(true);
         localStorage.setItem('auth', 'true');
+        const categoria = response.data.categoria || '0';
+        setUserCategoria(categoria);
+        localStorage.setItem('userCategoria', categoria);
         setError('');
         navigate('/generale');
+      } else {
+        setError('Неожиданный ответ от сервера');
       }
     } catch (err) {
-      console.error(err);
-      setError('Неверный логин или пароль');
+      console.error('Error:', err.response?.data, err.message);
+      setError(err.response?.data?.message || 'Неверный логин или пароль');
     }
   };
 
@@ -41,7 +44,6 @@ const Login = () => {
         <div className="content">
           <h3>Страница для логина</h3>
           <div className="article-list">
-
             <form className="forma-login" onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="text"
@@ -69,4 +71,3 @@ const Login = () => {
 };
 
 export default Login;
-

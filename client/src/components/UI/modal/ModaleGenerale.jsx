@@ -11,7 +11,7 @@ const ModaleGenerale = ({categoriaSelezionata, setCategoriaSelezionata, fruttiFi
                 </li>
                   
                 <li>
-                  <pre> {f.descrizione} </pre>
+                  {f.descrizione}
                 </li>
               </ul>
 

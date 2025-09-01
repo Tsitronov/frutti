@@ -1,16 +1,19 @@
 import React, { useContext } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context';
 
-const ProtectedRoute = ({ children }) => {
-  const { isAuth } = useContext(AuthContext);
+const ProtectedRoute = ({ children, requireAdmin = false }) => {
+  const { isAuth, userCategoria } = useContext(AuthContext);
+  const location = useLocation();
 
-  // Если пользователь не авторизован, перенаправить на страницу логина
   if (!isAuth) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" state={{ from: location }} />;
   }
 
-  // Если пользователь авторизован, отобразить дочерние элементы
+  if (requireAdmin && String(userCategoria) !== '3') {
+    return <Navigate to="/generale" />;
+  }
+
   return children;
 };
 

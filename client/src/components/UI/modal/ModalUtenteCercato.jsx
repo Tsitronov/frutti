@@ -14,7 +14,7 @@ const ModalUtenteCercato = ({utenteTrovato, getColorClass, setMostraModalInfo}) 
                 <li><strong>vestiti:</strong> {utenteTrovato.vestiti}</li>
                 <li><strong className={getColorClass}> Alimentazione: </strong> {utenteTrovato.alimentazione}</li>
                 <li><strong>accessori:</strong> {utenteTrovato.accessori}</li>
-                <li><strong>Altro:</strong> <pre>{utenteTrovato.altro} </pre></li>
+                <li><strong>Altro:</strong> {utenteTrovato.altro} </li>
               </ul>
             ) : (
               <p>⚠️ Utente non trovato.</p>
