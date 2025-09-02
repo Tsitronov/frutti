@@ -16,7 +16,6 @@ import ModalUtenteCercato from "../UI/modal/ModalUtenteCercato";
 import ModalUtente from "../UI/modal/ModalUtente";
 
 import RicercaUtenteForm from "../UI/forms/RicercaUtenteForm";
-import Loader from "../UI/Loader";
 
 const Utenti = () => {
   const dispatch = useDispatch();
@@ -243,7 +242,8 @@ const Utenti = () => {
 
       <div className="main-content">
         <div className="content">
-          <Loader isLoading={isLoading} error={error} />
+        {isLoading && <span>Loading... ⏳ Caricamento dati dal server... (ora vedi dati locali) </span>}
+        {error && <span style={{ color: "red" }}>{error}</span>}
 
           <div className="reparti">
             <ul className="repartoNome"> Reparti - 
@@ -257,7 +257,10 @@ const Utenti = () => {
               ))}
             </ul>
 
+          { localStorage.getItem('userCategoria') !== '1' &&
             <div className="toggleLink" onClick={toggleUtentiForm}>Add new &nbsp;&nbsp;<p>+</p></div>
+          }
+
           </div>
 
           <div className="utentiForm utentiFormDisplayNone">
@@ -329,6 +332,7 @@ const Utenti = () => {
                       <button className="freccia-scroll" onClick={() => scrollToTop(item.id)}>↑</button>
                     )}
 
+                { localStorage.getItem('userCategoria') !== '1' &&
                   <div className="actions">
                     <button type="button" className="btn-azione btn-update" onClick={(e) => { e.stopPropagation(); handleModifica(item); toggleUtentiForm()}}>✏️</button>
                     <button type="button" className="btn-azione btn-delete" onClick={(e) => {
@@ -338,6 +342,8 @@ const Utenti = () => {
                       }
                     }}>❌</button>
                   </div>
+                }
+
                 </div>
 
               </div>

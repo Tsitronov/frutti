@@ -14,7 +14,6 @@ import Navbar from '../UI/navbar/Navbar';
 import Pagination from "../UI/pagination/Pagination.jsx";
 import ModaleGenerale from "../UI/modal/ModaleGenerale";
 import GeneraleForm from "../UI/forms/GeneraleForm";
-import Loader from "../UI/Loader";
  
 
 
@@ -166,9 +165,12 @@ const Generale = () => {
 
         <div className="main-content">
           <div className="content">
-            <Loader isLoading={isLoading} error={error} />
+          {isLoading && <span>Loading... ⏳ Caricamento dati dal server... (ora vedi dati locali) </span>}
+          {error && <span style={{ color: "red" }}>{error}</span>}
 
+          { localStorage.getItem('userCategoria') !== '1' &&
             <div className="toggleLink" onClick={toggleFruttiForm}> Add new &nbsp;&nbsp;<p>+</p></div>
+          }
 
             <GeneraleForm
               form={form} 
@@ -207,10 +209,12 @@ const Generale = () => {
                     )}
                     </div>
 
+                  { localStorage.getItem('userCategoria') !== '1' &&
                     <div className="actions">
                       <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
                       <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Sicuro che delete?") && dispatch(eliminaFrutto(item.id))}>❌</button>
                     </div>
+                  }
                   </div>
                 </div>
               ))}
