@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../context';
-import Navbar from '../UI/navbar/Navbar';
+
 
 const Login = () => {
   const { setIsAuth, setUserCategoria } = useContext(AuthContext);
@@ -38,34 +38,35 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
-      <Navbar />
-      <div className="main-content">
-        <div className="content">
-          <h3>Страница для логина</h3>
-          <div className="article-list">
-            <form className="forma-login" onSubmit={handleSubmit(onSubmit)}>
-              <input
-                type="text"
-                placeholder="Введите логин"
-                {...register('username', { required: 'Логин обязателен' })}
-              />
-              {errors.username && <p style={{ color: 'red' }}>{errors.username.message}</p>}
+    <div className="container-login">
+    <div className="main-content-login">
+      <div className="content-login">
+        <h3 className="title-login"> Pagina di accesso </h3>
+        <div className="article-list-login">
+          <form className="form-login" onSubmit={handleSubmit(onSubmit)}>
+            <input
+              type="text"
+              className="input-login"
+              placeholder="Inserisci il login"
+              {...register('username', { required: ' Èrichiesto l`accesso '})}
+            />
+            {errors.username && <p className="error-login">{errors.username.message}</p>}
 
-              <input
-                type="password"
-                placeholder="Введите пароль"
-                {...register('password', { required: 'Пароль обязателен' })}
-              />
-              {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
+            <input
+              type="password"
+              className="input-login"
+              placeholder="Inserisci la password"
+              {...register('password', { required: 'La password è obbligatoria' })}
+            />
+            {errors.password && <p className="error-login">{errors.password.message}</p>}
 
-              <button>Войти</button>
-            </form>
+            <button className="button-login"> entrare </button>
+          </form>
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-          </div>
+          {error && <p className="error-login">{error}</p>}
         </div>
       </div>
+    </div>
     </div>
   );
 };

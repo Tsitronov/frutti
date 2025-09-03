@@ -33,6 +33,7 @@ const Navbar = () => {
             Utenti
           </NavLink>
         </li>
+        { localStorage.getItem('userCategoria') === '3' &&
         <li>
           <NavLink
             to="/admin"
@@ -43,6 +44,7 @@ const Navbar = () => {
             Admin
           </NavLink>
         </li>
+        }
 
         {isAuth ? (
            

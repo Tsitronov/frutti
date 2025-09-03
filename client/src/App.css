@@ -21,6 +21,7 @@ input {
   width: 50%;
   box-sizing: border-box;
 }
+
 textarea {
   width: 100%;
   box-sizing: border-box;
@@ -131,9 +132,7 @@ input,textarea:focus{
   margin: 0;
 }
 
-.top-nav-links li {
-  margin-bottom: 10px;
-}
+
 
 .top-nav-links a {
   text-decoration: none;
@@ -209,7 +208,7 @@ input,textarea:focus{
 }
 
 .repartoNome {
-  padding-left: 20px;
+  padding-left: 0px;
 }
 
 .repartoNome li{
@@ -343,6 +342,7 @@ input,textarea:focus{
   font-size: 1rem;
   cursor: pointer;
   transition: .3s ease-in-out;
+  opacity: 0.6;
 }
 
 .btn-update,
@@ -443,8 +443,6 @@ input,textarea:focus{
   color: white;
 }
 
-
-
 .rosso {
   color: red;
   font-weight: bold;
@@ -461,6 +459,110 @@ input,textarea:focus{
   color: gray;
   font-weight: bold;
 }
+
+
+.container-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+/* Основной контент Login */
+:root {
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --background-color: #f4f7fa;
+  --text-color: #333;
+  --error-color: #dc3545;
+  --border-radius: 8px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+.main-content-login {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Внутренний контент */
+.content-login {
+  background: #fff;
+  padding: 30px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+/* Заголовок */
+.title-login {
+  font-size: 1.8rem;
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Список статей (обертка формы) */
+.article-list-login {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Форма */
+.form-login {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Поля ввода */
+.input-login {
+  padding: 12px;
+  width: 100%;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+}
+
+.input-login:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Ошибки */
+.error-login {
+  color: var(--error-color);
+  font-size: 0.9rem;
+  margin: 5px 0 0;
+}
+
+/* Кнопка */
+.button-login {
+  padding: 12px;
+  font-size: 1rem;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.button-login:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Анимация для кнопки при клике */
+.button-login:active {
+  transform: scale(0.98);
+}
+
+
 
 @media (max-width: 1440px) {
   .forma-ricerca input{
@@ -549,6 +651,10 @@ input,textarea:focus{
     position: relative;
     z-index: 1;
   }
+    .content{
+    position: relative;
+    margin-top: 6px;
+  }
 
   .toggleLink{
     margin: 10px 0;
@@ -562,6 +668,7 @@ input,textarea:focus{
 
   .forma-ricerca{
     width: 100%;
+    margin-bottom: 0px;
   }
   .forma-ricerca input {
     width: calc(90% - 50px);
@@ -597,6 +704,10 @@ input,textarea:focus{
     grid-template-columns: 1fr;
   }
 
+  .repartoNome {
+    padding-left: 4px;
+  }
+
   .paginationWrap{
     display: flex;
     position: static;
@@ -630,6 +741,10 @@ input,textarea:focus{
     z-index: 1;
   }
 
+  .top-nav-links {
+    gap: 0px;
+  }
+
   .sidebar {
     width: calc(100% - 20px);
     height: auto;
@@ -659,7 +774,7 @@ input,textarea:focus{
 
   .content{
     position: relative;
-    margin-top: 40px;
+    margin-top: 6px;
   }
 
   .article-wrapper-admin div{
@@ -700,7 +815,7 @@ input,textarea:focus{
 
   .forma-ricerca{
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
   }
 
   .forma-ricerca input {
@@ -724,4 +839,17 @@ input,textarea:focus{
     text-align: center;
     text-anchor: center;
   }
+
+    .main-content-login {
+    padding: 15px;
+  }
+
+  .content-login {
+    padding: 20px;
+  }
+
+  .title-login {
+    font-size: 1.5rem;
+  }
+
 }

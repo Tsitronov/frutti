@@ -165,8 +165,8 @@ const Generale = () => {
 
         <div className="main-content">
           <div className="content">
-          {isLoading && <span>Loading... ⏳ Caricamento dati dal server... (ora vedi dati locali) </span>}
-          {error && <span style={{ color: "red" }}>{error}</span>}
+        {isLoading && <>Carico dati... locale se offline </>}
+        {error && <>{error}</>}
 
           { localStorage.getItem('userCategoria') !== '1' &&
             <div className="toggleLink" onClick={toggleFruttiForm}> Add new &nbsp;&nbsp;<p>+</p></div>
