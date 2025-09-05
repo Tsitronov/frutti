@@ -32,10 +32,10 @@ const RicercaUtenteForm = ({cognomeRicerca, setCognomeRicerca, cognomiUnici, ute
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
+            width="16"
+            height="16"
             fill="white"
-            viewBox="0 0 24 16"
+            viewBox="0 0 20 20"
           >
             <path d="M10 2a8 8 0 105.293 14.293l5.707 5.707 1.414-1.414-5.707-5.707A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z" />
           </svg>

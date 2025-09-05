@@ -4,22 +4,30 @@ const Pagination = ({ totalItems = 0, itemsPerPage = 1, currentPage, onPageChang
   const getPageNumbers = () => {
     const pages = [];
 
-    if (totalPages <= 4) {
+    if (totalPages <= 6) {
+      // Если страниц мало, показываем все
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      // Always show first 3 pages
       pages.push(1);
-      if (currentPage > 2 && currentPage < totalPages - 1) {
-        pages.push('...');
-        pages.push(currentPage);
-        pages.push('...');
-      } else {
-        pages.push(2);
+
+      if (currentPage > 3) {
         pages.push('...');
       }
-      // Always show last page
+
+      // Добавляем соседние страницы вокруг текущей
+      const startPage = Math.max(2, currentPage - 1);
+      const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+
+      if (currentPage < totalPages - 2) {
+        pages.push('...');
+      }
+
       pages.push(totalPages);
     }
 
@@ -31,15 +39,7 @@ const Pagination = ({ totalItems = 0, itemsPerPage = 1, currentPage, onPageChang
   return (
     <nav className="paginationWrap">
       <ul className="pagination cursorPointer">
-        <li className="page-item">
-          <button
-            className="page-link"
-            onClick={() => onPageChange(1)}
-            disabled={currentPage === 1}
-          >
-            First
-          </button>
-        </li>
+
 
         <li className="page-item">
           <button
@@ -76,15 +76,7 @@ const Pagination = ({ totalItems = 0, itemsPerPage = 1, currentPage, onPageChang
           </button>
         </li>
 
-        <li className="page-item">
-          <button
-            className="page-link"
-            onClick={() => onPageChange(totalPages)}
-            disabled={currentPage === totalPages}
-          >
-            Last
-          </button>
-        </li>
+
       </ul>
     </nav>
   );

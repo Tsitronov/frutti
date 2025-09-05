@@ -242,8 +242,8 @@ const Utenti = () => {
 
       <div className="main-content">
         <div className="content">
-        {isLoading && <>Carico dati... locale se offline </>}
-        {error && <>{error}</>}
+        {isLoading && <span className = "carico-dati"> ⏳ Carico dati... locale se offline </span>}
+        {error && <span className = "carico-dati">{error}</span>}
 
           <div className="reparti">
             <ul className="repartoNome"> Reparti - 

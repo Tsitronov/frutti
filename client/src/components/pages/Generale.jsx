@@ -165,8 +165,8 @@ const Generale = () => {
 
         <div className="main-content">
           <div className="content">
-        {isLoading && <>Carico dati... locale se offline </>}
-        {error && <>{error}</>}
+        {isLoading && <span className = "carico-dati"> ⏳ Carico dati... locale se offline </span>}
+        {error && <span className = "carico-dati">{error} </span>}
 
           { localStorage.getItem('userCategoria') !== '1' &&
             <div className="toggleLink" onClick={toggleFruttiForm}> Add new &nbsp;&nbsp;<p>+</p></div>
@@ -185,10 +185,9 @@ const Generale = () => {
               {fruttiVisibili.map(item => (
                 <div  key={item.id} className="article-item-wrapper">
 
-                <div className="article-item" style={{ cursor: "pointer" }}>
-                  <div className="item-info">
-                    {item.nome}  –  {item.categoria}
-                     
+                <div className="article-item">
+                  <div className="item-info" style={{fontWeight:"bold"}}>
+                    {item.categoria} - {item.nome}
                   </div>
                   <div className="item-lungo-container">
                     <p

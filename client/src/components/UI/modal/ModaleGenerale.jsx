@@ -2,12 +2,11 @@ const ModaleGenerale = ({categoriaSelezionata, setCategoriaSelezionata, fruttiFi
 	return(
 		<div className="modal">
         <div className="modal-content">
-          <h2 className="verde">Categoria: {categoriaSelezionata}</h2>
+          <h2 className="verde">{categoriaSelezionata}</h2>
             {fruttiFiltrati.map(f => (
-              <ul>
-                <li key={f.id}>
-                  <p className="blue">{f.nome}</p> 
-                  
+              <ul key={f.id} >
+                <li className="blue">
+                  {f.nome}
                 </li>
                   
                 <li>

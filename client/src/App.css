@@ -180,6 +180,9 @@ input,textarea:focus{
   word-break: break-word;
 }
 
+.carico-dati{
+  color: #ff9900;
+}
 
 .toggleLink{
   display: flex;
@@ -245,6 +248,7 @@ input,textarea:focus{
   padding: 1rem;
   border: 1px solid #ccc;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
  
 .article-item {
@@ -255,6 +259,7 @@ input,textarea:focus{
   overflow-wrap: break-word;
   background-color: white;
 }
+
 .article-item-wrapper:hover {
   transform: translateY(-2px);
   transition: color 0.3s ease, border-bottom 0.3s ease;
@@ -432,6 +437,9 @@ input,textarea:focus{
   opacity: 0.8;
 }
 
+.pagination .page-item.active .page-link {
+  opacity: 0.6;
+}
 
 .forma-ricerca button, .forma-ricerca input {
   width: 100%;
@@ -840,7 +848,7 @@ input,textarea:focus{
     text-anchor: center;
   }
 
-    .main-content-login {
+  .main-content-login {
     padding: 15px;
   }
 
