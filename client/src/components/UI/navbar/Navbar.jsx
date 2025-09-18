@@ -33,6 +33,16 @@ const Navbar = () => {
             Utenti
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            to="/report"
+            className={({ isActive }) =>
+              isActive ? 'nav-link active' : 'nav-link'
+            }
+          >
+            Report
+          </NavLink>
+        </li>
         { localStorage.getItem('userCategoria') === '3' &&
         <li>
           <NavLink

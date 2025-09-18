@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Login from './components/pages/Login';
 import Generale from './components/pages/Generale';
 import Utenti from './components/pages/Utenti';
+import Report from './components/pages/Report';
 import Admin from './components/pages/Admin';
 import { AuthContext } from './context';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/utenti" element={<ProtectedRoute><Utenti /></ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
+        <Route path="/report" element={<ProtectedRoute><Report /></ProtectedRoute>} />
         <Route path="/" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
         <Route path="/generale" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
         <Route index element={<ProtectedRoute><Generale /></ProtectedRoute>} />
