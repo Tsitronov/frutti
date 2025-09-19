@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Login from './components/pages/Login';
 import Generale from './components/pages/Generale';
+import Appunti from './components/pages/Appunti';
 import Utenti from './components/pages/Utenti';
 import Report from './components/pages/Report';
 import Admin from './components/pages/Admin';
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/utenti" element={<ProtectedRoute><Utenti /></ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
+        <Route path="/appunti" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />
         <Route path="/report" element={<ProtectedRoute><Report /></ProtectedRoute>} />
         <Route path="/" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
         <Route path="/generale" element={<ProtectedRoute><Generale /></ProtectedRoute>} />

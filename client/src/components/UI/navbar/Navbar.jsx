@@ -15,6 +15,16 @@ const Navbar = () => {
       <ul className="top-nav-links">
         <li>
           <NavLink
+            to="/appunti"
+            className={({ isActive }) =>
+              isActive ? 'nav-link active' : 'nav-link'
+            }
+          >
+            Appunti
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to="/generale"
             className={({ isActive }) =>
               isActive ? 'nav-link active' : 'nav-link'

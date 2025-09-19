@@ -94,6 +94,10 @@ input,textarea:focus{
   margin-top:4px;
 }
 
+.appuntiFormDisplayNone{
+  display: none;
+}
+
 .utentiFormDisplayNone{
   display: none;
 }
@@ -226,6 +230,11 @@ input,textarea:focus{
 }
 
 .generaleForm {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.appuntiForm {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
@@ -802,6 +811,10 @@ input,textarea:focus{
   }
 
   .generaleForm {
+    margin-top: 1px;
+    margin-bottom: 1rem;
+  }
+  .appuntiForm {
     margin-top: 1px;
     margin-bottom: 1rem;
   }
