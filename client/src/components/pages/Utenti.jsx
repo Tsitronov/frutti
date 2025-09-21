@@ -19,7 +19,8 @@ import RicercaUtenteForm from "../UI/forms/RicercaUtenteForm";
 
 const Utenti = () => {
   const dispatch = useDispatch();
-  const utenti = useSelector((state) => state.utenti.lista);
+
+  const utenti = useSelector((state) => state.utenti.lista) || [];
   const [lista, setLista] = useState([]);
 
   useEffect(() => {
@@ -32,7 +33,9 @@ const Utenti = () => {
 
   const currentPage = useSelector((state) => state.utenti.currentPage);
 
-  const reparti = [...new Set(utenti.map((u) => u.reparto))].sort();
+  const reparti = Array.isArray(utenti)
+    ? [...new Set(utenti.map((u) => u.reparto))].sort()
+    : [];
 
   const [repartoSelezionato, setRepartoSelezionato] = useState(null);
   const utentiDelReparto = repartoSelezionato
