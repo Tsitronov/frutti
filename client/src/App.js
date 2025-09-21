@@ -17,12 +17,12 @@ function App() {
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth, userCategoria, setUserCategoria }}>
       <Routes>
-        <Route path="/utenti" element={<ProtectedRoute><Utenti /></ProtectedRoute>} />
+        <Route path="/utenti" element={<Utenti />} />
         <Route path="/login" element={<Login />} />
         <Route path="/appunti" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />
         <Route path="/report" element={<ProtectedRoute><Report /></ProtectedRoute>} />
         <Route path="/" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
-        <Route path="/generale" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
+        <Route path="/generale" element={<Generale />} />
         <Route index element={<ProtectedRoute><Generale /></ProtectedRoute>} />
         <Route path="*" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
         <Route

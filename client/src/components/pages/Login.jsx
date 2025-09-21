@@ -15,7 +15,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const REACT_APP_API_URL = "frutti-backend.onrender.com";
+  
 
   const onSubmit = async (data) => {
     try {
