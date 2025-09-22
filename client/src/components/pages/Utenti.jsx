@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 
 import {
   fetchUtenti,
@@ -14,7 +14,6 @@ import Navbar from "../UI/navbar/Navbar";
 import Pagination from "../UI/pagination/Pagination";
 import ModalUtenteCercato from "../UI/modal/ModalUtenteCercato";
 import ModalUtente from "../UI/modal/ModalUtente";
-
 import RicercaUtenteForm from "../UI/forms/RicercaUtenteForm";
 
 const Utenti = () => {
@@ -46,7 +45,6 @@ const Utenti = () => {
   const [cognomeRicerca, setCognomeRicerca] = useState("");
   const [utenteTrovato, setUtenteTrovato] = useState(null);
   const [mostraModalInfo, setMostraModalInfo] = useState(false);
-  const [utentiVisibili, setUtentiVisibili] = useState([]);
   const [scrollStates, setScrollStates] = useState({});
   const testoRefs = useRef({});
 
@@ -54,7 +52,7 @@ const Utenti = () => {
 
   // 📥 Carica utenti
   useEffect(() => {
-    dispatch(caricaUtentiLocalStorage()); // prima i dati locali
+    dispatch(caricaUtentiLocalStorage()); // Prima i dati locali
     dispatch(fetchUtenti()).then(data => setLista(data));
   }, [dispatch]);
 
@@ -71,27 +69,45 @@ const Utenti = () => {
     }
   }, [utenti]);
 
-  // ✅ Filtra utenti per reparto e paginazione
-  useEffect(() => {
-    const filtrati = repartoSelezionato
-      ? utenti.filter((u) => u.reparto === repartoSelezionato).sort((a, b) => Number(a.stanza) - Number(b.stanza))
-      : utenti;
+  // 📌 Ottimizzazione: reparti
+  const reparti = useMemo(() => {
+    return Array.isArray(utenti)
+      ? [...new Set(utenti.map((u) => u.reparto))].sort()
+      : [];
+  }, [utenti]);
 
+  // 📌 Ottimizzazione: cognomiUnici
+  const cognomiUnici = useMemo(() => {
+    return [...new Set(utenti.map((u) => u.cognome))].sort();
+  }, [utenti]);
+
+  // 📌 Ottimizzazione: utentiDelReparto
+  const utentiDelReparto = useMemo(() => {
+    return repartoSelezionato
+      ? utenti.filter((u) => u.reparto === repartoSelezionato)
+      : utenti;
+  }, [utenti, repartoSelezionato]);
+
+  // 📌 Ottimizzazione: utentiVisibili
+  const utentiVisibili = useMemo(() => {
+    const filtrati = repartoSelezionato
+      ? utenti
+          .filter((u) => u.reparto === repartoSelezionato)
+          .sort((a, b) => Number(a.stanza) - Number(b.stanza))
+      : utenti;
     const indexOfLast = currentPage * itemsPerPage;
     const indexOfFirst = indexOfLast - itemsPerPage;
+    return filtrati.slice(indexOfFirst, indexOfLast);
+  }, [utenti, repartoSelezionato, currentPage, itemsPerPage]);
 
-    setUtentiVisibili(filtrati.slice(indexOfFirst, indexOfLast));
-  }, [utenti, currentPage, repartoSelezionato]);
-
-  const reparti = Array.isArray(utenti)
-    ? [...new Set(utenti.map((u) => u.reparto))].sort()
-    : [];
-
-  const utentiDelReparto = repartoSelezionato
-    ? utenti.filter((u) => u.reparto === repartoSelezionato)
-    : utenti;
-
-  const cognomiUnici = [...new Set(utenti.map((u) => u.cognome))].sort();
+  // 📌 Ottimizzazione: getColorClass
+  const getColorClass = useCallback((valore) => {
+    if (!valore) return "";
+    const v = valore.toLowerCase();
+    if (v.includes("d") || v.includes("s")) return "rosso";
+    if (v.includes("m")) return "verde";
+    return "blue";
+  }, []);
 
   const toggleUtentiForm = () => {
     const utentiForm = document.querySelector('.utentiForm');
@@ -148,14 +164,6 @@ const Utenti = () => {
     setShowModal(true);
   };
 
-  const getColorClass = (valore) => {
-    if (!valore) return "";
-    const v = valore.toLowerCase();
-    if (v.includes("d") || v.includes("s")) return "rosso";
-    if (v.includes("m")) return "verde";
-    return "blue";
-  };
-
   const scrollToTop = (id) => {
     const div = testoRefs.current[id];
     if (div) div.scrollTop = 0;
@@ -201,8 +209,10 @@ const Utenti = () => {
 
       <div className="main-content">
         <div className="content">
-          {isLoading && <span className="carico-dati">⏳ Carico dati... locale se offline</span>}
-          {error && <span className="carico-dati">{error}</span>}
+          <div className="carico-dati-container">
+            {isLoading && <span className="carico-dati">⏳ Carico dati... locale se offline</span>}
+            {error && <span className="carico-dati">{error}</span>}
+          </div>
 
           <div className="reparti">
             <ul className="repartoNome">
@@ -326,7 +336,7 @@ const Utenti = () => {
       {mostraModalInfo && utenteTrovato && (
         <ModalUtenteCercato
           utenteTrovato={utenteTrovato}
-          getColorClass={getColorClass(utenteTrovato.alimentazione)}
+          getColorClass={getColorClass}
           setMostraModalInfo={setMostraModalInfo}
         />
       )}

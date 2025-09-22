@@ -20,12 +20,12 @@ const Report = () => {
 
     // HEAD senza "Altro" (lo mettiamo su riga separata)
     const head = [[
-      "ID","Reparto","Stanza","Nome","Bagno","Barba","Autonomia","Vestiti","Alimentazione","Accessori"
+      "ID","Reparto","Stanza","Cognome","Bagno","Barba","Autonomia","Vestiti","Alimentazione","Accessori"
     ]];
 
     const body = utenti.flatMap(u => {
       const mainRow = [
-        u.id, u.reparto, u.stanza, u.nome, u.bagno, u.barba,
+        u.id, u.reparto, u.stanza, u.cognome, u.bagno, u.barba,
         u.autonomia, u.vestiti, u.alimentazione, u.accessori
       ];
       
@@ -61,10 +61,10 @@ const Report = () => {
     // seconda pagina con frutti (se vuoi)
     doc.addPage();
     doc.text("Report Frutti", 14, 16);
-    const fruttiData = frutti.map(f => [f.id, f.nome, f.categoria, f.descrizione]);
+    const fruttiData = frutti.map(f => [f.id, f.cognome, f.categoria, f.descrizione]);
     autoTable(doc, {
       startY: 22,
-      head: [["ID","Nome","Categoria","Descrizione"]],
+      head: [["ID","Cognome","Categoria","Descrizione"]],
       body: fruttiData,
       styles: { fontSize: 9, cellWidth: 'wrap' }
     });
@@ -79,7 +79,7 @@ const exportExcel = () => {
     ID: u.id,
     Reparto: u.reparto,
     Stanza: u.stanza,
-    Nome: u.nome,
+    Cognome: u.cognome,
     Bagno: u.bagno,
     Barba: u.barba,
     Autonomia: u.autonomia,
@@ -91,7 +91,7 @@ const exportExcel = () => {
 
   const fruttiData = frutti.map(f => ({
     ID: f.id,
-    Nome: f.nome,
+    Cognome: f.cognome,
     Categoria: f.categoria,
     Descrizione: f.descrizione
   }));
@@ -116,7 +116,7 @@ const exportCSV = () => {
     ID: u.id,
     Reparto: u.reparto,
     Stanza: u.stanza,
-    Nome: u.nome,
+    Cognome: u.cognome,
     Bagno: u.bagno,
     Barba: u.barba,
     Autonomia: u.autonomia,
@@ -128,7 +128,7 @@ const exportCSV = () => {
 
   const fruttiData = frutti.map(f => ({
     ID: f.id,
-    Nome: f.nome,
+    Cognome: f.cognome,
     Categoria: f.categoria,
     Descrizione: f.descrizione
   }));

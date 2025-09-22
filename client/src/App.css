@@ -2,7 +2,7 @@
 * {
   margin: 0;
   box-sizing: border-box;
-  overflow:auto;
+  overflow: auto;
   word-break: break-word;
 }
 
@@ -10,7 +10,7 @@ body, html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   height: 100%;
   background-color: #ecf0f1;
-  font-size:18px;
+  font-size: 18px;
 }
 
 li {
@@ -49,11 +49,10 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 8px;
 }
-input,textarea:focus{
+input, textarea:focus {
   outline: none;
   border: 2px solid #ccc;
 }
-
 
 .container {
   display: flex;
@@ -68,7 +67,6 @@ input,textarea:focus{
   background-color: #ecf0f1;
   padding: 1rem;
   flex-shrink: 0;
-
 }
 
 .sidebar h4 {
@@ -86,30 +84,28 @@ input,textarea:focus{
   color: #2c3e50;
 }
 
-
-.forma-ricerca input{
+.forma-ricerca input {
   width: calc(100% - 6px);
 }
 .forma-ricerca button {
-  margin-top:4px;
+  margin-top: 4px;
 }
 
-.appuntiFormDisplayNone{
+.appuntiFormDisplayNone {
   display: none;
 }
 
-.utentiFormDisplayNone{
+.utentiFormDisplayNone {
   display: none;
 }
 
-.fruttiFormDisplayNone{
-  display: none;
-}
-.adminFormDisplayNone{
+.fruttiFormDisplayNone {
   display: none;
 }
 
-
+.adminFormDisplayNone {
+  display: none;
+}
 
 /*** LINK SUPERIORI ***/
 .top-nav {
@@ -136,8 +132,6 @@ input,textarea:focus{
   margin: 0;
 }
 
-
-
 .top-nav-links a {
   text-decoration: none;
   color: #ecf0f1;
@@ -151,7 +145,6 @@ input,textarea:focus{
 .top-nav-links a:hover {
   border-bottom: 3px solid #fff;
 }
-
 
 .nav-link.active {
   color: lightblue;
@@ -168,7 +161,7 @@ input,textarea:focus{
   cursor: pointer;
 }
 
-.main-content{
+.main-content {
   flex: 1;
   height: 100%;
   background-color: #ecf0f1;
@@ -176,19 +169,40 @@ input,textarea:focus{
   overflow-y: auto;
 }
 
-
-.content{
+.content {
   position: relative;
   margin-top: 90px;
   word-break: break-all;
   word-break: break-word;
 }
 
-.carico-dati{
-  color: #ff9900;
+.carico-dati-container {
+  min-height: 24px; /* Altezza riservata per evitare layout shift */
+  display: flex;
+  align-items: center;
+  transition: opacity 0.3s ease;
+  /* 📌 Aggiunto: sfondo leggero per integrare il messaggio nel design */
+  background: rgba(255, 255, 255, 0.8);
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 10px; /* Spazio sotto il messaggio */
 }
 
-.toggleLink{
+/* Messaggio di caricamento */
+.carico-dati {
+  /* 📌 Modificato: colore più morbido e coerente */
+  color: #e76f51; /* Arancione più caldo, meno aggressivo */
+  opacity: 0.9; /* 📌 Leggermente meno opaco per un look più elegante */
+  transition: opacity 0.3s ease;
+  font-size: 1rem;
+}
+
+/* Quando il contenitore è vuoto, manteniamo lo spazio ma nascondiamo il contenuto */
+.carico-dati-container:empty {
+  opacity: 0;
+}
+
+.toggleLink {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -201,8 +215,8 @@ input,textarea:focus{
   transition: 0.3s ease-in-out;
   width: 160px;
   text-align: center;
-  background-color: rgba(255,255,255, 0.7);
-  border: 1px solid rgba(0,0,0, 0.1);
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .toggleLink:hover {
@@ -218,11 +232,11 @@ input,textarea:focus{
   padding-left: 0px;
 }
 
-.repartoNome li{
+.repartoNome li {
   display: inline;
-  padding:0 20px;
+  padding: 0 20px;
 }
-.repartoNome a{
+.repartoNome a {
   text-decoration: none;
   font-size: 24px;
   color: blue;
@@ -245,6 +259,9 @@ input,textarea:focus{
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   padding: 1px;
+  /* 📌 Aggiunto per garantire che la lista abbia un'altezza definita e non interferisca con la paginazione */
+  min-height: 0;
+  flex-grow: 1;
 }
 
 .article-item-wrapper {
@@ -259,7 +276,7 @@ input,textarea:focus{
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
- 
+
 .article-item {
   position: relative;
   height: 210px;
@@ -285,11 +302,11 @@ input,textarea:focus{
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-.article-wrapper-admin div{
+.article-wrapper-admin div {
   display: inline-block;
   padding: 6px 20px 0px 20px;
 }
- 
+
 .article-item-admin {
   position: relative;
   height: auto;
@@ -368,7 +385,7 @@ input,textarea:focus{
 .btn-delete:hover {
   background-color: #cfcfcf;
 }
- 
+
 .btn-salva {
   background-color: #28a745;
   color: white;
@@ -383,8 +400,6 @@ input,textarea:focus{
   background-color: #dc3545;
   color: white;
 }
-
-
 
 .modal {
   position: fixed;
@@ -411,13 +426,14 @@ input,textarea:focus{
   overflow-x: auto;
 }
 
-
 /*** PAGINAZIONE ***/
-.paginationWrap{
+.paginationWrap {
   width: 100%;
-  position: absolute;
-  left: 0px;
-  bottom: 20px;
+  /* 📌 Modificato: rimosso position: absolute per integrare la paginazione nel flusso del contenuto */
+  position: static;
+  padding: 20px 0;
+  /* 📌 Aggiunto per garantire che la paginazione appaia sotto la lista */
+  margin-top: 20px;
 }
 
 .pagination {
@@ -450,7 +466,8 @@ input,textarea:focus{
   opacity: 0.6;
 }
 
-.forma-ricerca button, .forma-ricerca input {
+.forma-ricerca button,
+.forma-ricerca input {
   width: 100%;
   border-radius: 4px;
 }
@@ -476,7 +493,6 @@ input,textarea:focus{
   color: gray;
   font-weight: bold;
 }
-
 
 .container-login {
   display: flex;
@@ -579,10 +595,8 @@ input,textarea:focus{
   transform: scale(0.98);
 }
 
-
-
 @media (max-width: 1440px) {
-  .forma-ricerca input{
+  .forma-ricerca input {
     width: calc(100% - 12px);
   }
   .forma-ricerca button {
@@ -593,20 +607,21 @@ input,textarea:focus{
     grid-template-columns: 1fr;
   }
 
-  .paginationWrap{
-    display: flex;
+  .paginationWrap {
+    /* 📌 Modificato: rimosso padding-top eccessivo */
     position: static;
-    padding-top:100px;
+    padding: 20px 0;
+    margin-top: 20px;
     height: auto;
     width: 100%;
   }
-  .pagination{
+  .pagination {
     width: 100%;
   }
 }
 
 @media (max-width: 1024px) {
-  .forma-ricerca input{
+  .forma-ricerca input {
     width: calc(100% - 12px);
   }
   .forma-ricerca button {
@@ -617,18 +632,17 @@ input,textarea:focus{
     grid-template-columns: 1fr;
   }
 
-
-  .paginationWrap{
-    display: flex;
+  .paginationWrap {
+    /* 📌 Modificato: rimosso padding-top eccessivo */
     position: static;
-    padding-top:100px;
+    padding: 20px 0;
+    margin-top: 20px;
     height: auto;
     width: 100%;
   }
-  .pagination{
+  .pagination {
     width: 100%;
   }
-
 }
 
 /* MEDIA QUERY */
@@ -637,7 +651,7 @@ input,textarea:focus{
     display: flex;
     flex-direction: column;
     padding: 0;
-    margom:0;
+    margin: 0;
   }
 
   .top-nav {
@@ -668,22 +682,21 @@ input,textarea:focus{
     position: relative;
     z-index: 1;
   }
-    .content{
+  .content {
     position: relative;
     margin-top: 6px;
   }
 
-  .toggleLink{
+  .toggleLink {
     margin: 10px 0;
   }
 
-
-  .categories div{
+  .categories div {
     display: inline-block;
-    padding-right:10px;
+    padding-right: 10px;
   }
 
-  .forma-ricerca{
+  .forma-ricerca {
     width: 100%;
     margin-bottom: 0px;
   }
@@ -709,13 +722,12 @@ input,textarea:focus{
     text-anchor: center;
   }
 
-  .forma-login input{
+  .forma-login input {
     width: 100%;
   }
-  .forma-login button{
+  .forma-login button {
     margin-top: 10px;
   }
-
 
   .article-list {
     grid-template-columns: 1fr;
@@ -725,20 +737,20 @@ input,textarea:focus{
     padding-left: 4px;
   }
 
-  .paginationWrap{
-    display: flex;
+  .paginationWrap {
+    /* 📌 Modificato: ridotto l'altezza per evitare spazi eccessivi */
     position: static;
-    height: 240px;
+    padding: 10px 0;
+    margin-top: 10px;
+    height: auto;
     width: 100%;
   }
-  .pagination{
+  .pagination {
     width: 100%;
   }
-
 }
 
 @media (max-width: 480px) {
-
   .reparti {
     display: flex;
     flex-direction: row;
@@ -749,7 +761,7 @@ input,textarea:focus{
     display: flex;
     flex-direction: column;
     padding: 0;
-    margom:0;
+    margin: 0;
   }
 
   .top-nav {
@@ -776,7 +788,7 @@ input,textarea:focus{
     margin: 10px;
   }
 
-  .sidebar h4{
+  .sidebar h4 {
     padding-top: 8px;
     padding-bottom: 10px;
   }
@@ -789,12 +801,12 @@ input,textarea:focus{
     z-index: 1;
   }
 
-  .content{
+  .content {
     position: relative;
     margin-top: 6px;
   }
 
-  .article-wrapper-admin div{
+  .article-wrapper-admin div {
     padding: 6px 8px 0px 8px;
   }
 
@@ -804,9 +816,9 @@ input,textarea:focus{
     align-items: center;
   }
 
-  .repartoNome li{
+  .repartoNome li {
     display: inline;
-    padding:0 6px;
+    padding: 0 6px;
     font-weight: normal;
   }
 
@@ -823,18 +835,19 @@ input,textarea:focus{
     padding: 10px 10px;
   }
 
-  .paginationWrap{
-    display: flex;
+  .paginationWrap {
+    /* 📌 Modificato: ridotto l'altezza e il padding per schermi piccoli */
     position: static;
-    padding-top:1px !important;
-    height: 140px;
+    padding: 10px 0;
+    margin-top: 10px;
+    height: auto;
   }
 
-  .pagination{
+  .pagination {
     width: 100%;
   }
 
-  .forma-ricerca{
+  .forma-ricerca {
     width: 100%;
     margin-bottom: 0px;
   }
@@ -872,5 +885,4 @@ input,textarea:focus{
   .title-login {
     font-size: 1.5rem;
   }
-
 }
