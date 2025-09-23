@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const URL = `${process.env.REACT_APP_API_URL}/api/admin`;
+const URL = `${process.env.REACT_APP_API_URL}/api/adminDemo`;
 
 // 📥 GET – получить всех пользователей
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {

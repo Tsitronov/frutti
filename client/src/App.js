@@ -17,16 +17,14 @@ function App() {
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth, userCategoria, setUserCategoria }}>
       <Routes>
-        <Route path="/utenti" element={<Utenti />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/appunti" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />
-        <Route path="/report" element={<ProtectedRoute><Report /></ProtectedRoute>} />
-        <Route path="/" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
-        <Route path="/generale" element={<Generale />} />
+        <Route path="/utentiDemo" element={<Utenti />} />
+        <Route path="/loginDemo" element={<Login />} />
+        <Route path="/appuntiDemo" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />
+        <Route path="/reportDemo" element={<ProtectedRoute><Report /></ProtectedRoute>} />
+        <Route path="/generaleDemo" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
         <Route index element={<ProtectedRoute><Generale /></ProtectedRoute>} />
-        <Route path="*" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
         <Route
-          path="/admin"
+          path="/adminDemo"
           element={
             <ProtectedRoute requireAdmin={true}>
               <Admin />

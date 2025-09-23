@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 
-const URL = `${process.env.REACT_APP_API_URL}/api/utenti`;
+const URL = `${process.env.REACT_APP_API_URL}/api/utentiDemo`;
 
 
 // 📥 Carica tutti gli utenti

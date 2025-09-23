@@ -15,7 +15,7 @@ const Navbar = () => {
       <ul className="top-nav-links">
         <li>
           <NavLink
-            to="/appunti"
+            to="/appuntiDemo"
             className={({ isActive }) =>
               isActive ? 'nav-link active' : 'nav-link'
             }
@@ -25,7 +25,7 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/generale"
+            to="/generaleDemo"
             className={({ isActive }) =>
               isActive ? 'nav-link active' : 'nav-link'
             }
@@ -35,7 +35,7 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/utenti"
+            to="/utentiDemo"
             className={({ isActive }) =>
               isActive ? 'nav-link active' : 'nav-link'
             }
@@ -45,7 +45,7 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/report"
+            to="/reportDemo"
             className={({ isActive }) =>
               isActive ? 'nav-link active' : 'nav-link'
             }
@@ -56,7 +56,7 @@ const Navbar = () => {
         { localStorage.getItem('userCategoria') === '3' &&
         <li>
           <NavLink
-            to="/admin"
+            to="/adminDemo"
             className={({ isActive }) =>
               isActive ? 'nav-link active' : 'nav-link'
             }
@@ -77,7 +77,7 @@ const Navbar = () => {
         ) : (
           <li>
             <NavLink
-              to="/login"
+              to="/loginDemo"
               className={({ isActive }) =>
                 isActive ? 'nav-link active' : 'nav-link'
               }

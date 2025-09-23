@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // URL del backend
-const URL = `${process.env.REACT_APP_API_URL}/api/appunti`;
+const URL = `${process.env.REACT_APP_API_URL}/api/appuntiDemo`;
 
 // 📥 Carica appunti dal server
 export const fetchAppunti = createAsyncThunk('appunti/fetchAppunti', async () => {
