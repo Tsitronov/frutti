@@ -1,10 +1,12 @@
 import { useContext, useState } from 'react';
+import { useSelector } from "react-redux";
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../context';
 
 const Login = () => {
+  const { isLoading, error } = useSelector((state) => state.users);
   const { setIsAuth, setUserCategoria } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState('');
@@ -44,6 +46,8 @@ const Login = () => {
         <div className="content-login">
           <h3 className="title-login">Pagina di accesso</h3>
           <div className="article-list-login">
+            {isLoading && <p>Loading...</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
             <form className="form-login" onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="text"
