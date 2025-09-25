@@ -4,10 +4,13 @@ import { AuthContext } from '../../../context';
 
 const Navbar = () => {
   const { isAuth, setIsAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const logout = () => {
     setIsAuth(false);
     localStorage.removeItem('auth');
+    localStorage.removeItem('userCategoria');
+    navigate('/loginDemo', { replace: true });
   };
 
   return (

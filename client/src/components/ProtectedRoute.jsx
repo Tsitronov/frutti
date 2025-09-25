@@ -7,11 +7,11 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
   const location = useLocation();
 
   if (!isAuth) {
-    return <Navigate to="/login" state={{ from: location }} />;
+    return <Navigate to="/loginDemo" state={{ from: location }} replace />;
   }
 
   if (requireAdmin && String(userCategoria) !== '3') {
-    return <Navigate to="/generale" />;
+    return <Navigate to="/generaleDemo" replace />;
   }
 
   return children;
