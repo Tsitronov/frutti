@@ -176,31 +176,6 @@ input, textarea:focus {
   word-break: break-word;
 }
 
-.carico-dati-container {
-  min-height: 24px; /* Altezza riservata per evitare layout shift */
-  display: flex;
-  align-items: center;
-  transition: opacity 0.3s ease;
-  /* 📌 Aggiunto: sfondo leggero per integrare il messaggio nel design */
-  background: rgba(255, 255, 255, 0.8);
-  padding: 8px;
-  border-radius: 4px;
-  margin-bottom: 10px; /* Spazio sotto il messaggio */
-}
-
-/* Messaggio di caricamento */
-.carico-dati {
-  /* 📌 Modificato: colore più morbido e coerente */
-  color: #e76f51; /* Arancione più caldo, meno aggressivo */
-  opacity: 0.9; /* 📌 Leggermente meno opaco per un look più elegante */
-  transition: opacity 0.3s ease;
-  font-size: 1rem;
-}
-
-/* Quando il contenitore è vuoto, manteniamo lo spazio ma nascondiamo il contenuto */
-.carico-dati-container:empty {
-  opacity: 0;
-}
 
 .toggleLink {
   display: flex;
