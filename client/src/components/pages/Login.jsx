@@ -1,15 +1,15 @@
 import { useContext, useState } from 'react';
-import { useSelector } from "react-redux";
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../context';
 
 const Login = () => {
-  const { isLoading } = useSelector((state) => state.users); // только isLoading
   const { setIsAuth, setUserCategoria } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [localError, setLocalError] = useState(''); // переименовали
+
+  const [loading, setLoading] = useState(false);   // ✅ локальный loading
+  const [localError, setLocalError] = useState(''); // ✅ локальная ошибка
 
   const {
     register,
@@ -18,8 +18,12 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    setLoading(true); // показать Loading...
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/loginDemo`, data);
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/loginDemo`,
+        data
+      );
 
       if (response.data.message === 'Login riuscito') {
         setIsAuth(true);
@@ -37,6 +41,8 @@ const Login = () => {
     } catch (err) {
       console.error('Error:', err.response?.data, err.message);
       setLocalError(err.response?.data?.message || 'Неверный логин или пароль');
+    } finally {
+      setLoading(false); // ✅ спрятать Loading...
     }
   };
 
@@ -46,8 +52,8 @@ const Login = () => {
         <div className="content-login">
           <h3 className="title-login">Pagina di accesso</h3>
           <div className="article-list-login">
-            {isLoading && <p className="loading-login">Loading...</p>} {/* новый класс */}
-            {localError && <p className="error-login">{localError}</p>} {/* локальный error */}
+            {loading && <p className="loading-login">Loading...</p>}
+            {localError && <p className="error-login">{localError}</p>}
 
             <form className="form-login" onSubmit={handleSubmit(onSubmit)}>
               <input
@@ -56,15 +62,21 @@ const Login = () => {
                 placeholder="Inserisci il login"
                 {...register('username', { required: 'È richiesto l`accesso' })}
               />
-              {errors.username && <p className="error-login">{errors.username.message}</p>}
+              {errors.username && (
+                <p className="error-login">{errors.username.message}</p>
+              )}
 
               <input
                 type="password"
                 className="input-login"
                 placeholder="Inserisci la password"
-                {...register('password', { required: 'La password è obbligatoria' })}
+                {...register('password', {
+                  required: 'La password è obbligatoria',
+                })}
               />
-              {errors.password && <p className="error-login">{errors.password.message}</p>}
+              {errors.password && (
+                <p className="error-login">{errors.password.message}</p>
+              )}
 
               <button className="button-login">entrare</button>
             </form>
