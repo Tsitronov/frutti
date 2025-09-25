@@ -12,6 +12,12 @@ This is a demo version of a versatile CRM system built with React, Redux, Expres
 - [Try the Demo](https://demo-website-flame.vercel.app/) (guest login: demo_user, password: demo_pass)
 - Note: This is anonymized sample data for demonstration purposes only.
 
+- ![screenshot](./Screenshots_sito/utenti.png)
+- ![screenshot](./Screenshots_sito/generale.png)
+- ![screenshot](./Screenshots_sito/report.png)
+- ![screenshot](./Screenshots_sito/modal_categorii.png)
+- ![screenshot](./Screenshots_sito/admin.png)
+
 ## Usage
 1. Explore the "Utenti" page to see user info.
 2. Use the "Generale" section for general facility or project details.
@@ -41,6 +47,12 @@ This is a demo version of a versatile CRM system built with React, Redux, Expres
 ## Демо
 - [Попробовать демо](https://demo-website-flame.vercel.app/) (гостевой вход: login: demo_user, пароль: demo_pass)
 - Примечание: Это анонимизированные тестовые данные, предназначенные только для демонстрации.
+
+- ![Скриншот](./Screenshots_sito/utenti.png)
+- ![Скриншот](./Screenshots_sito/generale.png)
+- ![Скриншот](./Screenshots_sito/report.png)
+- ![Скриншот](./Screenshots_sito/modal_categorii.png)
+- ![Скриншот](./Screenshots_sito/admin.png)
 
 ## Использование
 1. Изучите страницу "Utenti" для просмотра информации о пользователях.
