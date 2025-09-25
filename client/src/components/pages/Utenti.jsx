@@ -210,7 +210,7 @@ const Utenti = () => {
       <div className="main-content">
         <div className="content">
           <div className="carico-dati-container">
-            {isLoading && <span className="carico-dati">⏳ Carico dati... locale se offline</span>}
+            {isLoading && <div className="loading-spinner"></div>}
             {error && <span className="carico-dati">{error}</span>}
           </div>
 

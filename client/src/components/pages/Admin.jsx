@@ -101,7 +101,7 @@ const Admin = () => {
           )}
 
           <div className="article-list">
-            {isLoading && <p>Loading...</p>}
+            {isLoading && <div className="loading-spinner"></div>}
             {error && <p style={{ color: "red" }}>{error}</p>}
 
             {lista.map((item) => (

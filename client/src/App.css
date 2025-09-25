@@ -595,17 +595,19 @@ input, textarea:focus {
   transform: scale(0.98);
 }
 
-
-.loading-login {
-  color: var(--primary-color);
-  font-weight: 600;
-  text-align: center;
-  animation: blink 1s infinite;
+.loading-spinner {
+  border: 3px solid #f3f3f3; /* светлый фон */
+  border-top: 3px solid var(--primary-color); /* основной цвет */
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto; /* центрируем */
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 @media (max-width: 1440px) {

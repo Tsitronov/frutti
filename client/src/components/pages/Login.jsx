@@ -52,7 +52,7 @@ const Login = () => {
         <div className="content-login">
           <h3 className="title-login">Pagina di accesso</h3>
           <div className="article-list-login">
-            {loading && <p className="loading-login">Loading...</p>}
+            {loading && <div className="loading-spinner"></div>}
             {localError && <p className="error-login">{localError}</p>}
 
             <form className="form-login" onSubmit={handleSubmit(onSubmit)}>
