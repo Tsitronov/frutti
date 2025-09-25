@@ -6,10 +6,10 @@ import axios from 'axios';
 import { AuthContext } from '../../context';
 
 const Login = () => {
-  const { isLoading, error } = useSelector((state) => state.users);
+  const { isLoading, error: reduxError } = useSelector((state) => state.users);
   const { setIsAuth, setUserCategoria } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [error, setError] = useState('');
+  const [localError, setLocalError] = useState('');
 
   const {
     register,
@@ -29,14 +29,14 @@ const Login = () => {
         setUserCategoria(categoria);
         localStorage.setItem('userCategoria', categoria);
 
-        setError('');
+        setLocalError('');
         navigate('/generaleDemo');
       } else {
-        setError('Неожиданный ответ от сервера');
+        setLocalError('Неожиданный ответ от сервера');
       }
     } catch (err) {
       console.error('Error:', err.response?.data, err.message);
-      setError(err.response?.data?.message || 'Неверный логин или пароль');
+      setLocalError(err.response?.data?.message || 'Неверный логин или пароль');
     }
   };
 
@@ -47,7 +47,9 @@ const Login = () => {
           <h3 className="title-login">Pagina di accesso</h3>
           <div className="article-list-login">
             {isLoading && <p>Loading...</p>}
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {reduxError && <p style={{ color: "red" }}>{reduxError}</p>}
+            {localError && <p className="error-login">{localError}</p>}
+
             <form className="form-login" onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="text"
@@ -67,8 +69,6 @@ const Login = () => {
 
               <button className="button-login">entrare</button>
             </form>
-
-            {error && <p className="error-login">{error}</p>}
           </div>
         </div>
       </div>
