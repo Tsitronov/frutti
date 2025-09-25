@@ -13,8 +13,8 @@ This is a demo version of a versatile CRM system built with React, Redux, Expres
 - Note: This is anonymized sample data for demonstration purposes only.
 
 - ![screenshot](./client/Screenshots_sito/utenti.png)
-- ![screenshot](./client/Screenshots_sito/generale.png)
 - ![screenshot](./client/Screenshots_sito/report.png)
+- ![screenshot](./client/Screenshots_sito/generale.png)
 - ![screenshot](./client/Screenshots_sito/modal_categorii.png)
 - ![screenshot](./client/Screenshots_sito/admin.png)
 
@@ -49,8 +49,8 @@ This is a demo version of a versatile CRM system built with React, Redux, Expres
 - Примечание: Это анонимизированные тестовые данные, предназначенные только для демонстрации.
 
 - ![Скриншот](./client/Screenshots_sito/utenti.png)
-- ![Скриншот](./client/Screenshots_sito/generale.png)
 - ![Скриншот](./client/Screenshots_sito/report.png)
+- ![Скриншот](./client/Screenshots_sito/generale.png)
 - ![Скриншот](./client/Screenshots_sito/modal_categorii.png)
 - ![Скриншот](./client/Screenshots_sito/admin.png)
 
