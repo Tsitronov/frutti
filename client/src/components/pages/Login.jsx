@@ -6,10 +6,10 @@ import axios from 'axios';
 import { AuthContext } from '../../context';
 
 const Login = () => {
-  const { isLoading, error: reduxError } = useSelector((state) => state.users);
+  const { isLoading } = useSelector((state) => state.users); // только isLoading
   const { setIsAuth, setUserCategoria } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [localError, setLocalError] = useState('');
+  const [localError, setLocalError] = useState(''); // переименовали
 
   const {
     register,
@@ -46,9 +46,8 @@ const Login = () => {
         <div className="content-login">
           <h3 className="title-login">Pagina di accesso</h3>
           <div className="article-list-login">
-            {isLoading && <p>Loading...</p>}
-            {reduxError && <p style={{ color: "red" }}>{reduxError}</p>}
-            {localError && <p className="error-login">{localError}</p>}
+            {isLoading && <p className="loading-login">Loading...</p>} {/* новый класс */}
+            {localError && <p className="error-login">{localError}</p>} {/* локальный error */}
 
             <form className="form-login" onSubmit={handleSubmit(onSubmit)}>
               <input
