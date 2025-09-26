@@ -210,7 +210,7 @@ const Utenti = () => {
       <div className="main-content">
         <div className="content">
           <div className="carico-dati-container">
-            {isLoading && <div className="loading-spinner"></div>}
+
             {error && <span className="carico-dati">{error}</span>}
           </div>
 
@@ -258,16 +258,54 @@ const Utenti = () => {
                   rows={4}
                 />
                 {modificaId ? (
-                  <>
-                    <button type="button" className="btn-modifica" onClick={handleSalva}>💾 Cambia</button>
-                    <button type="button" className="btn-salva" onClick={handleAggiungi}>➕ Inserisci</button>
-                    <button type="button" className="btn-elimina" onClick={resetForm}>❌ Annulla</button>
-                  </>
-                ) : (
-                  <>
-                    <button type="button" className="btn-salva" onClick={handleAggiungi}>➕ Aggiungi</button>
-                    <button type="button" className="btn-elimina" onClick={resetForm}>❌ Annulla</button>
-                  </>
+                <>
+                  <button
+                    type="button"
+                    className="btn-modifica"
+                    onClick={handleSalva}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? <span className="spinner"></span> : '💾 Cambia'}
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn-salva"
+                    onClick={handleAggiungi}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? <span className="spinner"></span> : '➕ Inserisci'}
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn-elimina"
+                    onClick={resetForm}
+                    disabled={isLoading}
+                  >
+                    ❌ Annulla
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="btn-salva"
+                    onClick={handleAggiungi}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? <span className="spinner"></span> : '➕ Aggiungi'}
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn-elimina"
+                    onClick={resetForm}
+                    disabled={isLoading}
+                  >
+                    ❌ Annulla
+                  </button>
+                </>
                 )}
               </div>
             </div>

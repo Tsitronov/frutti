@@ -1,4 +1,4 @@
-const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiungiFrutto, toggleFruttiForm}) => {
+const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiungiFrutto, toggleFruttiForm, isLoading}) => {
 	return(
     <div className="generaleForm fruttiFormDisplayNone">
 		  <div className="modal">
@@ -29,13 +29,21 @@ const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiun
 
         {form.id !== null ? (
           <>
-            <button type="button" onClick={handleSalva}> 💾 Salva </button>
-            <button type="button" className="btn-elimina" onClick={toggleFruttiForm}>❌ Annulla</button>
+            <button type="button" onClick={handleSalva} disabled={isLoading} >
+             {isLoading ? <span className="spinner"></span> : '💾 Cambia'} 
+            </button>
+            <button type="button" className="btn-elimina" onClick={toggleFruttiForm} disabled={isLoading} >
+              ❌ Annulla
+            </button>
           </>
         ) : (
           <>
-            <button type="button" onClick={handleAggiungiFrutto}> ➕ Aggiungi </button>
-            <button type="button" className="btn-elimina" onClick={toggleFruttiForm}>❌ Annulla</button>
+            <button type="button" onClick={handleAggiungiFrutto} disabled={isLoading} > 
+              {isLoading ? <span className="spinner"></span> : '➕ Aggiungi'}
+            </button>
+            <button type="button" className="btn-elimina" onClick={toggleFruttiForm} disabled={isLoading} >
+              ❌ Annulla
+            </button>
           </>
         )}
         </div>
