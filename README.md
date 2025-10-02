@@ -9,7 +9,7 @@ This is a demo version of a versatile CRM system built with React, Redux, Expres
 - Admin panel for data control
 
 ## Demo
-- [Try the Demo](https://demo-website-flame.vercel.app/) (guest login: demo_user, password: demo_pass)
+- [Try the Demo](https://demo-website-flame.vercel.app/) (guest(read-only): login: demo, password: demo123)
 - Note: This is anonymized sample data for demonstration purposes only.
 
 - ![screenshot](./client/Screenshots_sito/utenti.png)
@@ -17,6 +17,8 @@ This is a demo version of a versatile CRM system built with React, Redux, Expres
 - ![screenshot](./client/Screenshots_sito/generale.png)
 - ![screenshot](./client/Screenshots_sito/modal_categorii.png)
 - ![screenshot](./client/Screenshots_sito/admin.png)
+- ![screenshot](./client/Screenshots_sito/exel_filtri.png)
+- ![screenshot](./client/Screenshots_sito/team_photos.png)
 
 ## Usage
 1. Explore the "Utenti" page to see user info.
@@ -45,7 +47,7 @@ This is a demo version of a versatile CRM system built with React, Redux, Expres
 - Панель администратора для контроля данных
 
 ## Демо
-- [Попробовать демо](https://demo-website-flame.vercel.app/) (гостевой вход: login: demo_user, пароль: demo_pass)
+- [Попробовать демо](https://demo-website-flame.vercel.app/) (гостевой вход (read-only): login: demo, пароль: demo123)
 - Примечание: Это анонимизированные тестовые данные, предназначенные только для демонстрации.
 
 - ![Скриншот](./client/Screenshots_sito/utenti.png)
@@ -53,6 +55,8 @@ This is a demo version of a versatile CRM system built with React, Redux, Expres
 - ![Скриншот](./client/Screenshots_sito/generale.png)
 - ![Скриншот](./client/Screenshots_sito/modal_categorii.png)
 - ![Скриншот](./client/Screenshots_sito/admin.png)
+- ![screenshot](./client/Screenshots_sito/exel_filtri.png)
+- ![screenshot](./client/Screenshots_sito/team_photos.png)
 
 ## Использование
 1. Изучите страницу "Utenti" для просмотра информации о пользователях.
