@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate  } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../../context';
 
@@ -13,9 +13,21 @@ const Navbar = () => {
     navigate('/loginDemo', { replace: true });
   };
 
+  const categoria = localStorage.getItem('userCategoria');
+
   return (
     <nav className="top-nav">
       <ul className="top-nav-links">
+        <li>
+          <NavLink
+            to="/sulsito"
+            className={({ isActive }) =>
+              isActive ? 'nav-link active' : 'nav-link'
+            }
+          >
+            Descrizione
+          </NavLink>
+        </li>
         <li>
           <NavLink
             to="/appuntiDemo"
@@ -26,6 +38,18 @@ const Navbar = () => {
             Appunti
           </NavLink>
         </li>
+        {(categoria === '2' || categoria === '3') && (
+        <li>
+          <NavLink
+            to="/importExcel"
+            className={({ isActive }) =>
+              isActive ? 'nav-link active' : 'nav-link'
+            }
+          >
+            Excel
+          </NavLink>
+        </li>
+        )}
         <li>
           <NavLink
             to="/generaleDemo"
@@ -46,6 +70,7 @@ const Navbar = () => {
             Utenti
           </NavLink>
         </li>
+        {(categoria === '2' || categoria === '3') && (
         <li>
           <NavLink
             to="/reportDemo"
@@ -56,7 +81,8 @@ const Navbar = () => {
             Report
           </NavLink>
         </li>
-        { localStorage.getItem('userCategoria') === '3' &&
+        )}
+        { (categoria === '3') && (
         <li>
           <NavLink
             to="/adminDemo"
@@ -67,7 +93,21 @@ const Navbar = () => {
             Admin
           </NavLink>
         </li>
-        }
+        )}
+
+        { (categoria === '3') && (
+        <li>
+          <NavLink
+            to="/team-photos"
+            className={({ isActive }) =>
+              isActive ? 'nav-link active' : 'nav-link'
+            }
+          >
+            Team Photos
+          </NavLink>
+        </li>
+        )}
+
 
         {isAuth ? (
            
