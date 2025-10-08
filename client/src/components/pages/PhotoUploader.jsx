@@ -37,7 +37,7 @@ const PhotoUploader = () => {
   // 👉 Очистка ошибки
   const handleClearError = () => dispatch(clearError());
 
-  if (loading) return <div>Загрузка...</div>;
+  {loading && <div className="loading-spinner"></div>}
 
   return (
     <div style={{ border: '1px solid #ccc', padding: '20px', margin: '20px 0' }}>
