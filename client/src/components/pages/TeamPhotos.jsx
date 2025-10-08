@@ -11,17 +11,16 @@ const TeamPhotos = () => {
     dispatch(fetchPhotos());
   }, [dispatch]);
 
-  if (loading) return <div>Загрузка фото...</div>;
-  if (error) return <div>Ошибка: {error}</div>;
-
   return (
     <div className="container">
       <Navbar />
 
       <div className="main-content">
         <div className="content">
-          <h2>Командные фото</h2>
-          <p>Всего: {photos.length}/5</p>
+
+          {loading && <div className="loading-spinner"></div>}
+          {error && <p style={{ color: "red" }}>{error}</p>}
+
 
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
             {photos.map((photo) => (
@@ -30,10 +29,10 @@ const TeamPhotos = () => {
                   src={photo.url}  // 👉 Используем Cloudinary URL (photo.path)
                   alt={photo.filename || `Фото ${photo.id}`} 
                   loading="lazy" 
-                  sizes="(max-width: 300px) 100vw, 50vw"
-                  width="300"
-                  height="200"
-                  style={{ borderRadius: '8px'}}
+                  sizes="(max-width: 600px) 100vw, 50vw"
+                  width="400"
+                  height="auto"
+                  style={{ borderRadius: '8px', objectFit: 'contain',}}
                   crossOrigin="anonymous"  // 👉 Для CORS
                   onError={(e) => { 
                     e.target.style.display = 'none'; 

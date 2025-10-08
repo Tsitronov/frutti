@@ -148,7 +148,7 @@ function ImportExcel() {
             onChange={handleFileChange} 
             style={{ marginBottom: '10px' }}
           />
-          <button onClick={handleUpload} disabled={loading || !file}>
+          <button onClick={handleUpload} disabled={loading || !file}  style={{ marginLeft: '10px' }}>
             {loading ? 'Загрузка...' : 'Загрузить и сохранить'}
           </button>
           
@@ -161,7 +161,7 @@ function ImportExcel() {
                 <h4>Фильтры (несколько условий):</h4>
                 {filters.map((filter, index) => (
                   <div key={filter.id} style={{ marginBottom: '10px', padding: '5px', border: '1px solid #ddd', borderRadius: '3px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <div style={{ display: 'block', alignItems: 'center', padding: '5px' }}>
                       {index > 0 && (
                         <select
                           value={filter.logic}
@@ -185,7 +185,7 @@ function ImportExcel() {
                       <select
                         value={filter.operator}
                         onChange={(e) => updateFilter(filter.id, 'operator', e.target.value)}
-                        style={{ width: '100px', padding: '5px' }}
+                        style={{ width: '120px', padding: '5px', margin: '10px 10px' }}
                       >
                         <option value="contains">Содержит</option>
                         <option value="equals">Равно</option>
@@ -207,7 +207,7 @@ function ImportExcel() {
                     </div>
                   </div>
                 ))}
-                <div style={{ marginTop: '10px' }}>
+                <div style={{ marginTop: '10px', padding: '5px', marginBottom: '10px' }}>
                   <button onClick={addFilter} style={{ marginRight: '10px' }}>Добавить условие</button>
                   <select
                     value={globalLogic}
@@ -224,30 +224,56 @@ function ImportExcel() {
                 </p>
               </div>
 
-              <div style={{ overflowX: 'auto' }}>
-                <h3>Таблица (фильтрована):</h3>
-                <table 
-                  border="1" 
-                  style={{ 
-                    borderCollapse: 'collapse', 
-                    width: '100%', 
-                    fontSize: '14px' 
+              <div
+                style={{
+                  overflowX: 'auto',
+                  WebkitOverflowScrolling: 'touch', // плавная прокрутка на iPhone
+                  marginTop: '20px',
+                  border: '1px solid #ddd',
+                  borderRadius: '8px',
+                }}
+              >
+                <h3 style={{ fontSize: '16px', padding: '10px' }}>Таблица (фильтрована):</h3>
+
+                <table
+                  border="1"
+                  style={{
+                    borderCollapse: 'collapse',
+                    minWidth: '600px', // 👉 чтобы не сжималась слишком на мобильных
+                    width: '100%',
+                    fontSize: '14px',
                   }}
                 >
                   <thead>
-                    <tr style={{ backgroundColor: '#f0f0f0' }}>
+                    <tr style={{ backgroundColor: '#f9f9f9' }}>
                       {headers.map((key) => (
-                        <th key={key} style={{ padding: '8px', textAlign: 'left' }}>
+                        <th
+                          key={key}
+                          style={{
+                            padding: '10px',
+                            textAlign: 'left',
+                            whiteSpace: 'nowrap', // 👉 предотвращает перенос текста
+                          }}
+                        >
                           {key}
                         </th>
                       ))}
                     </tr>
                   </thead>
+
                   <tbody>
                     {filteredData.map((row, index) => (
                       <tr key={index}>
                         {headers.map((key) => (
-                          <td key={key} style={{ padding: '8px' }}>
+                          <td
+                            key={key}
+                            style={{
+                              padding: '8px',
+                              borderTop: '1px solid #eee',
+                              verticalAlign: 'top',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
                             {row[key] ?? ''}
                           </td>
                         ))}
@@ -255,7 +281,10 @@ function ImportExcel() {
                     ))}
                   </tbody>
                 </table>
-                {filteredData.length === 0 && <p>Нет результатов. Измени фильтры.</p>}
+
+                {filteredData.length === 0 && (
+                  <p style={{ padding: '10px', color: 'gray' }}>Нет результатов. Измени фильтры.</p>
+                )}
               </div>
             </div>
           )}

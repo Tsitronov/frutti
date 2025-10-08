@@ -76,11 +76,11 @@ const PhotoUploader = () => {
       )}
 
       <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px' }}>
-        {photos.map((photo) => (
-          <div key={photo.id} style={{ margin: '5px', textAlign: 'center' }}>
+        {photos.map((photo, index) => (
+          <div key={photo.id ?? index} style={{ margin: '5px', textAlign: 'center' }}>
             <img
-              src={photo.url}  // 👉 Используем Cloudinary URL (photo.path)
-              alt={photo.filename}
+              src={photo.url || photo.path || ''}  // 👉 Используем Cloudinary URL (photo.path)
+              alt={photo.filename || 'photo'}
               width="100"
               style={{ borderRadius: '6px', cursor: 'pointer' }}
               crossOrigin="anonymous"  // 👉 Для CORS
