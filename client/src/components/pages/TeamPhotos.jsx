@@ -16,11 +16,9 @@ const TeamPhotos = () => {
       <Navbar />
 
       <div className="main-content">
+        {loading && <div className="loading-spinner"></div>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <div className="content">
-
-          {loading && <div className="loading-spinner"></div>}
-          {error && <p style={{ color: "red" }}>{error}</p>}
-
 
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
             {photos.map((photo) => (
