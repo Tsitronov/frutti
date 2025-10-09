@@ -10,8 +10,6 @@ import {
 
 import Navbar from "../UI/navbar/Navbar";
 
-import PhotoUploader from './PhotoUploader';
-
 
 const Admin = () => {
   const dispatch = useDispatch();
@@ -65,11 +63,6 @@ const Admin = () => {
 
       <div className="main-content">
         <div className="content">
-
-          <PhotoUploader />
-          {/* Ссылка на просмотр */}
-          <a href="/team-photos">Перейти к просмотру фото</a>
-
 
           <div className="toggleLink" onClick={toggleAdminForm}>
             {showForm ? "Chiudi form" : "Add new +"}

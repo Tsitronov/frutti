@@ -6,6 +6,7 @@ import Generale from './components/pages/Generale';
 import Appunti from './components/pages/Appunti';
 import ImportExcel from './components/pages/ImportExcel';
 import Utenti from './components/pages/Utenti';
+import UtentiTable from './components/pages/UtentiTable';
 import Report from './components/pages/Report';
 import Admin from './components/pages/Admin';
 import TeamPhotos from './components/pages/TeamPhotos';
@@ -22,6 +23,7 @@ function App() {
     <AuthContext.Provider value={{ isAuth, setIsAuth, userCategoria, setUserCategoria }}>
       <Routes>
         <Route path="/utentiDemo" element={<ProtectedRoute><Utenti /></ProtectedRoute>} />
+        <Route path="/utentiTable" element={<ProtectedRoute><UtentiTable /></ProtectedRoute>} />
         <Route path="/loginDemo" element={<Login />} />
         <Route path="/appuntiDemo" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />
         <Route path="/importExcel" element={<ProtectedRoute><ImportExcel /></ProtectedRoute>} />
@@ -42,7 +44,7 @@ function App() {
         <Route
           path="/team-photos"
           element={
-            <ProtectedRoute requireAdmin={true}>
+            <ProtectedRoute>
               <TeamPhotos />
             </ProtectedRoute>
           }

@@ -73,6 +73,18 @@ const Navbar = () => {
         {(categoria === '2' || categoria === '3') && (
         <li>
           <NavLink
+            to="/utentiTable"
+            className={({ isActive }) =>
+              isActive ? 'nav-link active' : 'nav-link'
+            }
+          >
+            UtentiTable
+          </NavLink>
+        </li>
+        )}
+        {(categoria === '2' || categoria === '3') && (
+        <li>
+          <NavLink
             to="/reportDemo"
             className={({ isActive }) =>
               isActive ? 'nav-link active' : 'nav-link'
@@ -95,7 +107,7 @@ const Navbar = () => {
         </li>
         )}
 
-        { (categoria === '3') && (
+        {(categoria === '2' || categoria === '3') && (
         <li>
           <NavLink
             to="/team-photos"
