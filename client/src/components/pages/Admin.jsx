@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 
 import {
   fetchUsers,
@@ -64,9 +65,14 @@ const Admin = () => {
       <div className="main-content">
         <div className="content">
 
-          <div className="toggleLink" onClick={toggleAdminForm}>
-            {showForm ? "Chiudi form" : "Add new +"}
+          <div  className="article-list">
+            <div className="toggleLink" onClick={toggleAdminForm}>
+              {showForm ? "Chiudi form" : "Add new +"}
+            </div>
+            <NavLink className="toggleLink" to="/importExcel"> Excel </NavLink>
+            <NavLink className="toggleLink" to="/sulSito"> descrizione </NavLink>
           </div>
+          
 
           {showForm && (
             <div className="adminForm">

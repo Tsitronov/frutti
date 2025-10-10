@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { NavLink } from "react-router-dom";
 import Navbar from "../UI/navbar/Navbar";
 import { fetchUtenti, caricaUtentiLocalStorage } from "../../redux/utentiSlice";
 
@@ -110,7 +111,7 @@ const UtentiTable = () => {
 
       <div className="main-content">
         <div className="content">
-          <h3>Tutti Utenti</h3>
+          <h3>Tutti Utenti <NavLink to="/report"> report </NavLink></h3>
 
           {isLoading && <div className="loading-spinner">Caricamento...</div>}
           {error && <p className="error-login" style={{ color: 'red' }}>{error}</p>}

@@ -38,18 +38,6 @@ const Navbar = () => {
             Appunti
           </NavLink>
         </li>
-        {(categoria === '2' || categoria === '3') && (
-        <li>
-          <NavLink
-            to="/importExcel"
-            className={({ isActive }) =>
-              isActive ? 'nav-link active' : 'nav-link'
-            }
-          >
-            Excel
-          </NavLink>
-        </li>
-        )}
         <li>
           <NavLink
             to="/generaleDemo"
@@ -79,18 +67,6 @@ const Navbar = () => {
             }
           >
             UtentiTable
-          </NavLink>
-        </li>
-        )}
-        {(categoria === '2' || categoria === '3') && (
-        <li>
-          <NavLink
-            to="/reportDemo"
-            className={({ isActive }) =>
-              isActive ? 'nav-link active' : 'nav-link'
-            }
-          >
-            Report
           </NavLink>
         </li>
         )}
