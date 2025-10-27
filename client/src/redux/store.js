@@ -4,6 +4,7 @@ import fruttiReducer from "./fruttiSlice";
 import utentiReducer from "./utentiSlice";
 import usersReducer from "./usersSlice";
 import photosReducer from "./photosSlice";
+import themeReducer from "./themeSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     frutti: fruttiReducer,
     utenti: utentiReducer,
     users: usersReducer,
-    photos: photosReducer
+    photos: photosReducer,
+    theme: themeReducer
   },
 });

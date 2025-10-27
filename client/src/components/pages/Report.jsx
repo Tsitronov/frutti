@@ -147,13 +147,13 @@ const exportCSV = () => {
   return (
     <div className="container">
       <Navbar />
-      <div className="main-content">
-        <div className="content">
-          <h3>Экспорт данных</h3>
+      <div className="main-content-table-utenti">
+        <div className="content-table-utenti">
+          <h3> Esporta dati utenti </h3>
           <div className="article-list">
-            <button onClick={exportPDF}>📄 Экспорт в PDF</button>
-            <button onClick={exportExcel}>📊 Экспорт в Excel</button>
-            <button onClick={exportCSV}>📑 Экспорт в CSV</button>
+            <button onClick={exportPDF}>📄 Esporta in PDF</button>
+            <button onClick={exportExcel}>📊 Esporta in Excel</button>
+            <button onClick={exportCSV}>📑 Esporta in CSV</button>
           </div>
         </div>
       </div>

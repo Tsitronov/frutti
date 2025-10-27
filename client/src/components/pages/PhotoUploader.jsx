@@ -24,75 +24,75 @@ const PhotoUploader = () => {
     if (selectedFiles.length > 0) {
       await dispatch(uploadPhotos(selectedFiles));
       setSelectedFiles([]);
-      dispatch(fetchPhotos());  // 👉 Обновляем список
+      dispatch(fetchPhotos());
     }
   };
 
   // Удаление фото
   const handleDelete = async (photoId) => {
     await dispatch(deletePhoto(photoId));
-    dispatch(fetchPhotos());  // 👉 Обновляем список
+    dispatch(fetchPhotos());
   };
 
   // 👉 Очистка ошибки
   const handleClearError = () => dispatch(clearError());
 
-  {loading && <div className="loading-spinner"></div>}
-
   return (
-    <div style={{ border: '1px solid #ccc', padding: '20px', margin: '20px 0' }}>
-      <h4>Управление фото (макс. 5)</h4>
-      <p>Текущих: {photos.length}/5</p>
+    <div className="photo-uploader">
+      {loading && <div className="loading-spinner"></div>}
+      <h4 className="uploader-title">Gestione foto (max. 5)</h4>
+      <p className="uploader-count">Attuali: {photos.length}/5</p>
 
       {photos.length < 5 && (
-        <>
+        <div className="uploader-controls">
           <input
             type="file"
             multiple
             accept="image/jpeg,image/png"
             onChange={handleFileSelect}
             disabled={loading}
+            className="file-input"
           />
           <button
             onClick={handleUpload}
             disabled={selectedFiles.length === 0 || loading}
-            style={{ marginLeft: '10px' }}
+            className="upload-button"
           >
-            Загрузить ({selectedFiles.length})
+            Carica ({selectedFiles.length})
           </button>
-        </>
+        </div>
       )}
 
       {error && (
-        <p style={{ color: 'red' }}>
-          Ошибка фото: {error}
-          <button onClick={handleClearError} style={{ marginLeft: '10px' }}>
-            Очистить
+        <div className="uploader-error">
+          <p className="error-text">Errore foto: {error}</p>
+          <button onClick={handleClearError} className="clear-error-button">
+            Pulisci
           </button>
-          <button onClick={() => dispatch(fetchPhotos())} style={{ marginLeft: '5px' }}>
-            Повторить
+          <button onClick={() => dispatch(fetchPhotos())} className="retry-button">
+            Riprova
           </button>
-        </p>
+        </div>
       )}
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px' }}>
+      <div className="uploader-photo-grid">
         {photos.map((photo, index) => (
-          <div key={photo.id ?? index} style={{ margin: '5px', textAlign: 'center' }}>
+          <div key={photo.id || index} className="uploader-photo-item">
             <img
-              src={photo.url || photo.path || ''}  // 👉 Используем Cloudinary URL (photo.path)
-              alt={photo.filename || 'photo'}
+              src={photo.url || photo.path || ''}
+              alt={photo.filename || `photo ${photo.id || index}`}
               width="100"
-              style={{ borderRadius: '6px', cursor: 'pointer' }}
-              crossOrigin="anonymous"  // 👉 Для CORS
+              crossOrigin="anonymous"
+              className="uploader-photo-image"
               onError={(e) => {
                 e.target.style.opacity = '0.4';
-                e.target.title = 'Ошибка загрузки изображения';
-                console.error('Image load error:', e.target.src);  // 👉 Лог в консоль
+                e.target.title = 'Errore nel caricamento dell’immagine';
+                console.error('Image load error:', e.target.src);
               }}
             />
-            <div>
-              <button onClick={() => handleDelete(photo.id)} disabled={loading}>
-                Удалить
+            <div className="uploader-photo-actions">
+              <button onClick={() => handleDelete(photo.id)} disabled={loading} className="delete-button">
+                Delete
               </button>
             </div>
           </div>

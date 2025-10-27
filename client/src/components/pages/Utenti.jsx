@@ -15,6 +15,7 @@ import Pagination from "../UI/pagination/Pagination";
 import ModalUtenteCercato from "../UI/modal/ModalUtenteCercato";
 import ModalUtente from "../UI/modal/ModalUtente";
 import RicercaUtenteForm from "../UI/forms/RicercaUtenteForm";
+import SidebarCategories from "../UI/sidebar/SidebarCategories"; // Assuming path
 
 const Utenti = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,6 @@ const Utenti = () => {
     altro: "",
   });
   const [modificaId, setModificaId] = useState(null);
-  const [campoFiltro, setCampoFiltro] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState({ campo: "", valore: "", cognomi: [] });
   const [cognomeRicerca, setCognomeRicerca] = useState("");
@@ -47,6 +47,7 @@ const Utenti = () => {
   const [mostraModalInfo, setMostraModalInfo] = useState(false);
   const [scrollStates, setScrollStates] = useState({});
   const testoRefs = useRef({});
+
 
   const itemsPerPage = 4;
 
@@ -68,6 +69,7 @@ const Utenti = () => {
       }
     }
   }, [utenti]);
+
 
   // 📌 Ottimizzazione: reparti
   const reparti = useMemo(() => {
@@ -178,64 +180,61 @@ const Utenti = () => {
     dispatch(setCurrentPage(numero));
   };
 
+
   return (
     <div className="container">
       <Navbar />
 
-      <div className="sidebar">
-        <RicercaUtenteForm
-          cognomeRicerca={cognomeRicerca}
-          setCognomeRicerca={setCognomeRicerca}
-          cognomiUnici={cognomiUnici}
-          utenti={utenti}
-          setUtenteTrovato={setUtenteTrovato}
-          setMostraModalInfo={setMostraModalInfo}
-        />
-        <div className="categories">
-          {repartoSelezionato && (
-            <>
-              <h4>reparto {repartoSelezionato}</h4>
-              {["bagno", "barba", "alimentazione", "accessori", "autonomia", "vestiti"].map((campo) => (
-                <div key={campo}>
-                  <a href="#" onClick={(e) => { e.preventDefault(); apriFinestraFiltro(campo); }} style={{ textTransform: "capitalize" }}>
-                    {campo}
-                  </a>
-                </div>
-              ))}
-            </>
-          )}
-        </div>
-      </div>
-
-      <div className="main-content">
+      <div className="main-content" style={{paddingTop:"3rem"}}>
         <div className="content">
-          <div className="carico-dati-container">
 
+          <div className="carico-dati-container">
             {error && <span className="carico-dati">{error}</span>}
           </div>
 
-          <div className="reparti">
-            <ul className="repartoNome">
-              Reparti - 
-              {reparti.map((reparto, i) => (
-                <li key={i}>
-                  <a
-                    href="#"
-                    onClick={() => {
-                      setRepartoSelezionato(reparto);
-                      localStorage.setItem("ultimoReparto", reparto);
-                    }}
-                    style={{ color: reparto === repartoSelezionato ? "#0606ff" : "#777", fontWeight: reparto === repartoSelezionato ? "700" : "300" }}
-                  >
-                    {reparto}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <div className={"sidebar"}>
+            <RicercaUtenteForm
+              cognomeRicerca={cognomeRicerca}
+              setCognomeRicerca={setCognomeRicerca}
+              cognomiUnici={cognomiUnici}
+              utenti={utenti}
+              setUtenteTrovato={setUtenteTrovato}
+              setMostraModalInfo={setMostraModalInfo}
+            />
 
-            {localStorage.getItem('userCategoria') !== '1' &&
-              <div className="toggleLink" onClick={toggleUtentiForm}>Add new &nbsp;&nbsp;<p>+</p></div>
-            }
+            <div className="sidebar-reparti"> Reparto 
+              <ul className="repartoNome reparti-list">
+                {reparti.map((reparto, i) => (
+                  <li key={i}>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setRepartoSelezionato(reparto);
+                        localStorage.setItem("ultimoReparto", reparto);
+                      }}
+                      style={{ 
+                        color: reparto === repartoSelezionato ? "#0606ff" : "#777", 
+                      }}
+                    >
+                      {reparto}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+
+              {localStorage.getItem('userCategoria') !== '1' &&
+                <div className="toggleLink" onClick={toggleUtentiForm}> Aggiungi 🙂 </div>
+              }
+            </div>
+
+
+            <SidebarCategories
+              repartoSelezionato={repartoSelezionato}
+              categories={["bagno", "barba", "alimentazione", "accessori", "autonomia", "vestiti"]}
+              apriFinestraFiltro={apriFinestraFiltro}
+            />
+
           </div>
 
           <div className="utentiForm utentiFormDisplayNone">
@@ -258,100 +257,105 @@ const Utenti = () => {
                   rows={4}
                 />
                 {modificaId ? (
-                <>
-                  <button
-                    type="button"
-                    className="btn-modifica"
-                    onClick={handleSalva}
-                    disabled={isLoading}
-                  >
-                    {isLoading ? <span className="spinner"></span> : '💾 Cambia'}
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn-salva"
-                    onClick={handleAggiungi}
-                    disabled={isLoading}
-                  >
-                    {isLoading ? <span className="spinner"></span> : '➕ Inserisci'}
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn-elimina"
-                    onClick={resetForm}
-                    disabled={isLoading}
-                  >
-                    ❌ Annulla
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    type="button"
-                    className="btn-salva"
-                    onClick={handleAggiungi}
-                    disabled={isLoading}
-                  >
-                    {isLoading ? <span className="spinner"></span> : '➕ Aggiungi'}
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn-elimina"
-                    onClick={resetForm}
-                    disabled={isLoading}
-                  >
-                    ❌ Annulla
-                  </button>
-                </>
+                  <>
+                    <button
+                      type="button"
+                      className="btn-salva"
+                      onClick={handleSalva}
+                      disabled={isLoading}
+                    >
+                      {isLoading ? <span className="spinner"></span> : '💾 Salva'}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-elimina"
+                      onClick={resetForm}
+                      disabled={isLoading}
+                    >
+                      ❌ Annulla
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="btn-salva"
+                      onClick={handleAggiungi}
+                      disabled={isLoading}
+                    >
+                      {isLoading ? <span className="spinner"></span> : '➕ Aggiungi'}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-elimina"
+                      onClick={resetForm}
+                      disabled={isLoading}
+                    >
+                      ❌ Annulla
+                    </button>
+                  </>
                 )}
               </div>
             </div>
           </div>
 
           <div className="article-list">
-            {utentiVisibili.map((item) => (
-              <div key={item.id} className="article-item-wrapper item-lungo-container">
-                <div className="article-item item-info" style={{ cursor: "pointer" }}>
-                  <div
-                    ref={(el) => testoRefs.current[item.id] = el}
-                    onScroll={() => handleScroll(item.id)}
-                    className={item.altro && item.altro.length > 7 ? 'testo-lungo' : ''}
-                  >
-                    <div className="item-title">
-                      <strong>stanza - {item.stanza}</strong>
-                      <strong className="blue"> – {item.cognome} </strong>
+            {utentiVisibili.map((item) => {
+              // Расширенное условие: скролл если altro >7 ИЛИ суммарная длина >60 (адаптировано для лучшей активации)
+              const haLungoContenuto = (item.altro?.length || 0) > 7 || 
+                Object.values({ alimentazione: item.alimentazione, autonomia: item.autonomia, bagno: item.bagno, barba: item.barba, vestiti: item.vestiti, accessori: item.accessori })
+                  .reduce((sum, val) => sum + (val?.length || 0), 0) > 10;
+
+              return (
+                <div key={item.id} className="article-item-wrapper">
+                  <div className="article-item item-info" style={{ cursor: "pointer" }}>
+                    <div
+                      ref={(el) => testoRefs.current[item.id] = el}
+                      onScroll={() => handleScroll(item.id)}
+                      className={haLungoContenuto ? 'testo-lungo' : 'testo-normale'}
+                    >
+                      <div className="item-info">
+                        <div key="stanza"> {item.stanza} </div>
+                        <div key="cognome"> <strong> {item.cognome} </strong>  </div>
+                        <div key="alimentazione" title="alimentazione" className={getColorClass(item.alimentazione)}><strong> 🍽️ </strong> {item.alimentazione} </div>
+                        <div key="autonomia" title="autonomia" className={getColorClass(item.autonomia)}><strong> 🦽 </strong> {item.autonomia} </div>
+                        <div key="bagno" title="bagno"><strong> 🚿 </strong> {item.bagno}</div>
+                        <div key="barba" title="barba"><strong> 🪒 </strong> {item.barba}</div>
+                        <div key="vestiti" title="vestiti"><strong> 👕 </strong> {item.vestiti}</div>
+                        <div key="accessori" title="accessori"><strong> 🕶 </strong> {item.accessori}</div>
+                        <div key="altro" title="altro"><strong> ℹ️ </strong> {item.altro}</div> 
+                      </div>
                     </div>
-                    <div className="item-info">
-                      <div><strong>alimentazione:</strong> <strong className={getColorClass(item.alimentazione)}>{item.alimentazione}</strong></div>
-                      <div><strong>autonomia:</strong> <strong className={getColorClass(item.autonomia)}>{item.autonomia}</strong></div>
-                      <div><strong>bagno:</strong> {item.bagno}</div>
-                      <div><strong>barba:</strong> {item.barba}</div>
-                      <div><strong>vestiti:</strong> {item.vestiti}</div>
-                      <div><strong>accessori:</strong> {item.accessori}</div>
-                      <div><strong>altro:</strong> {item.altro}</div>
-                    </div>
+                    {haLungoContenuto && scrollStates[item.id] && (
+                      <button 
+                        className="freccia-scroll" 
+                        onClick={(e) => { e.stopPropagation(); scrollToTop(item.id); }}
+                      >
+                        ↑
+                      </button>
+                    )}
+
+                    {localStorage.getItem('userCategoria') !== '1' && (
+                      <div className="actions" onClick={(e) => e.stopPropagation()}>
+                        <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
+                        <button 
+                          type="button" 
+                          className="btn-azione btn-delete" 
+                          onClick={(e) => { 
+                            e.stopPropagation(); 
+                            if (window.confirm("Sicuro che delete?")) {
+                              dispatch(eliminaUtente(item.id));
+                            }
+                          }}
+                        >
+                          ❌
+                        </button>
+                      </div>
+                    )}
                   </div>
-
-                  {item.altro && item.altro.length > 7 && scrollStates[item.id] && (
-                    <button className="freccia-scroll" onClick={() => scrollToTop(item.id)}>↑</button>
-                  )}
-
-                  {localStorage.getItem('userCategoria') !== '1' &&
-                    <div className="actions">
-                      <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
-                      <button type="button" className="btn-azione btn-delete" onClick={() => {
-                        if (window.confirm("Sicuro che delete?")) {
-                          dispatch(eliminaUtente(item.id));
-                        }
-                      }}>❌</button>
-                    </div>
-                  }
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <Pagination
@@ -360,6 +364,7 @@ const Utenti = () => {
             currentPage={currentPage}
             onPageChange={cambiaPagina}
           />
+          
         </div>
       </div>
 

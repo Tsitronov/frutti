@@ -1,4 +1,4 @@
-const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiungiFrutto, toggleFruttiForm, isLoading}) => {
+const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiungiFrutto, toggleFruttiForm, isLoading }) => {
 	return(
     <div className="generaleForm fruttiFormDisplayNone">
 		  <div className="modal">
@@ -24,7 +24,8 @@ const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiun
             value={form.descrizione || ""}
             onChange={(e) => {setForm({ ...form, descrizione: e.target.value })}}
             placeholder="Descrizione"
-          ></textarea>
+          >
+          </textarea>
 
 
         {form.id !== null ? (

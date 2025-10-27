@@ -38,7 +38,7 @@ const Appunti = () => {
   const [scrollStates, setScrollStates] = useState({});
   const testoRefs = useRef({});
 
-  const itemsPerPage = 4;
+  const itemsPerPage = 7;
 
   // 📌 Ottimizzazione: categorieUniche
   const categorieUniche = useMemo(() => {
@@ -133,7 +133,12 @@ const Appunti = () => {
     <div className="container">
       <Navbar />
 
-      <div className="sidebar">
+      <div className="sidebar-appunti">
+
+      {localStorage.getItem('userCategoria') !== '1' &&
+        <div className="toggleLink" onClick={toggleAppuntiForm}> Aggiungi 🙂 </div>
+      }
+
         <div className="categories">
           {categorieUniche.map((cat, index) => (
             <div key={index}>
@@ -145,16 +150,11 @@ const Appunti = () => {
         </div>
       </div>
 
-      <div className="main-content">
+      <div className="main-content" style={{paddingTop:"6rem"}}>
         <div className="content">
           <div className="carico-dati-container">
-
             {error && <span className="carico-dati">{error}</span>}
           </div>
-
-          {localStorage.getItem('userCategoria') !== '1' &&
-            <div className="toggleLink" onClick={toggleAppuntiForm}>Add new &nbsp;&nbsp;<p>+</p></div>
-          }
 
           <AppuntiForm
             form={form}
@@ -166,18 +166,18 @@ const Appunti = () => {
             isLoading = {isLoading}
           />
 
-          <div className="article-list">
+          <div className="article-list-appunti">
             {appuntiVisibili.map(item => (
-              <div key={item.id} className="article-item-wrapper">
-                <div className="article-item">
+              <div key={item.id} className="article-wrapper-appunti">
+                <div className="article-item-appunti">
                   <div className="item-info" style={{ fontWeight: "bold" }}>
-                    {item.categoria} - {item.nome}
+                    <p> {item.nome} <small> ({item.categoria})</small></p>
                   </div>
                   <div className="item-lungo-container">
                     <p
                       ref={(el) => (testoRefs.current[item.id] = el)}
                       onScroll={() => handleScroll(item.id)}
-                      className={isLungo(item.descrizione) ? 'testo-lungo' : ''}
+                      className={isLungo(item.descrizione) ? 'testo-lungo-appunti' : 'testo-lungo-normale'}
                     >
                       {item.descrizione}
                     </p>

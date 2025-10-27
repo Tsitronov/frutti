@@ -34,7 +34,7 @@ const Login = () => {
         localStorage.setItem('userCategoria', categoria);
 
         setLocalError('');
-        navigate('/generaleDemo');
+        navigate('/utentiDemo');
       } else {
         setLocalError('Неожиданный ответ от сервера');
       }

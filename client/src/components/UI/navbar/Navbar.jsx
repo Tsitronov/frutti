@@ -1,123 +1,154 @@
-import { NavLink, useNavigate  } from 'react-router-dom';
-import { useContext } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../../../context';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { toggleTheme } from "../../../redux/themeSlice";
 
 const Navbar = () => {
   const { isAuth, setIsAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme);
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  // Detect mobile resize
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Close menu on outside click — с фиксом для hamburger
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (isMobileMenuOpen && !e.target.closest('.mobile-hamburger, .mobile-menu-overlay')) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isMobileMenuOpen]);
+
+  // Sync theme to body class
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+  }
+  }, [theme]);
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   const logout = () => {
     setIsAuth(false);
     localStorage.removeItem('auth');
     localStorage.removeItem('userCategoria');
-    navigate('/loginDemo', { replace: true });
+    navigate('/login', { replace: true });
+    closeMobileMenu();
   };
 
   const categoria = localStorage.getItem('userCategoria');
 
+  const toggleThemeLocal = () => {
+    dispatch(toggleTheme());
+  };
+
+  const toggleMobileMenu = (e) => {
+    e.stopPropagation();
+    setIsMobileMenuOpen((prev) => !prev);
+  };
+
+  // Common NavLink component for reuse
+  const NavItem = ({ to, children, onClick }) => (
+    <NavLink
+      to={to}
+      onClick={onClick}
+      className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+    >
+      {children}
+    </NavLink>
+  );
+
   return (
-    <nav className="top-nav">
-      <ul className="top-nav-links">
-        <li>
-          <NavLink
-            to="/sulsito"
-            className={({ isActive }) =>
-              isActive ? 'nav-link active' : 'nav-link'
-            }
-          >
-            Descrizione
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/appuntiDemo"
-            className={({ isActive }) =>
-              isActive ? 'nav-link active' : 'nav-link'
-            }
-          >
-            Appunti
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/generaleDemo"
-            className={({ isActive }) =>
-              isActive ? 'nav-link active' : 'nav-link'
-            }
-          >
-            Generale
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/utentiDemo"
-            className={({ isActive }) =>
-              isActive ? 'nav-link active' : 'nav-link'
-            }
-          >
-            Utenti
-          </NavLink>
-        </li>
-        {(categoria === '2' || categoria === '3') && (
-        <li>
-          <NavLink
-            to="/utentiTable"
-            className={({ isActive }) =>
-              isActive ? 'nav-link active' : 'nav-link'
-            }
-          >
-            UtentiTable
-          </NavLink>
-        </li>
-        )}
-        { (categoria === '3') && (
-        <li>
-          <NavLink
-            to="/adminDemo"
-            className={({ isActive }) =>
-              isActive ? 'nav-link active' : 'nav-link'
-            }
-          >
-            Admin
-          </NavLink>
-        </li>
-        )}
+    <nav className={`top-nav navbar ${theme}`}>
+      {/* Hamburger Button - Solo su mobile */}
+      {isMobile && (
+        <button 
+          className={`mobile-hamburger ${isMobileMenuOpen ? 'open' : ''}`} 
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      )}
 
-        {(categoria === '2' || categoria === '3') && (
-        <li>
-          <NavLink
-            to="/team-photos"
-            className={({ isActive }) =>
-              isActive ? 'nav-link active' : 'nav-link'
-            }
+      {/* Mobile Overlay Menu */}
+      {isMobile && isMobileMenuOpen && (
+        <div className="mobile-menu-overlay open">
+          <NavItem to="/appuntiDemo" onClick={closeMobileMenu}>Appunti</NavItem>
+          <NavItem to="/generaleDemo" onClick={closeMobileMenu}>Generale</NavItem>
+          <NavItem to="/utentiDemo" onClick={closeMobileMenu}>Utenti</NavItem>
+          {(categoria === '2' || categoria === '3') && (
+            <NavItem to="/utentiTable" onClick={closeMobileMenu}>UtentiTable</NavItem>
+          )}
+          {categoria === '3' && (
+            <NavItem to="/adminDemo" onClick={closeMobileMenu}>Admin</NavItem>
+          )}
+          {(categoria === '2' || categoria === '3') && (
+            <NavItem to="/team-photos" onClick={closeMobileMenu}>Team Photos</NavItem>
+          )}
+          {isAuth ? (
+            <button className="nav-link logout" onClick={logout}>Logout</button>
+          ) : (
+            <NavItem to="/loginDemo" onClick={closeMobileMenu}>Login</NavItem>
+          )}
+          <button 
+            className="theme-toggle-mobile" 
+            onClick={(e) => { e.stopPropagation(); toggleThemeLocal(); closeMobileMenu(); }}
           >
-            Team Photos
-          </NavLink>
-        </li>
-        )}
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
+        </div>
+      )}
 
+      {/* Desktop Nav Links - Nascondi su mobile */}
+      {!isMobile && (
+        <ul className="top-nav-links">
+          <li><NavItem to="/appuntiDemo">Appunti</NavItem></li>
+          <li><NavItem to="/generaleDemo">Generale</NavItem></li>
+          <li><NavItem to="/utentiDemo">Utenti</NavItem></li>
+          {(categoria === '2' || categoria === '3') && <li><NavItem to="/utentiTable">UtentiTable</NavItem></li>}
+          {categoria === '3' && <li><NavItem to="/adminDemo">Admin</NavItem></li>}
+          {(categoria === '2' || categoria === '3') && <li><NavItem to="/team-photos">Team Photos</NavItem></li>}
+          {isAuth ? (
+            <li>
+              <span className="nav-link logout" onClick={logout}> Logout </span>
+            </li>
+          ) : (
+            <li><NavItem to="/loginDemo">Login</NavItem></li>
+          )}
+        </ul>
+      )}
 
-        {isAuth ? (
-           
-            <span 
-              className='nav-link logout '
-              onClick={logout}>
-              Logout
-            </span>
-           
-        ) : (
-          <li>
-            <NavLink
-              to="/loginDemo"
-              className={({ isActive }) =>
-                isActive ? 'nav-link active' : 'nav-link'
-              }
-            >
-              Login
-            </NavLink>
-          </li>
-        )}
-      </ul>
+      {/* Theme Toggle - Sempre visibile, ma position fixed su desktop */}
+      <button 
+        className="theme-toggle-mobile" 
+        onClick={(e) => { 
+          e.stopPropagation(); 
+          toggleThemeLocal(); 
+        }}
+      >
+        {theme === "light" ? "🌙" : "☀️"}
+      </button>
     </nav>
   );
 };

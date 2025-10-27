@@ -11,32 +11,32 @@ function ImportExcel() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
-  // Фильтры: массив объектов условий
+  // Filtri: array di oggetti condizioni
   const [filters, setFilters] = useState([
-    { id: 1, column: 'all', operator: 'contains', value: '', logic: 'AND' } // Первое по умолчанию
+    { id: 1, column: 'all', operator: 'contains', value: '', logic: 'AND' } // Primo per default
   ]);
-  const [globalLogic, setGlobalLogic] = useState('AND'); // Общая логика (AND/OR для всех)
+  const [globalLogic, setGlobalLogic] = useState('AND'); // Logica generale (AND/OR per tutti)
 
-  // Автозагрузка данных из БД
+  // Caricamento automatico dati dal DB
   useEffect(() => {
     fetchData();
   }, []);
 
-  // Фильтрация при изменении data или filters
+  // Filtraggio al cambiamento di data o filters
   useEffect(() => {
     if (data.length === 0) {
       setFilteredData([]);
       return;
     }
 
-    // Функция проверки условия для одной строки
+    // Funzione di controllo condizione per una riga
     const checkCondition = (row, filter) => {
       const colKey = filter.column === 'all' ? null : filter.column;
       let cellValue = '';
       if (colKey === null) {
-        // По всем колонкам
+        // Su tutte le colonne
         const values = Object.values(row).map(v => String(v || '').toLowerCase());
-        cellValue = values.join(' '); // Объединяем для поиска
+        cellValue = values.join(' '); // Uniamo per la ricerca
       } else {
         cellValue = String(row[colKey] || '').toLowerCase();
       }
@@ -45,24 +45,23 @@ function ImportExcel() {
       switch (filter.operator) {
         case 'contains': return cellValue.includes(valLower);
         case 'equals': return cellValue === valLower;
-        case 'gt': return parseFloat(row[colKey]) > parseFloat(filter.value); // Для чисел
+        case 'gt': return parseFloat(row[colKey]) > parseFloat(filter.value); // Per numeri
         case 'lt': return parseFloat(row[colKey]) < parseFloat(filter.value);
         case 'empty': return cellValue.trim() === '';
         default: return true;
       }
     };
 
-    // Фильтруем с логикой
+    // Filtrare con logica
     let filtered = [...data];
-    if (filters.some(f => f.value.trim())) { // Если есть непустые
+    if (filters.some(f => f.value.trim())) { // Se ci sono non vuoti
       filtered = filtered.filter(row => {
         let result = checkCondition(row, filters[0]);
         for (let i = 1; i < filters.length; i++) {
           const nextResult = checkCondition(row, filters[i]);
           result = filters[i].logic === 'AND' ? result && nextResult : result || nextResult;
         }
-        return globalLogic === 'AND' ? result : !result; // Global OR инвертирует, но лучше переделать на дерево — для простоты AND по умолчанию
-        // Примечание: Для полного OR/AND-дерева используй nested logic, но здесь линейно
+        return globalLogic === 'AND' ? result : !result;
       });
     }
     setFilteredData(filtered);
@@ -75,7 +74,7 @@ function ImportExcel() {
         setData(response.data.data);
       }
     } catch (err) {
-      console.error('Ошибка загрузки данных:', err);
+      console.error('Errore caricamento dati:', err);
     }
   };
 
@@ -86,7 +85,7 @@ function ImportExcel() {
 
   const handleUpload = async () => {
     if (!file) {
-      setError('Выбери файл!');
+      setError('Scegli il file!');
       return;
     }
     setLoading(true);
@@ -101,33 +100,33 @@ function ImportExcel() {
       });
       if (response.data.success) {
         setData(response.data.data);
-        setError('dati rinovati');
+        setError('Dati rinnovati');
         fetchData(); 
       }
     } catch (err) {
-      setError('Ошибка: ' + (err.response?.data?.error || err.message));
+      setError('Errore: ' + (err.response?.data?.error || err.message));
     } finally {
       setLoading(false);
     }
   };
 
-  // Добавляем новое условие
+  // Aggiungi nuova condizione
   const addFilter = () => {
     const newId = filters.length + 1;
     setFilters([...filters, { id: newId, column: 'all', operator: 'contains', value: '', logic: 'AND' }]);
   };
 
-  // Удаляем условие
+  // Rimuovi condizione
   const removeFilter = (id) => {
     setFilters(filters.filter(f => f.id !== id));
   };
 
-  // Обновляем условие
+  // Aggiorna condizione
   const updateFilter = (id, field, value) => {
     setFilters(filters.map(f => f.id === id ? { ...f, [field]: value } : f));
   };
 
-  // Сброс фильтров
+  // Reset filtri
   const clearFilters = () => {
     setFilters([{ id: 1, column: 'all', operator: 'contains', value: '', logic: 'AND' }]);
     setGlobalLogic('AND');
@@ -139,34 +138,35 @@ function ImportExcel() {
     <div className="container">
       <Navbar />
 
-      <div className="main-content">
-        <div className="content">
-          <h2>Загрузка Excel с несколькими условиями поиска</h2>
+      <div className="main-content-table-utenti">
+        <div className="content-table-utenti"  style={{marginTop:"5rem"}}>
+          <h4> Caricamento Excel con multiple condizioni di ricerca </h4>
+          <div className="filtri">
           <input 
             type="file" 
             accept=".xlsx, .xls" 
             onChange={handleFileChange} 
-            style={{ marginBottom: '10px' }}
           />
-          <button onClick={handleUpload} disabled={loading || !file}  style={{ marginLeft: '10px' }}>
-            {loading ? 'Загрузка...' : 'Загрузить и сохранить'}
+          <button onClick={handleUpload} disabled={loading || !file}>
+            {loading ? 'Caricamento...' : 'Carica e salva'}
           </button>
+          </div>
           
           {error && <p style={{ color: 'red' }}>{error}</p>}
           
           {data.length > 0 && (
-            <div style={{ marginTop: '20px' }}>
-              {/* Блок фильтров */}
-              <div style={{ marginBottom: '15px', padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '5px' }}>
-                <h4>Фильтры (несколько условий):</h4>
+            <div>
+              <h4>Filtri (multiple condizioni):</h4>
+              <div className="forma-ricerca">
+                
                 {filters.map((filter, index) => (
-                  <div key={filter.id} style={{ marginBottom: '10px', padding: '5px', border: '1px solid #ddd', borderRadius: '3px' }}>
-                    <div style={{ display: 'block', alignItems: 'center', padding: '5px' }}>
+                  <div key={filter.id} className="filtri">
+                    <div>
                       {index > 0 && (
                         <select
                           value={filter.logic}
                           onChange={(e) => updateFilter(filter.id, 'logic', e.target.value)}
-                          style={{ width: '60px' }}
+                          className="forma-ricerca"
                         >
                           <option value="AND">AND</option>
                           <option value="OR">OR</option>
@@ -175,9 +175,9 @@ function ImportExcel() {
                       <select
                         value={filter.column}
                         onChange={(e) => updateFilter(filter.id, 'column', e.target.value)}
-                        style={{ flex: 1, padding: '5px' }}
+                        className="forma-ricerca"
                       >
-                        <option value="all">Все колонки</option>
+                        <option value="all">Tutte le colonne</option>
                         {headers.map((key) => (
                           <option key={key} value={key}>{key}</option>
                         ))}
@@ -185,76 +185,52 @@ function ImportExcel() {
                       <select
                         value={filter.operator}
                         onChange={(e) => updateFilter(filter.id, 'operator', e.target.value)}
-                        style={{ width: '120px', padding: '5px', margin: '10px 10px' }}
+                        className="forma-ricerca"
                       >
-                        <option value="contains">Содержит</option>
-                        <option value="equals">Равно</option>
-                        <option value="gt">&gt; (больше)</option>
-                        <option value="lt">&lt; (меньше)</option>
-                        <option value="empty">Пусто</option>
+                        <option value="contains">Contiene</option>
+                        <option value="equals">Uguale</option>
+                        <option value="gt">&gt; (maggiore)</option>
+                        <option value="lt">&lt; (minore)</option>
+                        <option value="empty">Vuoto</option>
                       </select>
                       <input
                         type="text"
-                        placeholder="Значение..."
+                        placeholder="Valore..."
                         value={filter.value}
                         onChange={(e) => updateFilter(filter.id, 'value', e.target.value)}
-                        style={{ flex: 2, padding: '5px' }}
                         disabled={filter.operator === 'empty'}
                       />
                       {filters.length > 1 && (
-                        <button onClick={() => removeFilter(filter.id)} style={{ color: 'red' }}>Удалить</button>
+                        <button onClick={() => removeFilter(filter.id)}>Elimina</button>
                       )}
                     </div>
                   </div>
                 ))}
-                <div style={{ marginTop: '10px', padding: '5px', marginBottom: '10px' }}>
-                  <button onClick={addFilter} style={{ marginRight: '10px' }}>Добавить условие</button>
+                <div className="filtri">
+                  <button onClick={addFilter} 
+                    className="btn-elimina">
+                    Aggiungi condizione 
+                  </button>
                   <select
                     value={globalLogic}
                     onChange={(e) => setGlobalLogic(e.target.value)}
-                    style={{ marginRight: '10px' }}
                   >
-                    <option value="AND">Общая логика: AND</option>
-                    <option value="OR">Общая логика: OR</option>
+                    <option value="AND">Logica generale: AND</option>
+                    <option value="OR">Logica generale: OR</option>
                   </select>
-                  <button onClick={clearFilters}>Очистить фильтры</button>
+                  <button onClick={clearFilters}  onClick={addFilter} >Pulisci filtri</button>
                 </div>
-                <p style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                  Найдено строк: {filteredData.length} из {data.length}
+                <p>
+                  Trovate righe: {filteredData.length} su {data.length}
                 </p>
               </div>
 
-              <div
-                style={{
-                  overflowX: 'auto',
-                  WebkitOverflowScrolling: 'touch', // плавная прокрутка на iPhone
-                  marginTop: '20px',
-                  border: '1px solid #ddd',
-                  borderRadius: '8px',
-                }}
-              >
-                <h3 style={{ fontSize: '16px', padding: '10px' }}>Таблица (фильтрована):</h3>
-
-                <table
-                  border="1"
-                  style={{
-                    borderCollapse: 'collapse',
-                    minWidth: '600px', // 👉 чтобы не сжималась слишком на мобильных
-                    width: '100%',
-                    fontSize: '14px',
-                  }}
-                >
+              <div>
+                <table>
                   <thead>
-                    <tr style={{ backgroundColor: '#f9f9f9' }}>
+                    <tr>
                       {headers.map((key) => (
-                        <th
-                          key={key}
-                          style={{
-                            padding: '10px',
-                            textAlign: 'left',
-                            whiteSpace: 'nowrap', // 👉 предотвращает перенос текста
-                          }}
-                        >
+                        <th key={key}>
                           {key}
                         </th>
                       ))}
@@ -266,14 +242,7 @@ function ImportExcel() {
                       <tr key={index}>
                         {headers.map((key) => (
                           <td
-                            key={key}
-                            style={{
-                              padding: '8px',
-                              borderTop: '1px solid #eee',
-                              verticalAlign: 'top',
-                              whiteSpace: 'nowrap',
-                            }}
-                          >
+                            key={key}>
                             {row[key] ?? ''}
                           </td>
                         ))}
@@ -283,7 +252,7 @@ function ImportExcel() {
                 </table>
 
                 {filteredData.length === 0 && (
-                  <p style={{ padding: '10px', color: 'gray' }}>Нет результатов. Измени фильтры.</p>
+                  <p>Nessun risultato. Cambia i filtri.</p>
                 )}
               </div>
             </div>

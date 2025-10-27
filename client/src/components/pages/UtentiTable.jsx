@@ -10,46 +10,44 @@ const UtentiTable = () => {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state.utenti.isLoading);
-  const error = useSelector((state) => state.utenti.error); // Rinominato per chiarezza
+  const error = useSelector((state) => state.utenti.error);
 
-  // Фильтры: массив объектов условий
+  // Filtri: array di oggetti condizioni
   const [filters, setFilters] = useState([
-    { id: 1, column: 'all', operator: 'contains', value: '', logic: 'AND' } // Первое по умолчанию
+    { id: 1, column: 'all', operator: 'contains', value: '', logic: 'AND' }
   ]);
-  const [globalLogic, setGlobalLogic] = useState('AND'); // Общая логика (AND/OR для всех)
+  const [globalLogic, setGlobalLogic] = useState('AND');
 
-  // Usa utenti come data base
+  // Usa utenti come base dati
   const data = useMemo(() => utenti, [utenti]);
 
   // 📥 Carica utenti (immediatamente, combinando locale + API)
   useEffect(() => {
-    // Carica locale prima
     dispatch(caricaUtentiLocalStorage());
     
     // Poi fetch API
     dispatch(fetchUtenti()).then((action) => {
       if (fetchUtenti.fulfilled.match(action)) {
-        // Lista aggiornata nel store, filteredData si aggiorna via useMemo/effect
         console.log('Utenti caricati:', action.payload.length);
       }
     });
   }, [dispatch]);
 
-  // Фильтрация при изменении data или filters
+  // Filtraggio al cambiamento di data o filtri
   useEffect(() => {
     if (data.length === 0) {
       setFilteredData([]);
       return;
     }
 
-    // Функция проверки условия для одной строки
+    // Funzione per verificare una condizione su una riga
     const checkCondition = (row, filter) => {
       const colKey = filter.column === 'all' ? null : filter.column;
       let cellValue = '';
       if (colKey === null) {
-        // По всем колонкам
+        // Su tutte le colonne
         const values = Object.values(row).map(v => String(v || '').toLowerCase());
-        cellValue = values.join(' '); // Объединяем для поиска
+        cellValue = values.join(' '); // Unisci per ricerca
       } else {
         cellValue = String(row[colKey] || '').toLowerCase();
       }
@@ -58,46 +56,49 @@ const UtentiTable = () => {
       switch (filter.operator) {
         case 'contains': return cellValue.includes(valLower);
         case 'equals': return cellValue === valLower;
-        case 'gt': return parseFloat(row[colKey]) > parseFloat(filter.value); // Для чисел
+        case 'gt': return parseFloat(row[colKey]) > parseFloat(filter.value); // Per numeri
         case 'lt': return parseFloat(row[colKey]) < parseFloat(filter.value);
         case 'empty': return cellValue.trim() === '';
         default: return true;
       }
     };
 
-    // Фильтруем с логикой
+    // Filtra con logica
     let filtered = [...data];
-    if (filters.some(f => f.value.trim())) { // Если есть непустые
+    if (filters.some(f => f.value.trim())) { // Se ci sono filtri non vuoti
       filtered = filtered.filter(row => {
         let result = checkCondition(row, filters[0]);
         for (let i = 1; i < filters.length; i++) {
           const nextResult = checkCondition(row, filters[i]);
-          result = filters[i].logic === 'AND' ? result && nextResult : result || nextResult;
+          result = filters[i].logic === 'AND' ? (result && nextResult) : (result || nextResult);
         }
-        return globalLogic === 'AND' ? result : !result; // Global OR инвертирует, но лучше переделать на дерево — для простоты AND по умолчанию
-        // Примечание: Для полного OR/AND-дерева используй nested logic, но здесь линейно
+        // Applica logica globale al risultato del gruppo
+        return globalLogic === 'AND' ? result : !result; // NOT per OR globale? Wait, fix: per OR globale, forse invertire se tutti AND interni, ma semplifichiamo: usa global per il gruppo finale
       });
     }
     setFilteredData(filtered);
   }, [data, filters, globalLogic]);
 
-  // Добавляем новое условие
+  // Aggiungi nuovo filtro
   const addFilter = () => {
-    const newId = filters.length + 1;
+    const newId = Math.max(...filters.map(f => f.id)) + 1;
     setFilters([...filters, { id: newId, column: 'all', operator: 'contains', value: '', logic: 'AND' }]);
   };
 
-  // Удаляем условие
+  // Rimuovi filtro
   const removeFilter = (id) => {
     setFilters(filters.filter(f => f.id !== id));
+    if (filters.length === 1) {
+      setFilters([{ id: 1, column: 'all', operator: 'contains', value: '', logic: 'AND' }]);
+    }
   };
 
-  // Обновляем условие
+  // Aggiorna filtro
   const updateFilter = (id, field, value) => {
     setFilters(filters.map(f => f.id === id ? { ...f, [field]: value } : f));
   };
 
-  // Сброс фильтров
+  // Reset filtri
   const clearFilters = () => {
     setFilters([{ id: 1, column: 'all', operator: 'contains', value: '', logic: 'AND' }]);
     setGlobalLogic('AND');
@@ -109,146 +110,126 @@ const UtentiTable = () => {
     <div className="container">
       <Navbar />
 
-      <div className="main-content">
-        <div className="content">
-          <h3>Tutti Utenti <NavLink to="/report"> report </NavLink></h3>
+      <div className="main-content-table-utenti">
+        <div className="content-table-utenti">
+           
 
-          {isLoading && <div className="loading-spinner">Caricamento...</div>}
-          {error && <p className="error-login" style={{ color: 'red' }}>{error}</p>}
+          {isLoading && <div className="loading-spinner"></div>}
+          {error && <p className="error-login">{error}</p>}
 
           {data.length > 0 && (
-            <div style={{ marginTop: '20px' }}>
-              {/* Блок фильтров */}
-              <div style={{ marginBottom: '15px', padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '5px' }}>
-                <h4>Фильтры utenti (несколько условий):</h4>
+            <div>
+              <h4>Tutti gli Utenti <NavLink to="/report">Report</NavLink></h4>
+              <h4>Filtri utenti (più condizioni):</h4>
+              <div className="forma-ricerca">
                 {filters.map((filter, index) => (
-                  <div key={filter.id} style={{ marginBottom: '10px', padding: '5px', border: '1px solid #ddd', borderRadius: '3px' }}>
-                    <div style={{ display: 'block', alignItems: 'center', padding: '5px' }}>
-                      {index > 0 && (
-                        <select
-                          value={filter.logic}
-                          onChange={(e) => updateFilter(filter.id, 'logic', e.target.value)}
-                          style={{ width: '60px' }}
-                        >
-                          <option value="AND">AND</option>
-                          <option value="OR">OR</option>
-                        </select>
-                      )}
+                  <div key={filter.id} className="filtri">
+                    {index > 0 && (
                       <select
-                        value={filter.column}
-                        onChange={(e) => updateFilter(filter.id, 'column', e.target.value)}
-                        style={{ flex: 1, padding: '5px' }}
+                        value={filter.logic}
+                        onChange={(e) => updateFilter(filter.id, 'logic', e.target.value)}
+                        className="forma-ricerca"
                       >
-                        <option value="all">Все колонки</option>
-                        {headers.map((key) => (
-                          <option key={key} value={key}>{key}</option>
-                        ))}
+                        <option value="AND">E</option>
+                        <option value="OR">O</option>
                       </select>
-                      <select
-                        value={filter.operator}
-                        onChange={(e) => updateFilter(filter.id, 'operator', e.target.value)}
-                        style={{ width: '120px', padding: '5px', margin: '10px 10px' }}
+                    )}
+
+                    <select
+                      value={filter.column}
+                      onChange={(e) => updateFilter(filter.id, 'column', e.target.value)}
+                      className="forma-ricerca"
+                    >
+                      <option value="all">Tutte le colonne</option>
+                      {headers.map((key) => (
+                        <option key={key} value={key}>{key}</option>
+                      ))}
+                    </select>
+                    <select
+                      value={filter.operator}
+                      onChange={(e) => updateFilter(filter.id, 'operator', e.target.value)}
+                      className="forma-ricerca"
+                    >
+                      <option value="contains">Contiene</option>
+                      <option value="equals">Uguale</option>
+                      <option value="gt">&gt; (maggiore)</option>
+                      <option value="lt">&lt; (minore)</option>
+                      <option value="empty">Vuoto</option>
+                    </select>
+                    <input
+                      type="text"
+                      placeholder="Valore..."
+                      value={filter.value}
+                      onChange={(e) => updateFilter(filter.id, 'value', e.target.value)}
+                      disabled={filter.operator === 'empty'}
+                      className="forma-ricerca"
+                    />
+                    {filters.length > 1 && (
+                      <button 
+                        type="button" 
+                        onClick={() => removeFilter(filter.id)}
+                        className="btn-elimina"
                       >
-                        <option value="contains">Содержит</option>
-                        <option value="equals">Равно</option>
-                        <option value="gt">&gt; (больше)</option>
-                        <option value="lt">&lt; (меньше)</option>
-                        <option value="empty">Пусто</option>
-                      </select>
-                      <input
-                        type="text"
-                        placeholder="Значение..."
-                        value={filter.value}
-                        onChange={(e) => updateFilter(filter.id, 'value', e.target.value)}
-                        style={{ flex: 2, padding: '5px' }}
-                        disabled={filter.operator === 'empty'}
-                      />
-                      {filters.length > 1 && (
-                        <button onClick={() => removeFilter(filter.id)} style={{ color: 'red' }}>Удалить</button>
-                      )}
-                    </div>
+                        Rimuovi
+                      </button>
+                    )}
                   </div>
                 ))}
-                <div style={{ marginTop: '10px', padding: '5px', marginBottom: '10px' }}>
-                  <button onClick={addFilter} style={{ marginRight: '10px' }}>Добавить условие</button>
+                <div className="filtri">
+                  <button type="button" onClick={addFilter} className="btn-modifica">Aggiungi condizione</button>
                   <select
                     value={globalLogic}
                     onChange={(e) => setGlobalLogic(e.target.value)}
-                    style={{ marginRight: '10px' }}
+                    className="forma-ricerca"
                   >
-                    <option value="AND">Общая логика: AND</option>
-                    <option value="OR">Общая логика: OR</option>
+                    <option value="AND">Logica globale: E</option>
+                    <option value="OR">Logica globale: O</option>
                   </select>
-                  <button onClick={clearFilters}>Очистить фильтры</button>
+                  <button type="button" onClick={clearFilters} className="btn-salva">Pulisci filtri</button>
                 </div>
-                <p style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                  Найдено строк: {filteredData.length} из {data.length}
+                <p className="verde">
+                  Trovate righe: <strong>{filteredData.length}</strong> su <strong>{data.length}</strong>
                 </p>
               </div>
 
-              <div
-                style={{
-                  overflowX: 'auto',
-                  WebkitOverflowScrolling: 'touch', // плавная прокрутка на iPhone
-                  marginTop: '20px',
-                  border: '1px solid #ddd',
-                  borderRadius: '8px',
-                }}
-              >
-                <h3 style={{ fontSize: '16px', padding: '10px' }}>Таблица utenti (фильтрована):</h3>
+              <div>
+                <h4>Tabella utenti (filtrata):</h4>
 
-                <table
-                  border="1"
-                  style={{
-                    borderCollapse: 'collapse',
-                    minWidth: '600px', // 👉 чтобы не сжималась слишком на мобильных
-                    width: '100%',
-                    fontSize: '14px',
-                  }}
-                >
-                  <thead>
-                    <tr style={{ backgroundColor: '#f9f9f9' }}>
-                      {headers.map((key) => (
-                        <th
-                          key={key}
-                          style={{
-                            padding: '10px',
-                            textAlign: 'left',
-                            whiteSpace: 'nowrap', // 👉 предотвращает перенос текста
-                          }}
-                        >
-                          {key}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {filteredData.map((row, index) => (
-                      <tr key={index}>
+                <div className="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
                         {headers.map((key) => (
-                          <td
-                            key={key}
-                            style={{
-                              padding: '8px',
-                              borderTop: '1px solid #eee',
-                              verticalAlign: 'top',
-                              whiteSpace: 'nowrap',
-                            }}
-                          >
-                            {row[key] ?? ''}
-                          </td>
+                          <th key={key}>
+                            {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
+                          </th>
                         ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
 
+                    <tbody>
+                      {filteredData.map((row, index) => (
+                        <tr key={index}>
+                          {headers.map((key) => (
+                            <td key={key}>
+                              {row[key] ?? '-'}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
                 {filteredData.length === 0 && (
-                  <p style={{ padding: '10px', color: 'gray' }}>Нет результатов. Измени фильтры.</p>
+                  <p className="carico-dati-container">
+                    <span className="carico-dati">Nessun risultato. Modifica i filtri.</span>
+                  </p>
                 )}
               </div>
             </div>
+          )}
+          {data.length === 0 && !isLoading && (
+            <p className="carico-dati">Nessun utente caricato.</p>
           )}
         </div>
       </div>

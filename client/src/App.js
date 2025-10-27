@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Login from './components/pages/Login';
 import SulSito from './components/pages/SulSito';
@@ -12,6 +12,8 @@ import Admin from './components/pages/Admin';
 import TeamPhotos from './components/pages/TeamPhotos';
 
 import { AuthContext } from './context';
+import { useSelector} from 'react-redux';
+
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -19,17 +21,22 @@ function App() {
   const [isAuth, setIsAuth] = useState(!!localStorage.getItem('auth'));
   const [userCategoria, setUserCategoria] = useState(localStorage.getItem('userCategoria') || null);
 
+  const theme = useSelector((state) => state.theme?.theme || 'light');
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
+
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth, userCategoria, setUserCategoria }}>
       <Routes>
-        <Route path="/utentiDemo" element={<ProtectedRoute><Utenti /></ProtectedRoute>} />
-        <Route path="/utentiTable" element={<ProtectedRoute><UtentiTable /></ProtectedRoute>} />
+        <Route path="/utentiDemo" element={<ProtectedRoute> <Utenti /> </ProtectedRoute>} />
+        <Route path="/utentiTable" element={<ProtectedRoute> <UtentiTable /> </ProtectedRoute>} />
         <Route path="/loginDemo" element={<Login />} />
-        <Route path="/appuntiDemo" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />
-        <Route path="/importExcel" element={<ProtectedRoute><ImportExcel /></ProtectedRoute>} />
-        <Route path="/reportDemo" element={<ProtectedRoute><Report /></ProtectedRoute>} />
-        <Route path="/" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
-        <Route path="/generaleDemo" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
+        <Route path="/appuntiDemo" element={<ProtectedRoute> <Appunti /> </ProtectedRoute>} />
+        <Route path="/importExcel" element={<ProtectedRoute> <ImportExcel /> </ProtectedRoute>} />
+        <Route path="/reportDemo" element={<ProtectedRoute> <Report /> </ProtectedRoute>} />
+        <Route path="/" element={<ProtectedRoute> <Generale /> </ProtectedRoute>} />
+        <Route path="/generaleDemo" element={<ProtectedRoute> <Generale /> </ProtectedRoute>} />
         <Route path="/" element={<SulSito />} />
         <Route index element={<SulSito />} />
         <Route path="*" element={<SulSito />} />

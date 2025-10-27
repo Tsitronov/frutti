@@ -133,7 +133,10 @@ const Generale = () => {
     <div className="container">
       <Navbar />
 
-      <div className="sidebar">
+      <div className="sidebar-appunti">
+        {localStorage.getItem('userCategoria') !== '1' &&
+          <div className="toggleLink" onClick={toggleFruttiForm}> Aggiungi 🙂 </div>
+        }
         <div className="categories">
           {categorieUniche.map((cat, index) => (
             <div key={index}>
@@ -148,13 +151,9 @@ const Generale = () => {
       <div className="main-content">
         <div className="content">
           <div className="carico-dati-container">
-
+            
             {error && <span className="carico-dati">{error}</span>}
           </div>
-
-          {localStorage.getItem('userCategoria') !== '1' &&
-            <div className="toggleLink" onClick={toggleFruttiForm}>Add new &nbsp;&nbsp;<p>+</p></div>
-          }
 
           <GeneraleForm
             form={form}
@@ -170,14 +169,14 @@ const Generale = () => {
             {fruttiVisibili.map(item => (
               <div key={item.id} className="article-item-wrapper">
                 <div className="article-item">
-                  <div className="item-info" style={{ fontWeight: "bold" }}>
+                  <div className="item-info">
                     {item.categoria} - {item.nome}
                   </div>
                   <div className="item-lungo-container">
                     <p
                       ref={(el) => (testoRefs.current[item.id] = el)}
                       onScroll={() => handleScroll(item.id)}
-                      className={isLungo(item.descrizione) ? 'testo-lungo' : ''}
+                      className={isLungo(item.descrizione) ? 'testo-lungo' : 'testo-normale'}
                     >
                       {item.descrizione}
                     </p>

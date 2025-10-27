@@ -11,7 +11,6 @@ import {
 
 import Navbar from "../UI/navbar/Navbar";
 
-
 const Admin = () => {
   const dispatch = useDispatch();
   const { lista, isLoading, error } = useSelector((state) => state.users);
@@ -62,23 +61,21 @@ const Admin = () => {
     <div className="container">
       <Navbar />
 
-      <div className="main-content">
-        <div className="content">
+      <div className="main-content" style={{margin:"0 auto"}}>
+        <div className="content content-table-admin">
 
-          <div  className="article-list">
+          <div className="admin-sibedar">
             <div className="toggleLink" onClick={toggleAdminForm}>
-              {showForm ? "Chiudi form" : "Add new +"}
+              {showForm ? "Chiudi form" : "Aggiungi 🙂"}
             </div>
-            <NavLink className="toggleLink" to="/importExcel"> Excel </NavLink>
-            <NavLink className="toggleLink" to="/sulSito"> descrizione </NavLink>
+            <NavLink className="toggleLink" to="/importExcel">Excel</NavLink>
+            <NavLink className="toggleLink" to="/sulSito">Descrizione</NavLink>
           </div>
-          
 
           {showForm && (
-            <div className="adminForm">
-              <div className="modal">
-                <div className="modal-content">
-                <form onSubmit={handleSubmitAdmin}>
+            <div className="modal">
+              <div className="modal-content">
+                <form className="adminForm" onSubmit={handleSubmitAdmin}>
                   <input
                     name="username"
                     placeholder="Username"
@@ -100,31 +97,48 @@ const Admin = () => {
                     value={formAdmin.categoria}
                     onChange={handleChangeAdmin}
                   />
-                  <button type="submit" className="btn-salva" >{editId ? "Aggiorna" : "Aggiungi"}</button>
-                  <button type="button" className="btn-elimina" onClick={resetFormAdmin}>❌ Annulla</button>
+                  <div className="modal-buttons">
+                    <button type="submit" className="btn-salva">{editId ? "Aggiorna" : "Aggiungi"}</button>
+                    <button type="button" className="btn-elimina" onClick={resetFormAdmin}>❌ Annulla</button>
+                  </div>
                 </form>
-                </div>
               </div>
             </div>
           )}
 
-          <div className="article-list">
-            {isLoading && <div className="loading-spinner"></div>}
-            {error && <p style={{ color: "red" }}>{error}</p>}
+          {isLoading && <div className="loading-spinner"></div>}
+          {error && <p className="error-login">{error}</p>}
 
-            {lista.map((item) => (
-              <div key={item.id} className="article-wrapper-admin">
-                <div className="article-item-admin">
-                  <div>{item.username}</div>
-                  <div>{item.categoria}</div>
-                  <div className="actions">
-                    <button type="button" className="btn-azione btn-update" onClick={() => handleEditAdmin(item)}>✏️ Edit</button>
-                    <button type="button" className="btn-azione btn-delete" onClick={() => handleDeleteAdmin(item.id)}>❌ Delete</button>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="table-wrapper-admin">
+            <table>
+              <tbody>
+                {lista.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.username}</td>
+                    <td>{item.categoria}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn-azione btn-modifica"
+                        onClick={() => handleEditAdmin(item)}
+                      >
+                        ✏️ Edit
+                      </button>
+                      <button
+                        type="button"
+                        className="btn-azione btn-elimina"
+                        onClick={() => handleDeleteAdmin(item.id)}
+                      >
+                        ❌ Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
+
+          {lista.length === 0 && !isLoading && <p className="carico-dati">Nessun utente trovato.</p>}
         </div>
       </div>
     </div>
