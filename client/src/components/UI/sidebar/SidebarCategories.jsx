@@ -1,20 +1,19 @@
+const SidebarCategories = ({repartoSelezionato, categories, categoryLabels, apriFinestraFiltro}) => {
 
-const SidebarCategories = ({repartoSelezionato, categories, apriFinestraFiltro}) => {
-
-	return(
+    return(
         <div className="categories">
           {repartoSelezionato && (
             <>
               {categories.map((campo) => (
                 <div key={campo}>
                   <a href="#" onClick={(e) => { e.preventDefault(); apriFinestraFiltro(campo); }} style={{ textTransform: "capitalize" }}>
-                    {campo}
+                    {categoryLabels[campo] || campo}
                   </a>
                 </div>
               ))}
             </>
           )}
         </div>
-		)
+        )
 }
 export default SidebarCategories;

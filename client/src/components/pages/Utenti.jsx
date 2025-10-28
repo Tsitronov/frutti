@@ -51,6 +51,20 @@ const Utenti = () => {
 
   const itemsPerPage = 4;
 
+  // Маппинг для русских названий категорий (для отображения)
+  const categoryLabels = useMemo(() => ({
+    reparto: 'Отдел',
+    stanza: 'Комната',
+    cognome: 'Фамилия',
+    bagno: 'Ванна',
+    barba: 'Борода',
+    autonomia: 'Автономия',
+    vestiti: 'Одежда',
+    alimentazione: 'Питание',
+    accessori: 'Аксессуары',
+    altro: 'Другое',
+  }), []);
+
   // 📥 Carica utenti
   useEffect(() => {
     dispatch(caricaUtentiLocalStorage()); // Prima i dati locali
@@ -159,10 +173,11 @@ const Utenti = () => {
   };
 
   const apriFinestraFiltro = (campo) => {
+    const label = categoryLabels[campo] || campo; // Используем русский лейбл
     const risultati = utentiDelReparto
       .filter((u) => u[campo])
       .map((u) => ({ cognome: u.cognome, valore: u[campo] }));
-    setModalData({ campo, risultati });
+    setModalData({ campo, label, risultati }); // Передаем label для модала
     setShowModal(true);
   };
 
@@ -232,6 +247,7 @@ const Utenti = () => {
             <SidebarCategories
               repartoSelezionato={repartoSelezionato}
               categories={["bagno", "barba", "alimentazione", "accessori", "autonomia", "vestiti"]}
+              categoryLabels={categoryLabels} // Передаем маппинг лейблов
               apriFinestraFiltro={apriFinestraFiltro}
             />
 
@@ -244,14 +260,14 @@ const Utenti = () => {
                   <input
                     key={campo}
                     name={campo}
-                    placeholder={campo === "cognome" ? "Фамилия" : campo === "reparto" ? "Отдел" : campo === "stanza" ? "Комната" : campo === "bagno" ? "Ванна" : campo === "barba" ? "Борода" : campo === "autonomia" ? "Автономия" : campo === "vestiti" ? "Одежда" : campo === "alimentazione" ? "Питание" : campo === "accessori" ? "Аксессуары" : campo}
+                    placeholder={categoryLabels[campo] || campo}
                     value={form[campo]}
                     onChange={handleChange}
                   />
                 ))}
                 <textarea
                   name="altro"
-                  placeholder="Другое"
+                  placeholder={categoryLabels.altro}
                   value={form.altro}
                   onChange={handleChange}
                   rows={4}
@@ -317,13 +333,13 @@ const Utenti = () => {
                       <div className="item-info">
                         <div key="stanza"> {item.stanza} </div>
                         <div key="cognome"> <strong> {item.cognome} </strong>  </div>
-                        <div key="alimentazione" title="Питание" className={getColorClass(item.alimentazione)}><strong> 🍽️ </strong> {item.alimentazione} </div>
-                        <div key="autonomia" title="Автономия" className={getColorClass(item.autonomia)}><strong> 🦽 </strong> {item.autonomia} </div>
-                        <div key="bagno" title="Ванна"><strong> 🚿 </strong> {item.bagno}</div>
-                        <div key="barba" title="Борода"><strong> 🪒 </strong> {item.barba}</div>
-                        <div key="vestiti" title="Одежда"><strong> 👕 </strong> {item.vestiti}</div>
-                        <div key="accessori" title="Аксессуары"><strong> 🕶 </strong> {item.accessori}</div>
-                        <div key="altro" title="Другое"><strong> ℹ️ </strong> {item.altro}</div> 
+                        <div key="alimentazione" title={categoryLabels.alimentazione} className={getColorClass(item.alimentazione)}><strong> 🍽️ </strong> {item.alimentazione} </div>
+                        <div key="autonomia" title={categoryLabels.autonomia} className={getColorClass(item.autonomia)}><strong> 🦽 </strong> {item.autonomia} </div>
+                        <div key="bagno" title={categoryLabels.bagno}><strong> 🚿 </strong> {item.bagno}</div>
+                        <div key="barba" title={categoryLabels.barba}><strong> 🪒 </strong> {item.barba}</div>
+                        <div key="vestiti" title={categoryLabels.vestiti}><strong> 👕 </strong> {item.vestiti}</div>
+                        <div key="accessori" title={categoryLabels.accessori}><strong> 🕶 </strong> {item.accessori}</div>
+                        <div key="altro" title={categoryLabels.altro}><strong> ℹ️ </strong> {item.altro}</div> 
                       </div>
                     </div>
                     {haLungoContenuto && scrollStates[item.id] && (
@@ -372,6 +388,7 @@ const Utenti = () => {
         <ModalUtente
           modalData={modalData}
           getColorClass={getColorClass}
+          categoryLabels={categoryLabels} // Передаем маппинг для модала
           setShowModal={setShowModal}
         />
       )}
@@ -380,6 +397,7 @@ const Utenti = () => {
         <ModalUtenteCercato
           utenteTrovato={utenteTrovato}
           getColorClass={getColorClass}
+          categoryLabels={categoryLabels} // Передаем для модала
           setMostraModalInfo={setMostraModalInfo}
         />
       )}
