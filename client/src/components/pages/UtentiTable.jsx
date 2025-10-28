@@ -21,6 +21,23 @@ const UtentiTable = () => {
   // Usa utenti come base dati
   const data = useMemo(() => utenti, [utenti]);
 
+
+  // Маппинг для русских названий категорий (для отображения)
+  const categoryLabels = useMemo(() => ({
+    reparto: 'Отдел',
+    stanza: 'Комната',
+    cognome: 'Фамилия',
+    bagno: 'Ванна',
+    barba: 'Борода',
+    autonomia: 'Автономия',
+    vestiti: 'Одежда',
+    alimentazione: 'Питание',
+    accessori: 'Аксессуары',
+    altro: 'Другое',
+  }), []);
+
+
+
   // 📥 Carica utenti (immediatamente, combinando locale + API)
   useEffect(() => {
     dispatch(caricaUtentiLocalStorage());
@@ -140,11 +157,14 @@ const UtentiTable = () => {
                       onChange={(e) => updateFilter(filter.id, 'column', e.target.value)}
                       className="forma-ricerca"
                     >
-                      <option value="all">Все столбцы</option>
+                    <option value="all">Все столбцы</option>
                       {headers.map((key) => (
-                        <option key={key} value={key}>{key}</option>
+                        <option key={key} value={key}>
+                          {categoryLabels[key] || key}
+                        </option>
                       ))}
                     </select>
+
                     <select
                       value={filter.operator}
                       onChange={(e) => updateFilter(filter.id, 'operator', e.target.value)}
@@ -201,7 +221,7 @@ const UtentiTable = () => {
                       <tr>
                         {headers.map((key) => (
                           <th key={key}>
-                            {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
+                            {categoryLabels[key] || key}
                           </th>
                         ))}
                       </tr>
