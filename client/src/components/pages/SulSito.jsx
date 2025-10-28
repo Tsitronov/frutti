@@ -7,7 +7,7 @@ const SulSito = () => {
       <section className="hero-sito">
         <img
           src="./avatar.png"
-          alt="Avatar del team"
+          alt="Аватар команды"
           loading="lazy"
           sizes="(max-width: 120px) 20vw, 10vw"
           width="80"
@@ -15,53 +15,77 @@ const SulSito = () => {
           className="hero-avatar"
         />
         <div className="hero-content">
-          <h1 className="hero-title">Sistema CRM per Assistenza</h1>
-          <p className="hero-subtitle">Gestione personalizzata per gruppi vulnerabili…</p>
+          <h1 className="hero-title">Система CRM для ухода</h1>
+          <p className="hero-subtitle">Персонализированное управление для уязвимых групп…</p>
         </div>
-      </section>
-
-      <div className="features-grid">
-        <div className="feature-card">
-          🏥 <p>Istituzioni</p>
-        </div>
-        <div className="feature-card">
-          🏠 <p>Famiglie</p>
-        </div>
-        <div className="feature-card">
-          👩‍⚕️ <p>Badanti private</p>
-        </div>
-      </div>
-
-      <p className="intro-text-sito">Si tratta di un sistema specializzato di gestione dell'assistenza per gruppi vulnerabili, con un focus sulle esigenze personalizzate (alimentazione, igiene, autonomia). È ideale per luoghi in cui è necessario monitorare i dati quotidiani su salute/assistenza senza complessi sistemi EHR (cartelle cliniche elettroniche).</p>
-
-      <p className="intro-text-sito">Ecco le varianti di applicazione:</p>
-
-      <h2 className="section-title-sito">Istituzioni</h2>
-      <ul className="description-list-sito">
-        <li><strong>Case di riposo e ospizi</strong>: Scenario principale. Distribuzione per reparti, monitoraggio delle esigenze — questo risparmia tempo sulla carta.</li>
-        <li><strong>Centri di riabilitazione e cliniche per anziani/disabili</strong>: Per tracciare la riabilitazione (ad esempio, "autonomia: S" per l'autosufficienza). È possibile aggiungere moduli per fisioterapia o farmaci.</li>
-        <li><strong>Casa-famiglia o centri per bambini con disabilità</strong>: Adattare "alimentazione" come dieta, "bagno" come igiene, "altro" per esigenze speciali (giocattoli, terapia).</li>
-        <li><strong>Servizi sociali/ONG</strong>: Per programmi di volontariato di assistenza ai senzatetto o migranti — informazioni generali in "Generale" per la coordinazione.</li>
-        <li><strong>Scuole/asili nido per bambini con bisogni speciali</strong>: Filtri per "reparti" come classi, schede per piani individuali (IEP nell'educazione).</li>
-      </ul>
-
-      <h2 className="section-title-sito">Privati</h2>
-      <ul className="description-list-sito">
-        <li><strong>Famiglie con parenti anziani</strong>: Versione semplificata per assistenza domiciliare — un solo "admin" (figlio/figlia) gestisce i dati sul genitore (orario assunzione farmaci, menu). Possibile SaaS con abbonamento (5-10€/mese).</li>
-        <li><strong>Badanti/babysitter private</strong>: App per freelance di assistenza — il cliente carica i dati, la badante li modifica in tempo reale (con permessi).</li>
-        <li><strong>Personal trainer o nutrizionisti</strong>: Adattare per clienti — "alimentazione" come dieta, "autonomia" come livello di fitness, per piani personalizzati.</li>
-      </ul>
-
-      <div className="stat-block-sito">
-        <p>Dovunque sia necessario un semplice tracciamento "chi, cosa, quando" senza grandi budget per software (tipo Cerner o Epic). In Europa/Italia è richiesto a causa dell'invecchiamento della popolazione — secondo Eurostat, entro il 2050 il numero di persone di età superiore ai 65 anni raggiungerà 134,5 milioni, pari a circa il 30% della popolazione UE.</p>
-      </div>
-
-      <p className="contact-text-sito">Contattatemi per personalizzazioni: tsitronov2017@gmail.com</p> 
-      <a href="mailto:tsitronov2017@gmail.com" className="cta-button-sito">
-        Scrivimi 📬
-      </a>
+      </section>  <div className="features-grid">
+    <div className="feature-card">
+       <p>Учреждения</p>
     </div>
-  );
+    <div className="feature-card">
+       <p>Семьи</p>
+    </div>
+    <div className="feature-card">
+       <p>Частные сиделки</p>
+    </div>
+  </div>
+
+  <p className="intro-text-sito">Это специализированная система управления уходом за уязвимыми группами, с акцентом на персонализированные нужды (питание, гигиена, автономия). Она идеальна для мест, где необходимо мониторить ежедневные данные о здоровье/уходе без сложных систем EHR (электронные медицинские карты).</p>
+
+  <p className="intro-text-sito">Вот варианты применения:</p>
+
+  <h2 className="section-title-sito">Учреждения</h2>
+  <ul className="description-list-sito">
+    <li><strong>Дома престарелых и хосписы</strong>: Основной сценарий. Распределение по отделам, мониторинг нужд — это экономит время на бумаге.</li>
+    <li><strong>Центры реабилитации и клиники для пожилых/инвалидов</strong>: Для отслеживания реабилитации (например, "автономия: S" для самообслуживания). Можно добавить модули для физиотерапии или лекарств.</li>
+    <li><strong>Семейные дома или центры для детей с инвалидностью</strong>: Адаптировать "питание" как диету, "ванна" как гигиену, "другое" для специальных нужд (игрушки, терапия).</li>
+    <li><strong>Социальные службы/НПО</strong>: Для программ волонтерской помощи бездомным или мигрантам — общая информация в "Общее" для координации.</li>
+    <li><strong>Школы/ясли для детей с особыми нуждами</strong>: Фильтры по "отделам" как классам, карты для индивидуальных планов (IEP в образовании).</li>
+  </ul>
+
+  <h2 className="section-title-sito">Частные лица</h2>
+  <ul className="description-list-sito">
+    <li><strong>Семьи с пожилыми родственниками</strong>: Упрощенная версия для домашнего ухода — один "admin" (сын/дочь) управляет данными о родителе (время приема лекарств, меню). Возможен SaaS с подпиской (5-10€/мес).</li>
+    <li><strong>Частные сиделки/няни</strong>: Приложение для фрилансеров по уходу — клиент загружает данные, сиделка редактирует в реальном времени (с разрешениями).</li>
+    <li><strong>Персональные тренеры или нутрициологи</strong>: Адаптировать для клиентов — "питание" как диета, "автономия" как уровень фитнеса, для персонализированных планов.</li>
+  </ul>
+
+  <div className="stat-block-sito">
+    <p>Везде, где нужен простой трекинг "кто, что, когда" без больших бюджетов на ПО (типа Cerner или Epic).</p>
+  </div>
+
+  <h2 className="section-title-sito">Почему выбрать нас? Экономьте время и деньги уже сегодня</h2>
+  <ul className="description-list-sito">
+    <li>
+      <strong> 💰 Экономия до 70% на ПО </strong>
+      <p>Простая система без лишних функций, с использованием новейших технологий, позволяющих двигаться по платформе без перезагрузок страниц (React-Redux). Профессиональный современный веб-дизайн. База данных с повышенной защитой данных и всего от 5000 рублей/мес, вместо сотен тысяч на Cerner/Epic. Нет скрытых платежей, только реальная польза.</p>
+    </li>
+    <li>
+      <strong> ⏱️ Время на то, что важно </strong>
+      <p>Автоматизация рутины: мониторинг в один клик, отчеты за минуты. Освободите часы на уход, а не на бумажки.</p>
+    </li>
+    <li>
+      <strong> 🛠️ Индивидуальный подход </strong>
+      <p>Настроим под ваши нужды: от базового трекинга до модулей для физио/диет. Ваша система — как перчатка.</p>
+    </li>
+    <li>
+      <strong> 📞 Полная поддержка </strong>
+      <p>Персональный менеджер, бесплатные обновления. Мы рядом — от установки до роста вашего бизнеса.</p>
+    </li>
+    <li>
+      <strong> Не тратьте время на поиск </strong>
+      <p>Наша CRM уже помогает учреждениям и частным лицам экономить время. Начните бесплатно — тест на 14 дней!</p>
+    </li>
+  </ul>
+
+  <p className="contact-text-sito">Свяжитесь со мной для персонализации: tsitronov2017@gmail.com</p> 
+  <a href="mailto:tsitronov2017@gmail.com" className="cta-button-sito">
+    Напишите мне 📬 — и получите персональную демо за 24 часа!
+  </a>
+</div>
+);
 };
+
+
 
 export default SulSito;

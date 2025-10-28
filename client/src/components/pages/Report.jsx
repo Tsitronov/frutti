@@ -16,11 +16,11 @@ const Report = () => {
   const exportPDF = () => {
     const doc = new jsPDF('p','mm','a4');
     doc.setFontSize(16);
-    doc.text("Report Utenti", 14, 16);
+    doc.text("Отчёт Пользователи", 14, 16);
 
     // HEAD senza "Altro" (lo mettiamo su riga separata)
     const head = [[
-      "ID","Reparto","Stanza","Cognome","Bagno","Barba","Autonomia","Vestiti","Alimentazione","Accessori"
+      "ID","Отдел","Комната","Фамилия","Ванна","Борода","Автономия","Одежда","Питание","Аксессуары"
     ]];
 
     const body = utenti.flatMap(u => {
@@ -34,11 +34,11 @@ const Report = () => {
         return [
           mainRow,
           [
-            { content: "Altro:", styles: { fontStyle: 'bold', halign: 'left' } },
+            { content: "Другое:", styles: { fontStyle: 'bold', halign: 'left' } },
             { content: u.altro, colSpan: 10, styles: { halign: 'left', fontStyle: 'normal' } }]
         ];
       } else {
-        return [mainRow]; // altrimenti solo la riga principale
+        return [mainRow]; // иначе только основная строка
       }
     });
 
@@ -49,22 +49,22 @@ const Report = () => {
       styles: { fontSize: 9, cellWidth: 'wrap' },
       headStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' },
       columnStyles: {
-        0: { cellWidth: 12 }, // ID piccolo
-        2: { cellWidth: 16 }, // Stanza
-        5: { cellWidth: 14 }, // barba
-        6: { cellWidth: 20 }  // Autonomia
-        // non serve columnStyles per la colSpan
+        0: { cellWidth: 12 }, // ID маленький
+        2: { cellWidth: 16 }, // Комната
+        5: { cellWidth: 14 }, // Борода
+        6: { cellWidth: 20 }  // Автономия
+        // не нужно columnStyles для colSpan
       },
       theme: 'striped'
     });
 
-    // seconda pagina con frutti (se vuoi)
+    // вторая страница с frutti (если хочешь)
     doc.addPage();
-    doc.text("Report Frutti", 14, 16);
+    doc.text("Отчёт Общее", 14, 16);
     const fruttiData = frutti.map(f => [f.id, f.cognome, f.categoria, f.descrizione]);
     autoTable(doc, {
       startY: 22,
-      head: [["ID","Cognome","Categoria","Descrizione"]],
+      head: [["ID","Фамилия","Категория","Описание"]],
       body: fruttiData,
       styles: { fontSize: 9, cellWidth: 'wrap' }
     });
@@ -77,31 +77,31 @@ const Report = () => {
 const exportExcel = () => {
   const utentiData = utenti.map(u => ({
     ID: u.id,
-    Reparto: u.reparto,
-    Stanza: u.stanza,
-    Cognome: u.cognome,
-    Bagno: u.bagno,
-    Barba: u.barba,
-    Autonomia: u.autonomia,
-    Vestiti: u.vestiti,
-    Alimentazione: u.alimentazione,
-    Accessori: u.accessori,
-    Altro: u.altro || ""
+    Отдел: u.reparto,
+    Комната: u.stanza,
+    Фамилия: u.cognome,
+    Ванна: u.bagno,
+    Борода: u.barba,
+    Автономия: u.autonomia,
+    Одежда: u.vestiti,
+    Питание: u.alimentazione,
+    Аксессуары: u.accessori,
+    Другое: u.altro || ""
   }));
 
   const fruttiData = frutti.map(f => ({
     ID: f.id,
-    Cognome: f.cognome,
-    Categoria: f.categoria,
-    Descrizione: f.descrizione
+    Фамилия: f.cognome,
+    Категория: f.categoria,
+    Описание: f.descrizione
   }));
 
   const utentiSheet = XLSX.utils.json_to_sheet(utentiData);
   const fruttiSheet = XLSX.utils.json_to_sheet(fruttiData);
 
   const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, utentiSheet, "Utenti");
-  XLSX.utils.book_append_sheet(workbook, fruttiSheet, "Frutti");
+  XLSX.utils.book_append_sheet(workbook, utentiSheet, "Пользователи");
+  XLSX.utils.book_append_sheet(workbook, fruttiSheet, "Общее");
 
   const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
   const data = new Blob([excelBuffer], { 
@@ -110,27 +110,27 @@ const exportExcel = () => {
   saveAs(data, "report.xlsx");
 };
 
-// 📑 Экспорт в CSV migliorato
+// 📑 Улучшенный экспорт в CSV
 const exportCSV = () => {
   const utentiData = utenti.map(u => ({
     ID: u.id,
-    Reparto: u.reparto,
-    Stanza: u.stanza,
-    Cognome: u.cognome,
-    Bagno: u.bagno,
-    Barba: u.barba,
-    Autonomia: u.autonomia,
-    Vestiti: u.vestiti,
-    Alimentazione: u.alimentazione,
-    Accessori: u.accessori,
-    Altro: u.altro || ""
+    Отдел: u.reparto,
+    Комната: u.stanza,
+    Фамилия: u.cognome,
+    Ванна: u.bagno,
+    Борода: u.barba,
+    Автономия: u.autonomia,
+    Одежда: u.vestiti,
+    Питание: u.alimentazione,
+    Аксессуары: u.accessori,
+    Другое: u.altro || ""
   }));
 
   const fruttiData = frutti.map(f => ({
     ID: f.id,
-    Cognome: f.cognome,
-    Categoria: f.categoria,
-    Descrizione: f.descrizione
+    Фамилия: f.cognome,
+    Категория: f.categoria,
+    Описание: f.descrizione
   }));
 
   const utentiSheet = XLSX.utils.json_to_sheet(utentiData);
@@ -139,7 +139,7 @@ const exportCSV = () => {
   const csvUtenti = XLSX.utils.sheet_to_csv(utentiSheet);
   const csvFrutti = XLSX.utils.sheet_to_csv(fruttiSheet);
 
-  const csvContent = `Utenti\n${csvUtenti}\n\nFrutti\n${csvFrutti}`;
+  const csvContent = `Пользователи\n${csvUtenti}\n\nОбщее\n${csvFrutti}`;
   const data = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
   saveAs(data, "report.csv");
 };
@@ -149,11 +149,11 @@ const exportCSV = () => {
       <Navbar />
       <div className="main-content-table-utenti">
         <div className="content-table-utenti">
-          <h3> Esporta dati utenti </h3>
+          <h3> Экспорт данных пользователей </h3>
           <div className="article-list">
-            <button onClick={exportPDF}>📄 Esporta in PDF</button>
-            <button onClick={exportExcel}>📊 Esporta in Excel</button>
-            <button onClick={exportCSV}>📑 Esporta in CSV</button>
+            <button onClick={exportPDF}>📄 Экспорт в PDF</button>
+            <button onClick={exportExcel}>📊 Экспорт в Excel</button>
+            <button onClick={exportCSV}>📑 Экспорт в CSV</button>
           </div>
         </div>
       </div>

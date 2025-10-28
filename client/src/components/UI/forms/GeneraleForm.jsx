@@ -1,18 +1,18 @@
 const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiungiFrutto, toggleFruttiForm, isLoading }) => {
-	return(
+    return(
     <div className="generaleForm fruttiFormDisplayNone">
-		  <div className="modal">
+          <div className="modal">
         <div className="modal-content">
-    		  <input
+              <input
             value={form.nome || ""}
             onChange={(e) => setForm({ ...form, nome: e.target.value })}
-            placeholder="nome"
+            placeholder="Название"
           />
           <input
             list="suggestions"
             value={form.categoria || ""}
             onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-            placeholder="Categoria"
+            placeholder="Категория"
           />
           <datalist id="suggestions">
             {categorieUniche.map((cat, i) => (
@@ -23,7 +23,7 @@ const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiun
           <textarea
             value={form.descrizione || ""}
             onChange={(e) => {setForm({ ...form, descrizione: e.target.value })}}
-            placeholder="Descrizione"
+            placeholder="Описание"
           >
           </textarea>
 
@@ -31,25 +31,25 @@ const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiun
         {form.id !== null ? (
           <>
             <button type="button" onClick={handleSalva} disabled={isLoading} >
-             {isLoading ? <span className="spinner"></span> : '💾 Cambia'} 
+             {isLoading ? <span className="spinner"></span> : '💾 Изменить'} 
             </button>
             <button type="button" className="btn-elimina" onClick={toggleFruttiForm} disabled={isLoading} >
-              ❌ Annulla
+              ❌ Отмена
             </button>
           </>
         ) : (
           <>
             <button type="button" onClick={handleAggiungiFrutto} disabled={isLoading} > 
-              {isLoading ? <span className="spinner"></span> : '➕ Aggiungi'}
+              {isLoading ? <span className="spinner"></span> : '➕ Добавить'}
             </button>
             <button type="button" className="btn-elimina" onClick={toggleFruttiForm} disabled={isLoading} >
-              ❌ Annulla
+              ❌ Отмена
             </button>
           </>
         )}
         </div>
       </div>
     </div>
-	);
+    );
 }
 export default GeneraleForm;

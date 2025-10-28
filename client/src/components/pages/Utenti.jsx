@@ -202,7 +202,7 @@ const Utenti = () => {
               setMostraModalInfo={setMostraModalInfo}
             />
 
-            <div className="sidebar-reparti"> Reparto 
+            <div className="sidebar-reparti"> Отдел 
               <ul className="repartoNome reparti-list">
                 {reparti.map((reparto, i) => (
                   <li key={i}>
@@ -224,7 +224,7 @@ const Utenti = () => {
               </ul>
 
               {localStorage.getItem('userCategoria') !== '1' &&
-                <div className="toggleLink" onClick={toggleUtentiForm}> Aggiungi 🙂 </div>
+                <div className="toggleLink" onClick={toggleUtentiForm}> Добавить 🙂 </div>
               }
             </div>
 
@@ -244,14 +244,14 @@ const Utenti = () => {
                   <input
                     key={campo}
                     name={campo}
-                    placeholder={campo === "cognome" ? "nome" : campo}
+                    placeholder={campo === "cognome" ? "Фамилия" : campo === "reparto" ? "Отдел" : campo === "stanza" ? "Комната" : campo === "bagno" ? "Ванна" : campo === "barba" ? "Борода" : campo === "autonomia" ? "Автономия" : campo === "vestiti" ? "Одежда" : campo === "alimentazione" ? "Питание" : campo === "accessori" ? "Аксессуары" : campo}
                     value={form[campo]}
                     onChange={handleChange}
                   />
                 ))}
                 <textarea
                   name="altro"
-                  placeholder="altro"
+                  placeholder="Другое"
                   value={form.altro}
                   onChange={handleChange}
                   rows={4}
@@ -264,7 +264,7 @@ const Utenti = () => {
                       onClick={handleSalva}
                       disabled={isLoading}
                     >
-                      {isLoading ? <span className="spinner"></span> : '💾 Salva'}
+                      {isLoading ? <span className="spinner"></span> : '💾 Сохранить'}
                     </button>
                     <button
                       type="button"
@@ -272,7 +272,7 @@ const Utenti = () => {
                       onClick={resetForm}
                       disabled={isLoading}
                     >
-                      ❌ Annulla
+                      ❌ Отмена
                     </button>
                   </>
                 ) : (
@@ -283,7 +283,7 @@ const Utenti = () => {
                       onClick={handleAggiungi}
                       disabled={isLoading}
                     >
-                      {isLoading ? <span className="spinner"></span> : '➕ Aggiungi'}
+                      {isLoading ? <span className="spinner"></span> : '➕ Добавить'}
                     </button>
                     <button
                       type="button"
@@ -291,7 +291,7 @@ const Utenti = () => {
                       onClick={resetForm}
                       disabled={isLoading}
                     >
-                      ❌ Annulla
+                      ❌ Отмена
                     </button>
                   </>
                 )}
@@ -317,13 +317,13 @@ const Utenti = () => {
                       <div className="item-info">
                         <div key="stanza"> {item.stanza} </div>
                         <div key="cognome"> <strong> {item.cognome} </strong>  </div>
-                        <div key="alimentazione" title="alimentazione" className={getColorClass(item.alimentazione)}><strong> 🍽️ </strong> {item.alimentazione} </div>
-                        <div key="autonomia" title="autonomia" className={getColorClass(item.autonomia)}><strong> 🦽 </strong> {item.autonomia} </div>
-                        <div key="bagno" title="bagno"><strong> 🚿 </strong> {item.bagno}</div>
-                        <div key="barba" title="barba"><strong> 🪒 </strong> {item.barba}</div>
-                        <div key="vestiti" title="vestiti"><strong> 👕 </strong> {item.vestiti}</div>
-                        <div key="accessori" title="accessori"><strong> 🕶 </strong> {item.accessori}</div>
-                        <div key="altro" title="altro"><strong> ℹ️ </strong> {item.altro}</div> 
+                        <div key="alimentazione" title="Питание" className={getColorClass(item.alimentazione)}><strong> 🍽️ </strong> {item.alimentazione} </div>
+                        <div key="autonomia" title="Автономия" className={getColorClass(item.autonomia)}><strong> 🦽 </strong> {item.autonomia} </div>
+                        <div key="bagno" title="Ванна"><strong> 🚿 </strong> {item.bagno}</div>
+                        <div key="barba" title="Борода"><strong> 🪒 </strong> {item.barba}</div>
+                        <div key="vestiti" title="Одежда"><strong> 👕 </strong> {item.vestiti}</div>
+                        <div key="accessori" title="Аксессуары"><strong> 🕶 </strong> {item.accessori}</div>
+                        <div key="altro" title="Другое"><strong> ℹ️ </strong> {item.altro}</div> 
                       </div>
                     </div>
                     {haLungoContenuto && scrollStates[item.id] && (
@@ -343,7 +343,7 @@ const Utenti = () => {
                           className="btn-azione btn-delete" 
                           onClick={(e) => { 
                             e.stopPropagation(); 
-                            if (window.confirm("Sicuro che delete?")) {
+                            if (window.confirm("Вы уверены, что хотите удалить?")) {
                               dispatch(eliminaUtente(item.id));
                             }
                           }}

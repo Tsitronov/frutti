@@ -119,8 +119,8 @@ const UtentiTable = () => {
 
           {data.length > 0 && (
             <div>
-              <h4>Tutti gli Utenti <NavLink to="/report">Report</NavLink></h4>
-              <h4>Filtri utenti (più condizioni):</h4>
+              <h4>Все пользователи <NavLink to="/report">Отчёт</NavLink></h4>
+              <h4>Фильтры пользователей (несколько условий):</h4>
               <div className="forma-ricerca">
                 {filters.map((filter, index) => (
                   <div key={filter.id} className="filtri">
@@ -130,8 +130,8 @@ const UtentiTable = () => {
                         onChange={(e) => updateFilter(filter.id, 'logic', e.target.value)}
                         className="forma-ricerca"
                       >
-                        <option value="AND">E</option>
-                        <option value="OR">O</option>
+                        <option value="AND">И</option>
+                        <option value="OR">ИЛИ</option>
                       </select>
                     )}
 
@@ -140,7 +140,7 @@ const UtentiTable = () => {
                       onChange={(e) => updateFilter(filter.id, 'column', e.target.value)}
                       className="forma-ricerca"
                     >
-                      <option value="all">Tutte le colonne</option>
+                      <option value="all">Все столбцы</option>
                       {headers.map((key) => (
                         <option key={key} value={key}>{key}</option>
                       ))}
@@ -150,15 +150,15 @@ const UtentiTable = () => {
                       onChange={(e) => updateFilter(filter.id, 'operator', e.target.value)}
                       className="forma-ricerca"
                     >
-                      <option value="contains">Contiene</option>
-                      <option value="equals">Uguale</option>
-                      <option value="gt">&gt; (maggiore)</option>
-                      <option value="lt">&lt; (minore)</option>
-                      <option value="empty">Vuoto</option>
+                      <option value="contains">Содержит</option>
+                      <option value="equals">Равно</option>
+                      <option value="gt">&gt; (больше)</option>
+                      <option value="lt">&lt; (меньше)</option>
+                      <option value="empty">Пусто</option>
                     </select>
                     <input
                       type="text"
-                      placeholder="Valore..."
+                      placeholder="Значение..."
                       value={filter.value}
                       onChange={(e) => updateFilter(filter.id, 'value', e.target.value)}
                       disabled={filter.operator === 'empty'}
@@ -170,30 +170,30 @@ const UtentiTable = () => {
                         onClick={() => removeFilter(filter.id)}
                         className="btn-elimina"
                       >
-                        Rimuovi
+                        Удалить
                       </button>
                     )}
                   </div>
                 ))}
                 <div className="filtri">
-                  <button type="button" onClick={addFilter} className="btn-modifica">Aggiungi condizione</button>
+                  <button type="button" onClick={addFilter} className="btn-modifica">Добавить условие</button>
                   <select
                     value={globalLogic}
                     onChange={(e) => setGlobalLogic(e.target.value)}
                     className="forma-ricerca"
                   >
-                    <option value="AND">Logica globale: E</option>
-                    <option value="OR">Logica globale: O</option>
+                    <option value="AND">Общая логика: И</option>
+                    <option value="OR">Общая логика: ИЛИ</option>
                   </select>
-                  <button type="button" onClick={clearFilters} className="btn-salva">Pulisci filtri</button>
+                  <button type="button" onClick={clearFilters} className="btn-salva">Очистить фильтры</button>
                 </div>
                 <p className="verde">
-                  Trovate righe: <strong>{filteredData.length}</strong> su <strong>{data.length}</strong>
+                  Найдено строк: <strong>{filteredData.length}</strong> из <strong>{data.length}</strong>
                 </p>
               </div>
 
               <div>
-                <h4>Tabella utenti (filtrata):</h4>
+                <h4>Таблица пользователей (отфильтрованная):</h4>
 
                 <div className="table-wrapper">
                   <table>
@@ -222,14 +222,14 @@ const UtentiTable = () => {
                 </div>
                 {filteredData.length === 0 && (
                   <p className="carico-dati-container">
-                    <span className="carico-dati">Nessun risultato. Modifica i filtri.</span>
+                    <span className="carico-dati">Нет результатов. Измените фильтры.</span>
                   </p>
                 )}
               </div>
             </div>
           )}
           {data.length === 0 && !isLoading && (
-            <p className="carico-dati">Nessun utente caricato.</p>
+            <p className="carico-dati">Пользователь не загружен.</p>
           )}
         </div>
       </div>

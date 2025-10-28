@@ -40,7 +40,7 @@ return (
               <div key={photo.id || index} className="photo-item">
                 <img 
                   src={src}
-                  alt={filename || `photo ${photo.id || index}`}
+                  alt={filename || `фото ${photo.id || index}`}
                   loading="lazy"
                   sizes="(max-width: 600px) 100vw, 50vw"
                   width="400"
@@ -49,7 +49,7 @@ return (
                   onError={(e) => { 
                     e.target.src = "/placeholder.png"; // добавь placeholder.png в public/
                     e.target.style.opacity = "0.6";
-                    e.target.title = "Immagine non trovata";
+                    e.target.title = "Изображение не найдено";
                   }}
                 />
                 <p className="photo-filename">{filename}</p>
@@ -58,7 +58,7 @@ return (
           })}
         </div>
         {(!loading && photos.length === 0) && (
-          <p className="empty-state"> Nessuna foto al momento </p>
+          <p className="empty-state"> На данный момент нет фотографий </p>
         )}
 
         {Number(localStorage.getItem('userCategoria')) > 1 && (

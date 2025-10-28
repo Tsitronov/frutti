@@ -2403,7 +2403,6 @@ body.dark .mobile-menu-overlay button:hover {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    border:2px solid red;
   }
 
   .article-list {

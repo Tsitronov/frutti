@@ -1,6 +1,6 @@
 const ModaleAppunti = ({categoriaSelezionata, setCategoriaSelezionata, appuntiFiltrati}) => {
-	return(
-		<div className="modal">
+    return(
+        <div className="modal">
         <div className="modal-content">
           <h2 className="verde">{categoriaSelezionata}</h2>
             {appuntiFiltrati.map(f => (
@@ -16,7 +16,7 @@ const ModaleAppunti = ({categoriaSelezionata, setCategoriaSelezionata, appuntiFi
 
             ))}
           
-          <button type="button" onClick={() => setCategoriaSelezionata(null)}>❌ Chiudi</button>
+          <button type="button" onClick={() => setCategoriaSelezionata(null)}>❌ Закрыть</button>
         </div>
     </div>
     );

@@ -50,7 +50,7 @@ const Login = () => {
     <div className="container-login">
       <div className="main-content-login">
         <div className="content-login">
-          <h3 className="title-login">Pagina di accesso</h3>
+          <h3 className="title-login">Страница входа</h3>
           <div className="article-list-login">
             {loading && <div className="loading-spinner"></div>}
             {localError && <p className="error-login">{localError}</p>}
@@ -59,8 +59,8 @@ const Login = () => {
               <input
                 type="text"
                 className="input-login"
-                placeholder="Inserisci il login"
-                {...register('username', { required: 'È richiesto l`accesso' })}
+                placeholder="Введите логин"
+                {...register('username', { required: 'Требуется логин' })}
               />
               {errors.username && (
                 <p className="error-login">{errors.username.message}</p>
@@ -69,16 +69,16 @@ const Login = () => {
               <input
                 type="password"
                 className="input-login"
-                placeholder="Inserisci la password"
+                placeholder="Введите пароль"
                 {...register('password', {
-                  required: 'La password è obbligatoria',
+                  required: 'Пароль обязателен',
                 })}
               />
               {errors.password && (
                 <p className="error-login">{errors.password.message}</p>
               )}
 
-              <button className="button-login">entrare</button>
+              <button className="button-login">Войти</button>
             </form>
           </div>
         </div>

@@ -135,7 +135,7 @@ const Generale = () => {
 
       <div className="sidebar-appunti">
         {localStorage.getItem('userCategoria') !== '1' &&
-          <div className="toggleLink" onClick={toggleFruttiForm}> Aggiungi 🙂 </div>
+          <div className="toggleLink" onClick={toggleFruttiForm}> Добавить 🙂 </div>
         }
         <div className="categories">
           {categorieUniche.map((cat, index) => (
@@ -194,7 +194,7 @@ const Generale = () => {
                   {localStorage.getItem('userCategoria') !== '1' &&
                     <div className="actions">
                       <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
-                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Sicuro che delete?") && dispatch(eliminaFrutto(item.id))}>❌</button>
+                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Вы уверены, что хотите удалить?") && dispatch(eliminaFrutto(item.id))}>❌</button>
                     </div>
                   }
                 </div>

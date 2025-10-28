@@ -94,22 +94,22 @@ const Navbar = () => {
       {/* Mobile Overlay Menu */}
       {isMobile && isMobileMenuOpen && (
         <div className="mobile-menu-overlay open">
-          <NavItem to="/appuntiDemo" onClick={closeMobileMenu}>Appunti</NavItem>
-          <NavItem to="/generaleDemo" onClick={closeMobileMenu}>Generale</NavItem>
-          <NavItem to="/utentiDemo" onClick={closeMobileMenu}>Utenti</NavItem>
+          <NavItem to="/appuntiDemo" onClick={closeMobileMenu}>Заметки</NavItem>
+          <NavItem to="/generaleDemo" onClick={closeMobileMenu}>Общее</NavItem>
+          <NavItem to="/utentiDemo" onClick={closeMobileMenu}>Пользователи</NavItem>
           {(categoria === '2' || categoria === '3') && (
-            <NavItem to="/utentiTable" onClick={closeMobileMenu}>UtentiTable</NavItem>
+            <NavItem to="/utentiTable" onClick={closeMobileMenu}>Таблица пользователей</NavItem>
           )}
           {categoria === '3' && (
-            <NavItem to="/adminDemo" onClick={closeMobileMenu}>Admin</NavItem>
+            <NavItem to="/adminDemo" onClick={closeMobileMenu}>Админ</NavItem>
           )}
           {(categoria === '2' || categoria === '3') && (
-            <NavItem to="/team-photos" onClick={closeMobileMenu}>Team Photos</NavItem>
+            <NavItem to="/team-photos" onClick={closeMobileMenu}>Фото команды</NavItem>
           )}
           {isAuth ? (
-            <button className="nav-link logout" onClick={logout}>Logout</button>
+            <button className="nav-link logout" onClick={logout}>Выход</button>
           ) : (
-            <NavItem to="/loginDemo" onClick={closeMobileMenu}>Login</NavItem>
+            <NavItem to="/loginDemo" onClick={closeMobileMenu}>Вход</NavItem>
           )}
           <button 
             className="theme-toggle-mobile" 
@@ -123,18 +123,18 @@ const Navbar = () => {
       {/* Desktop Nav Links - Nascondi su mobile */}
       {!isMobile && (
         <ul className="top-nav-links">
-          <li><NavItem to="/appuntiDemo">Appunti</NavItem></li>
-          <li><NavItem to="/generaleDemo">Generale</NavItem></li>
-          <li><NavItem to="/utentiDemo">Utenti</NavItem></li>
-          {(categoria === '2' || categoria === '3') && <li><NavItem to="/utentiTable">UtentiTable</NavItem></li>}
-          {categoria === '3' && <li><NavItem to="/adminDemo">Admin</NavItem></li>}
-          {(categoria === '2' || categoria === '3') && <li><NavItem to="/team-photos">Team Photos</NavItem></li>}
+          <li><NavItem to="/appuntiDemo">Заметки</NavItem></li>
+          <li><NavItem to="/generaleDemo">Общее</NavItem></li>
+          <li><NavItem to="/utentiDemo">Пользователи</NavItem></li>
+          {(categoria === '2' || categoria === '3') && <li><NavItem to="/utentiTable">Таблица пользователей</NavItem></li>}
+          {categoria === '3' && <li><NavItem to="/adminDemo">Админ</NavItem></li>}
+          {(categoria === '2' || categoria === '3') && <li><NavItem to="/team-photos">Фото команды</NavItem></li>}
           {isAuth ? (
             <li>
-              <span className="nav-link logout" onClick={logout}> Logout </span>
+              <span className="nav-link logout" onClick={logout}> Выход </span>
             </li>
           ) : (
-            <li><NavItem to="/loginDemo">Login</NavItem></li>
+            <li><NavItem to="/loginDemo">Вход</NavItem></li>
           )}
         </ul>
       )}

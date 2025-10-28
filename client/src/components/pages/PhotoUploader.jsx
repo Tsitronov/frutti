@@ -40,8 +40,8 @@ const PhotoUploader = () => {
   return (
     <div className="photo-uploader">
       {loading && <div className="loading-spinner"></div>}
-      <h4 className="uploader-title">Gestione foto (max. 5)</h4>
-      <p className="uploader-count">Attuali: {photos.length}/5</p>
+      <h4 className="uploader-title">Управление фото (макс. 5)</h4>
+      <p className="uploader-count">Текущие: {photos.length}/5</p>
 
       {photos.length < 5 && (
         <div className="uploader-controls">
@@ -58,19 +58,19 @@ const PhotoUploader = () => {
             disabled={selectedFiles.length === 0 || loading}
             className="upload-button"
           >
-            Carica ({selectedFiles.length})
+            Загрузить ({selectedFiles.length})
           </button>
         </div>
       )}
 
       {error && (
         <div className="uploader-error">
-          <p className="error-text">Errore foto: {error}</p>
+          <p className="error-text">Ошибка фото: {error}</p>
           <button onClick={handleClearError} className="clear-error-button">
-            Pulisci
+            Очистить
           </button>
           <button onClick={() => dispatch(fetchPhotos())} className="retry-button">
-            Riprova
+            Повторить
           </button>
         </div>
       )}
@@ -80,19 +80,19 @@ const PhotoUploader = () => {
           <div key={photo.id || index} className="uploader-photo-item">
             <img
               src={photo.url || photo.path || ''}
-              alt={photo.filename || `photo ${photo.id || index}`}
+              alt={photo.filename || `фото ${photo.id || index}`}
               width="100"
               crossOrigin="anonymous"
               className="uploader-photo-image"
               onError={(e) => {
                 e.target.style.opacity = '0.4';
-                e.target.title = 'Errore nel caricamento dell’immagine';
+                e.target.title = 'Ошибка загрузки изображения';
                 console.error('Image load error:', e.target.src);
               }}
             />
             <div className="uploader-photo-actions">
               <button onClick={() => handleDelete(photo.id)} disabled={loading} className="delete-button">
-                Delete
+                Удалить
               </button>
             </div>
           </div>

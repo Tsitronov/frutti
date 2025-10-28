@@ -1,18 +1,18 @@
 const AppuntiForm = ({form, setForm, categorieUniche, handleSalva, handleAggiungiAppunto, toggleAppuntiForm, isLoading}) => {
-	return(
+    return(
     <div className="appuntiForm appuntiFormDisplayNone">
-		  <div className="modal">
+          <div className="modal">
         <div className="modal-content">
-    		  <input
+              <input
             value={form.nome || ""}
             onChange={(e) => setForm({ ...form, nome: e.target.value })}
-            placeholder="nome"
+            placeholder="Название"
           />
           <input
             list="suggestions"
             value={form.categoria || ""}
             onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-            placeholder="Categoria"
+            placeholder="Категория"
           />
           <datalist id="suggestions">
             {categorieUniche.map((cat, i) => (
@@ -23,32 +23,32 @@ const AppuntiForm = ({form, setForm, categorieUniche, handleSalva, handleAggiung
           <textarea
             value={form.descrizione || ""}
             onChange={(e) => {setForm({ ...form, descrizione: e.target.value })}}
-            placeholder="Descrizione"
+            placeholder="Описание"
           ></textarea>
 
 
         {form.id !== null ? (
           <>
             <button type="button" onClick={handleSalva} disabled={isLoading}>
-              {isLoading ? <span className="spinner"></span> : '💾 Cambia'} 
+              {isLoading ? <span className="spinner"></span> : '💾 Изменить'} 
             </button>
             <button type="button" className="btn-elimina" onClick={toggleAppuntiForm} disabled={isLoading}>
-              ❌ Annulla
+              ❌ Отмена
             </button>
           </>
         ) : (
           <>
             <button type="button" onClick={handleAggiungiAppunto} disabled={isLoading}>
-              {isLoading ? <span className="spinner"></span> : '➕ Aggiungi'}
+              {isLoading ? <span className="spinner"></span> : '➕ Добавить'}
             </button>
             <button type="button" className="btn-elimina" onClick={toggleAppuntiForm} disabled={isLoading}>
-              ❌ Annulla
+              ❌ Отмена
             </button>
           </>
         )}
         </div>
       </div>
     </div>
-	);
+    );
 }
 export default AppuntiForm;
