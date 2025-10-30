@@ -136,7 +136,7 @@ const UtentiTable = () => {
 
           {data.length > 0 && (
             <div>
-              <h4>Все пользователи <NavLink to="/report">Отчёт</NavLink></h4>
+              <h4>Все пользователи <NavLink to="/reportDemo">Отчёт</NavLink></h4>
               <h4>Фильтры пользователей (несколько условий):</h4>
               <div className="forma-ricerca">
                 {filters.map((filter, index) => (
