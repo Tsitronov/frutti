@@ -3,6 +3,7 @@ import axios from 'axios';
 
 
 const URL = `${process.env.REACT_APP_API_URL}/api/utentiDemo`;
+const token = process.env.JWT_TOKEN
 
 
 // 📥 Carica tutti gli utenti
