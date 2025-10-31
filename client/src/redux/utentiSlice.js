@@ -7,13 +7,22 @@ const URL = `${process.env.REACT_APP_API_URL}/api/utentiDemo`;
 
 // 📥 Carica tutti gli utenti
 export const fetchUtenti = createAsyncThunk('utenti/fetchUtenti', async () => {
-  const res = await axios.get(URL);
+  const res = await axios.get(URL,{
+    headers: {
+      Authorization: `Bearer ${token}`,  // ✅ send token here
+    },
+  });
   return res.data;
 });
 
 // ➕ Aggiungi utente
 export const aggiungiUtente = createAsyncThunk('utenti/aggiungiUtente', async (utente) => {
-  const res = await axios.post(URL, utente);
+  const res = await axios.post(URL,  utente, // your request body
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,  // ✅ send token here
+    },
+  });
   return res.data;
 });
 
