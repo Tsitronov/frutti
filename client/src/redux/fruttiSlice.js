@@ -4,29 +4,33 @@ import axios from 'axios';
 // URL del backend
 const URL = `${process.env.REACT_APP_API_URL}/api/fruttiDemo`;
 
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return {
+    authorization: token ? `Bearer ${token}` : '',
+  };
+};
+
+
 // 📥 Carica frutti dal server
 export const fetchFrutti = createAsyncThunk('frutti/fetchFrutti', async () => {
-  const res = await axios.get(URL);
-  // Проверяем, что сервер вернул массив, иначе пустой массив
+  const res = await axios.get(URL, { headers: getAuthHeaders() });
   return Array.isArray(res.data) ? res.data : [];
 });
 
-// ➕ Aggiungi nuovo frutto
 export const aggiungiFrutto = createAsyncThunk('frutti/aggiungiFrutto', async (frutto) => {
-  const res = await axios.post(URL, frutto);
+  const res = await axios.post(URL, frutto, { headers: getAuthHeaders() });
   return res.data;
 });
 
-// ❌ Elimina frutto
 export const eliminaFrutto = createAsyncThunk('frutti/eliminaFrutto', async (id) => {
-  await axios.delete(`${URL}/${id}`);
+  await axios.delete(`${URL}/${id}`, { headers: getAuthHeaders() });
   return id;
 });
 
-// ✏️ Modifica frutto
 export const modificaFrutto = createAsyncThunk('frutti/modificaFrutto', async (frutto) => {
   const { id, nome, descrizione, categoria } = frutto;
-  const res = await axios.put(`${URL}/${id}`, { nome, descrizione, categoria });
+  const res = await axios.put(`${URL}/${id}`, { nome, descrizione, categoria }, { headers: getAuthHeaders() });
   return res.data;
 });
 

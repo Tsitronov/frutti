@@ -17,6 +17,12 @@ import { useSelector} from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
+import axios from "axios";
+const token = localStorage.getItem('token');
+if (token) {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
+
 function App() {
   const [isAuth, setIsAuth] = useState(!!localStorage.getItem('auth'));
   const [userCategoria, setUserCategoria] = useState(localStorage.getItem('userCategoria') || null);

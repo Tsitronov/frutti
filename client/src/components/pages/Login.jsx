@@ -18,7 +18,7 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    setLoading(true); // показать Loading...
+    setLoading(true);
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/loginDemo`,
@@ -33,6 +33,13 @@ const Login = () => {
         setUserCategoria(categoria);
         localStorage.setItem('userCategoria', categoria);
 
+        // ✅ Сохраняем токен
+        const token = response.data.token;
+        if (token) {
+          localStorage.setItem('token', token);
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        }
+
         setLocalError('');
         navigate('/utentiDemo');
       } else {
@@ -42,7 +49,7 @@ const Login = () => {
       console.error('Error:', err.response?.data, err.message);
       setLocalError(err.response?.data?.message || 'Неверный логин или пароль');
     } finally {
-      setLoading(false); // ✅ спрятать Loading...
+      setLoading(false);
     }
   };
 

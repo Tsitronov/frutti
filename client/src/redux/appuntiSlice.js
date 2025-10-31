@@ -4,31 +4,33 @@ import axios from 'axios';
 // URL del backend
 const URL = `${process.env.REACT_APP_API_URL}/api/appuntiDemo`;
 
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return { authorization: token ? `Bearer ${token}` : '' };
+};
+
 // 📥 Carica appunti dal server
 export const fetchAppunti = createAsyncThunk('appunti/fetchAppunti', async () => {
-  const res = await axios.get(URL);
-  // Проверяем, что сервер вернул массив, иначе пустой массив
+  const res = await axios.get(URL, { headers: getAuthHeaders() });
   return Array.isArray(res.data) ? res.data : [];
 });
 
-// ➕ Aggiungi nuovo appunto
 export const aggiungiAppunto = createAsyncThunk('appunti/aggiungiAppunto', async (appunto) => {
-  const res = await axios.post(URL, appunto);
+  const res = await axios.post(URL, appunto, { headers: getAuthHeaders() });
   return res.data;
 });
 
-// ❌ Elimina appunto
 export const eliminaAppunto = createAsyncThunk('appunti/eliminaAppunto', async (id) => {
-  await axios.delete(`${URL}/${id}`);
+  await axios.delete(`${URL}/${id}`, { headers: getAuthHeaders() });
   return id;
 });
 
-// ✏️ Modifica appunto
 export const modificaAppunto = createAsyncThunk('appunti/modificaAppunto', async (appunto) => {
   const { id, nome, descrizione, categoria } = appunto;
-  const res = await axios.put(`${URL}/${id}`, { nome, descrizione, categoria });
+  const res = await axios.put(`${URL}/${id}`, { nome, descrizione, categoria }, { headers: getAuthHeaders() });
   return res.data;
 });
+
 
 // ✅ Carica appunti da localStorage
 export const caricaAppuntiLocalStorage = () => (dispatch) => {

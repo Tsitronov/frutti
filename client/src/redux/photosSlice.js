@@ -4,9 +4,13 @@ import axios from 'axios';
 const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 // 🔐 Заголовок с категорией пользователя
-const getAuthHeader = () => {
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
   const categoria = localStorage.getItem('userCategoria');
-  return { 'user-categoria': categoria || '' };
+  return {
+    authorization: token ? `Bearer ${token}` : '',
+    'user-categoria': categoria || ''
+  };
 };
 
 // 📤 Загрузка фото (массив)
@@ -18,7 +22,7 @@ export const uploadPhotos = createAsyncThunk(
 
     try {
       const res = await axios.post(`${API_BASE}/api/upload-photos`, formData, {
-        headers: getAuthHeader()
+        headers: getAuthHeaders()
       });
       return res.data.photos;
     } catch (err) {
@@ -32,7 +36,7 @@ export const fetchPhotos = createAsyncThunk(
   'photos/fetchPhotos',
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`${API_BASE}/api/photos`, { headers: getAuthHeader() });
+      const res = await axios.get(`${API_BASE}/api/photos`, { headers: getAuthHeaders() });
       return res.data.photos || [];
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || err.message || 'Ошибка загрузки списка');
@@ -45,7 +49,7 @@ export const deletePhoto = createAsyncThunk(
   'photos/deletePhoto',
   async (photoId, { rejectWithValue }) => {
     try {
-      await axios.delete(`${API_BASE}/api/delete-photo/${photoId}`, { headers: getAuthHeader() });
+      await axios.delete(`${API_BASE}/api/delete-photo/${photoId}`, { headers: getAuthHeaders() });
       return photoId;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || err.message || 'Ошибка удаления');

@@ -5,61 +5,36 @@ const URL = `${process.env.REACT_APP_API_URL}/api/adminDemo`;
 
 // 📥 GET – получить всех пользователей
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
-  const res = await axios.get(URL);
+  const token = localStorage.getItem('token');
+  const res = await axios.get(URL, {
+    headers: { authorization: `Bearer ${token}` },
+  });
   return Array.isArray(res.data) ? res.data : [];
 });
 
 // ➕ POST – добавить пользователя
 export const addUser = createAsyncThunk('users/addUser', async (user) => {
-  const res = await axios.post(URL, user);
+  const token = localStorage.getItem('token');
+  const res = await axios.post(URL, user, {
+    headers: { authorization: `Bearer ${token}` },
+  });
   return res.data;
 });
 
 // ✏ PUT – обновить пользователя
 export const updateUser = createAsyncThunk('users/updateUser', async ({ id, user }) => {
-  const res = await axios.put(`${URL}/${id}`, user);
+  const token = localStorage.getItem('token');
+  const res = await axios.put(`${URL}/${id}`, user, {
+    headers: { authorization: `Bearer ${token}` },
+  });
   return res.data;
 });
 
 // ❌ DELETE – удалить пользователя
 export const deleteUser = createAsyncThunk('users/deleteUser', async (id) => {
-  await axios.delete(`${URL}/${id}`);
+  const token = localStorage.getItem('token');
+  await axios.delete(`${URL}/${id}`, {
+    headers: { authorization: `Bearer ${token}` },
+  });
   return id;
 });
-
-const usersSlice = createSlice({
-  name: 'users',
-  initialState: {
-    lista: [],
-    isLoading: false,
-    error: null,
-    currentPage: 1,
-  },
-  reducers: {
-    setCurrentPage(state, action) {
-      state.currentPage = action.payload;
-    }
-  },
-  extraReducers: (builder) => {
-    builder
-      // fetchUsers
-      .addCase(fetchUsers.pending, (state) => { state.isLoading = true; state.error = null; })
-      .addCase(fetchUsers.fulfilled, (state, action) => { state.isLoading = false; state.lista = action.payload; })
-      .addCase(fetchUsers.rejected, (state, action) => { state.isLoading = false; state.error = action.payload || action.error.message; })
-
-      // addUser
-      .addCase(addUser.fulfilled, (state, action) => { state.lista.push(action.payload); })
-      // updateUser
-      .addCase(updateUser.fulfilled, (state, action) => {
-        const index = state.lista.findIndex(u => u.id === action.payload.id);
-        if (index !== -1) state.lista[index] = action.payload;
-      })
-      // deleteUser
-      .addCase(deleteUser.fulfilled, (state, action) => {
-        state.lista = state.lista.filter(u => u.id !== action.payload);
-      });
-  }
-});
-
-export const { setCurrentPage } = usersSlice.actions;
-export default usersSlice.reducer;
