@@ -33,12 +33,9 @@ const Login = () => {
         setUserCategoria(categoria);
         localStorage.setItem('userCategoria', categoria);
 
-        // ✅ Сохраняем токен
-        const token = response.data.token;
-        if (token) {
-          localStorage.setItem('token', token);
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        }
+        // 💾 сохраняем токены
+        localStorage.setItem('token', response.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
 
         setLocalError('');
         navigate('/utentiDemo');

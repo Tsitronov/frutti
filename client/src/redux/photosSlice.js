@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../api';
 
 const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
@@ -21,7 +21,7 @@ export const uploadPhotos = createAsyncThunk(
     photos.forEach(photo => formData.append('photos', photo));
 
     try {
-      const res = await axios.post(`${API_BASE}/api/upload-photos`, formData, {
+      const res = await api.post(`${API_BASE}/api/upload-photos`, formData, {
         headers: getAuthHeaders()
       });
       return res.data.photos;
@@ -36,7 +36,7 @@ export const fetchPhotos = createAsyncThunk(
   'photos/fetchPhotos',
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`${API_BASE}/api/photos`, { headers: getAuthHeaders() });
+      const res = await api.get(`${API_BASE}/api/photos`, { headers: getAuthHeaders() });
       return res.data.photos || [];
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || err.message || 'Ошибка загрузки списка');
@@ -49,7 +49,7 @@ export const deletePhoto = createAsyncThunk(
   'photos/deletePhoto',
   async (photoId, { rejectWithValue }) => {
     try {
-      await axios.delete(`${API_BASE}/api/delete-photo/${photoId}`, { headers: getAuthHeaders() });
+      await api.delete(`${API_BASE}/api/delete-photo/${photoId}`, { headers: getAuthHeaders() });
       return photoId;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || err.message || 'Ошибка удаления');

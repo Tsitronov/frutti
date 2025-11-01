@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+
+import api from '../api';
 
 const URL = `${process.env.REACT_APP_API_URL}/api/adminDemo`;
 
 // 📥 GET – получить всех пользователей
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   const token = localStorage.getItem('token');
-  const res = await axios.get(URL, {
+  const res = await api.get(URL, {
     headers: { authorization: `Bearer ${token}` },
   });
   return Array.isArray(res.data) ? res.data : [];
@@ -15,7 +16,7 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
 // ➕ POST – добавить пользователя
 export const addUser = createAsyncThunk('users/addUser', async (user) => {
   const token = localStorage.getItem('token');
-  const res = await axios.post(URL, user, {
+  const res = await api.post(URL, user, {
     headers: { authorization: `Bearer ${token}` },
   });
   return res.data;
@@ -24,7 +25,7 @@ export const addUser = createAsyncThunk('users/addUser', async (user) => {
 // ✏ PUT – обновить пользователя
 export const updateUser = createAsyncThunk('users/updateUser', async ({ id, user }) => {
   const token = localStorage.getItem('token');
-  const res = await axios.put(`${URL}/${id}`, user, {
+  const res = await api.put(`${URL}/${id}`, user, {
     headers: { authorization: `Bearer ${token}` },
   });
   return res.data;
@@ -33,7 +34,7 @@ export const updateUser = createAsyncThunk('users/updateUser', async ({ id, user
 // ❌ DELETE – удалить пользователя
 export const deleteUser = createAsyncThunk('users/deleteUser', async (id) => {
   const token = localStorage.getItem('token');
-  await axios.delete(`${URL}/${id}`, {
+  await api.delete(`${URL}/${id}`, {
     headers: { authorization: `Bearer ${token}` },
   });
   return id;

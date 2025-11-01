@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../api';
 
 
 const URL = `${process.env.REACT_APP_API_URL}/api/utentiDemo`;
@@ -8,7 +8,7 @@ const token = process.env.JWT_TOKEN
 
 export const fetchUtenti = createAsyncThunk('utenti/fetchUtenti', async () => {
   const token = localStorage.getItem('token');
-  const res = await axios.get(URL, {
+  const res = await api.get(URL, {
     headers: {
       authorization: `Bearer ${token}`,
     },
@@ -18,7 +18,7 @@ export const fetchUtenti = createAsyncThunk('utenti/fetchUtenti', async () => {
 
 export const aggiungiUtente = createAsyncThunk('utenti/aggiungiUtente', async (utente) => {
   const token = localStorage.getItem('token');
-  const res = await axios.post(URL, utente, {
+  const res = await api.post(URL, utente, {
     headers: {
       authorization: `Bearer ${token}`,
     },
@@ -28,7 +28,7 @@ export const aggiungiUtente = createAsyncThunk('utenti/aggiungiUtente', async (u
 
 export const modificaUtente = createAsyncThunk('utenti/modificaUtente', async (utente) => {
   const token = localStorage.getItem('token');
-  const res = await axios.put(`${URL}/${utente.id}`, utente, {
+  const res = await api.put(`${URL}/${utente.id}`, utente, {
     headers: {
       authorization: `Bearer ${token}`,
     },
@@ -38,7 +38,7 @@ export const modificaUtente = createAsyncThunk('utenti/modificaUtente', async (u
 
 export const eliminaUtente = createAsyncThunk('utenti/eliminaUtente', async (id) => {
   const token = localStorage.getItem('token');
-  await axios.delete(`${URL}/${id}`, {
+  await api.delete(`${URL}/${id}`, {
     headers: {
       authorization: `Bearer ${token}`,
     },
