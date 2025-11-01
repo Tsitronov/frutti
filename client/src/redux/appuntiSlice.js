@@ -12,7 +12,7 @@ const getAuthHeaders = () => {
 // 📥 Carica appunti dal server
 export const fetchAppunti = createAsyncThunk('appunti/fetchAppunti', async () => {
   const res = await api.get(URL, { headers: getAuthHeaders() });
-  return Array.isArray(res.data) ? res.data : [];
+  return Array.isArray(res.data) ? res.data : res.data.appunti || [];
 });
 
 export const aggiungiAppunto = createAsyncThunk('appunti/aggiungiAppunto', async (appunto) => {

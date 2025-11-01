@@ -15,7 +15,7 @@ const getAuthHeaders = () => {
 // 📥 Carica frutti dal server
 export const fetchFrutti = createAsyncThunk('frutti/fetchFrutti', async () => {
   const res = await api.get(URL, { headers: getAuthHeaders() });
-  return Array.isArray(res.data) ? res.data : [];
+  return Array.isArray(res.data) ? res.data : res.data.frutti || [];
 });
 
 export const aggiungiFrutto = createAsyncThunk('frutti/aggiungiFrutto', async (frutto) => {
