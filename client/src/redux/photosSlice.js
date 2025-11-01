@@ -9,7 +9,7 @@ const getAuthHeaders = () => {
   const categoria = localStorage.getItem('userCategoria');
   return {
     authorization: token ? `Bearer ${token}` : '',
-    'user-categoria': categoria || ''
+    'categoria': categoria || ''
   };
 };
 
