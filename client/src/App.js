@@ -16,21 +16,34 @@ import { useSelector} from 'react-redux';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
+import { NavLink, useNavigate } from 'react-router-dom';
 
-import axios from "axios";
-const token = localStorage.getItem('token');
-if (token) {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-}
+
 
 function App() {
-  const [isAuth, setIsAuth] = useState(!!localStorage.getItem('auth'));
+  const navigate = useNavigate();
+  const [isAuth, setIsAuth] = useState(!!localStorage.getItem('token'));
   const [userCategoria, setUserCategoria] = useState(localStorage.getItem('userCategoria') || null);
 
   const theme = useSelector((state) => state.theme?.theme || 'light');
   useEffect(() => {
     document.body.className = theme;
   }, [theme]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      navigate('/login');
+    } else {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      if (payload.exp * 1000 < Date.now()) {
+        localStorage.removeItem('token');
+        navigate('/login');
+      }
+    }
+  }, []);
+
 
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth, userCategoria, setUserCategoria }}>

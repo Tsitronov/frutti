@@ -5,7 +5,7 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
-// 🚀 Добавляем перехватчик (interceptor)
+// ✅ Добавляем accessToken к каждому запросу
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -14,40 +14,53 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// 🔁 Перехватчик ответов — обновляет accessToken при 401
+// 🔁 Обработка ошибок
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // Если токен истёк и запрос ещё не был повторён
+    // --- Если токен просрочен (401) ---
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       const refreshToken = localStorage.getItem('refreshToken');
       if (!refreshToken) {
-        console.warn('⚠️ Нет refreshToken — нужно заново войти');
+        console.warn('⚠️ Нет refreshToken — перенаправление на /login');
+        localStorage.removeItem('token');
+        window.location.href = '/login';
         return Promise.reject(error);
       }
 
       try {
-        // Запрашиваем новый accessToken
+        // Пробуем обновить accessToken
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/refresh`, { refreshToken });
+        const newToken = res.data.accessToken;
 
-        // Сохраняем новый токен
-        localStorage.setItem('token', res.data.accessToken);
-
-        // Обновляем заголовок и повторяем исходный запрос
-        originalRequest.headers['Authorization'] = `Bearer ${res.data.accessToken}`;
-        return api(originalRequest);
+        if (newToken) {
+          localStorage.setItem('token', newToken);
+          originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+          return api(originalRequest); // повторяем запрос
+        } else {
+          console.warn('⚠️ refresh не вернул токен — вход снова');
+          localStorage.removeItem('token');
+          localStorage.removeItem('refreshToken');
+          window.location.href = '/login';
+        }
       } catch (refreshError) {
-        console.error('Ошибка обновления токена', refreshError);
-        // Удаляем токены и перенаправляем на логин
+        console.error('Ошибка refresh-токена:', refreshError);
         localStorage.removeItem('token');
         localStorage.removeItem('refreshToken');
         window.location.href = '/login';
-        return Promise.reject(refreshError);
       }
+    }
+
+    // --- Если сервер отвечает 403 (нет доступа) ---
+    if (error.response && error.response.status === 403) {
+      console.warn('🚫 403 Forbidden — перенаправление на /login');
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      window.location.href = '/login';
     }
 
     return Promise.reject(error);
@@ -55,3 +68,4 @@ api.interceptors.response.use(
 );
 
 export default api;
+
