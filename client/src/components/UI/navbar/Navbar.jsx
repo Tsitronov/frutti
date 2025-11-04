@@ -50,7 +50,7 @@ const Navbar = () => {
     setIsAuth(false);
     localStorage.removeItem('auth');
     localStorage.removeItem('userCategoria');
-    navigate('/login', { replace: true });
+    navigate('/loginDemo', { replace: true });
     closeMobileMenu();
   };
 

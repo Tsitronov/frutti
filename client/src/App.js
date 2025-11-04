@@ -34,12 +34,12 @@ function App() {
     const token = localStorage.getItem('token');
 
     if (!token) {
-      navigate('/login');
+      navigate('/loginDemo');
     } else {
       const payload = JSON.parse(atob(token.split('.')[1]));
       if (payload.exp * 1000 < Date.now()) {
         localStorage.removeItem('token');
-        navigate('/login');
+        navigate('/loginDemo');
       }
     }
   }, []);

@@ -26,9 +26,9 @@ api.interceptors.response.use(
 
       const refreshToken = localStorage.getItem('refreshToken');
       if (!refreshToken) {
-        console.warn('⚠️ Нет refreshToken — перенаправление на /login');
+        console.warn('⚠️ Нет refreshToken — перенаправление на /loginDemo');
         localStorage.removeItem('token');
-        window.location.href = '/login';
+        window.location.href = '/loginDemo';
         return Promise.reject(error);
       }
 
@@ -45,22 +45,22 @@ api.interceptors.response.use(
           console.warn('⚠️ refresh не вернул токен — вход снова');
           localStorage.removeItem('token');
           localStorage.removeItem('refreshToken');
-          window.location.href = '/login';
+          window.location.href = '/loginDemo';
         }
       } catch (refreshError) {
         console.error('Ошибка refresh-токена:', refreshError);
         localStorage.removeItem('token');
         localStorage.removeItem('refreshToken');
-        window.location.href = '/login';
+        window.location.href = '/loginDemo';
       }
     }
 
     // --- Если сервер отвечает 403 (нет доступа) ---
     if (error.response && error.response.status === 403) {
-      console.warn('🚫 403 Forbidden — перенаправление на /login');
+      console.warn('🚫 403 Forbidden — перенаправление на /loginDemo');
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');
-      window.location.href = '/login';
+      window.location.href = '/loginDemo';
     }
 
     return Promise.reject(error);
