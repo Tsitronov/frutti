@@ -46,8 +46,11 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
 
+
   const logout = () => {
     setIsAuth(false);
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
     localStorage.removeItem('auth');
     localStorage.removeItem('userCategoria');
     navigate('/loginDemo', { replace: true });
