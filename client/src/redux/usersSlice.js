@@ -1,45 +1,31 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
 import api from '../api';
 
 const URL = `${process.env.REACT_APP_API_URL}/api/adminDemo`;
 
 // 📥 GET – получить всех пользователей
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
-  const token = localStorage.getItem('token');
-  const res = await api.get(URL, {
-    headers: { authorization: `Bearer ${token}` },
-  });
+  const res = await api.get(URL);
   return Array.isArray(res.data) ? res.data : [];
 });
 
 // ➕ POST – добавить пользователя
 export const addUser = createAsyncThunk('users/addUser', async (user) => {
-  const token = localStorage.getItem('token');
-  const res = await api.post(URL, user, {
-    headers: { authorization: `Bearer ${token}` },
-  });
+  const res = await api.post(URL, user);
   return res.data;
 });
 
 // ✏ PUT – обновить пользователя
 export const updateUser = createAsyncThunk('users/updateUser', async ({ id, user }) => {
-  const token = localStorage.getItem('token');
-  const res = await api.put(`${URL}/${id}`, user, {
-    headers: { authorization: `Bearer ${token}` },
-  });
+  const res = await api.put(`${URL}/${id}`, user);
   return res.data;
 });
 
 // ❌ DELETE – удалить пользователя
 export const deleteUser = createAsyncThunk('users/deleteUser', async (id) => {
-  const token = localStorage.getItem('token');
-  await api.delete(`${URL}/${id}`, {
-    headers: { authorization: `Bearer ${token}` },
-  });
+  await api.delete(`${URL}/${id}`);
   return id;
 });
-
 
 const usersSlice = createSlice({
   name: 'users',
@@ -57,17 +43,30 @@ const usersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // fetchUsers
-      .addCase(fetchUsers.pending, (state) => { state.isLoading = true; state.error = null; })
-      .addCase(fetchUsers.fulfilled, (state, action) => { state.isLoading = false; state.lista = action.payload; })
-      .addCase(fetchUsers.rejected, (state, action) => { state.isLoading = false; state.error = action.payload || action.error.message; })
+      .addCase(fetchUsers.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.lista = action.payload;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
 
       // addUser
-      .addCase(addUser.fulfilled, (state, action) => { state.lista.push(action.payload); })
+      .addCase(addUser.fulfilled, (state, action) => {
+        state.lista.push(action.payload);
+      })
+
       // updateUser
       .addCase(updateUser.fulfilled, (state, action) => {
         const index = state.lista.findIndex(u => u.id === action.payload.id);
         if (index !== -1) state.lista[index] = action.payload;
       })
+
       // deleteUser
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.lista = state.lista.filter(u => u.id !== action.payload);

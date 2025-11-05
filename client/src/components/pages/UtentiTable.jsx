@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from "react-router-dom";
 import Navbar from "../UI/navbar/Navbar";
-import { fetchUtenti, caricaUtentiLocalStorage } from "../../redux/utentiSlice";
+import { fetchUtenti } from "../../redux/utentiSlice";
 
 const UtentiTable = () => {
   const utenti = useSelector((state) => state.utenti.lista) || []; // Dati dal Redux store
@@ -40,9 +40,6 @@ const UtentiTable = () => {
 
   // 📥 Carica utenti (immediatamente, combinando locale + API)
   useEffect(() => {
-    dispatch(caricaUtentiLocalStorage());
-    
-    // Poi fetch API
     dispatch(fetchUtenti()).then((action) => {
       if (fetchUtenti.fulfilled.match(action)) {
         console.log('Utenti caricati:', action.payload.length);

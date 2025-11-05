@@ -1,67 +1,66 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../api';
 
-// URL del backend
 const URL = `${process.env.REACT_APP_API_URL}/api/fruttiDemo`;
 
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token');
-  return {
-    authorization: token ? `Bearer ${token}` : '',
-  };
-};
-
-
-// 📥 Carica frutti dal server
-export const fetchFrutti = createAsyncThunk('frutti/fetchFrutti', async () => {
-  const res = await api.get(URL, { headers: getAuthHeaders() });
-  return Array.isArray(res.data) ? res.data : res.data.frutti || [];
-});
-
-export const aggiungiFrutto = createAsyncThunk('frutti/aggiungiFrutto', async (frutto) => {
-  const res = await api.post(URL, frutto, { headers: getAuthHeaders() });
-  return res.data;
-});
-
-export const eliminaFrutto = createAsyncThunk('frutti/eliminaFrutto', async (id) => {
-  await api.delete(`${URL}/${id}`, { headers: getAuthHeaders() });
-  return id;
-});
-
-export const modificaFrutto = createAsyncThunk('frutti/modificaFrutto', async (frutto) => {
-  const { id, nome, descrizione, categoria } = frutto;
-  const res = await api.put(`${URL}/${id}`, { nome, descrizione, categoria }, { headers: getAuthHeaders() });
-  return res.data;
-});
-
-// ✅ Carica frutti da localStorage
-export const caricaFruttiLocalStorage = () => (dispatch) => {
-  try {
-    const localData = localStorage.getItem("frutti");
-    const frutti = localData ? JSON.parse(localData) : [];
-    dispatch({
-      type: fetchFrutti.fulfilled.type,
-      payload: Array.isArray(frutti) ? frutti : [],
-    });
-  } catch {
-    dispatch({
-      type: fetchFrutti.fulfilled.type,
-      payload: [],
-    });
+// 📥 GET – получить все фрукты
+export const fetchFrutti = createAsyncThunk(
+  'frutti/fetchFrutti',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.get(URL);
+      return Array.isArray(res.data) ? res.data : [];
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error || 'Ошибка загрузки frutti');
+    }
   }
-};
+);
 
+// ➕ POST – добавить фрукт
+export const aggiungiFrutto = createAsyncThunk(
+  'frutti/aggiungiFrutto',
+  async (frutto, { rejectWithValue }) => {
+    try {
+      const res = await api.post(URL, frutto);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error || 'Ошибка добавления');
+    }
+  }
+);
+
+// ✏ PUT – обновить фрукт
+export const modificaFrutto = createAsyncThunk(
+  'frutti/modificaFrutto',
+  async (frutto, { rejectWithValue }) => {
+    try {
+      const { id, nome, descrizione, categoria } = frutto;
+      const res = await api.put(`${URL}/${id}`, { nome, descrizione, categoria });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error || 'Ошибка обновления');
+    }
+  }
+);
+
+// ❌ DELETE – удалить фрукт
+export const eliminaFrutto = createAsyncThunk(
+  'frutti/eliminaFrutto',
+  async (id, { rejectWithValue }) => {
+    try {
+      await api.delete(`${URL}/${id}`);
+      return id;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error || 'Ошибка удаления');
+    }
+  }
+);
+
+// 🧩 Slice
 const fruttiSlice = createSlice({
   name: 'frutti',
   initialState: {
-    lista: (() => {
-      try {
-        const local = JSON.parse(localStorage.getItem("frutti") || "[]");
-        return Array.isArray(local) ? local : [];
-      } catch {
-        return [];
-      }
-    })(),
+    lista: [],
     currentPage: 1,
     isLoading: false,
     error: null,
@@ -69,10 +68,14 @@ const fruttiSlice = createSlice({
   reducers: {
     setCurrentPage(state, action) {
       state.currentPage = action.payload;
-    }
+    },
+    clearError(state) {
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
+      // fetch
       .addCase(fetchFrutti.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -80,24 +83,38 @@ const fruttiSlice = createSlice({
       .addCase(fetchFrutti.fulfilled, (state, action) => {
         state.isLoading = false;
         state.lista = Array.isArray(action.payload) ? action.payload : [];
-        localStorage.setItem("frutti", JSON.stringify(state.lista));
       })
       .addCase(fetchFrutti.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
       })
+
+      // add
       .addCase(aggiungiFrutto.fulfilled, (state, action) => {
-        if (action.payload) state.lista.push(action.payload);
+        state.lista.push(action.payload);
       })
-      .addCase(eliminaFrutto.fulfilled, (state, action) => {
-        state.lista = state.lista.filter(item => item.id !== action.payload);
+      .addCase(aggiungiFrutto.rejected, (state, action) => {
+        state.error = action.payload;
       })
+
+      // edit
       .addCase(modificaFrutto.fulfilled, (state, action) => {
-        const index = state.lista.findIndex(item => item.id === action.payload.id);
+        const index = state.lista.findIndex((item) => item.id === action.payload.id);
         if (index !== -1) state.lista[index] = action.payload;
+      })
+      .addCase(modificaFrutto.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+
+      // delete
+      .addCase(eliminaFrutto.fulfilled, (state, action) => {
+        state.lista = state.lista.filter((item) => item.id !== action.payload);
+      })
+      .addCase(eliminaFrutto.rejected, (state, action) => {
+        state.error = action.payload;
       });
-  }
+  },
 });
 
-export const { setCurrentPage } = fruttiSlice.actions;
+export const { setCurrentPage, clearError } = fruttiSlice.actions;
 export default fruttiSlice.reducer;

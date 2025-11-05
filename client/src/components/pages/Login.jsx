@@ -3,19 +3,19 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../context';
+import { setTokens } from '../../api';
 
 const Login = () => {
-  const { setIsAuth, setUserCategoria } = useContext(AuthContext);
+  const { setIsAuth, setCategoria } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);   // ✅ локальный loading
-  const [localError, setLocalError] = useState(''); // ✅ локальная ошибка
+  const { setIsAuth, setCategoria } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const [loading, setLoading] = useState(false);
+  const [localError, setLocalError] = useState('');
+
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -27,15 +27,13 @@ const Login = () => {
 
       if (response.data.message === 'Login riuscito') {
         setIsAuth(true);
-        localStorage.setItem('auth', 'true');
 
+        // ✅ сохраняем роль пользователя в памяти
         const categoria = response.data.categoria || '0';
-        setUserCategoria(categoria);
-        localStorage.setItem('userCategoria', categoria);
+        setCategoria(categoria);
 
-        // 💾 сохраняем токены
-        localStorage.setItem('token', response.data.accessToken);
-        localStorage.setItem('refreshToken', response.data.refreshToken);
+        // ✅ сохраняем токены через helper
+        setTokens(response.data.accessToken, response.data.refreshToken);
 
         setLocalError('');
         navigate('/utentiDemo');
@@ -48,7 +46,14 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
 
   return (
     <div className="container-login">

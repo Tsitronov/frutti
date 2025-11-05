@@ -3,6 +3,10 @@ import { createContext } from 'react';
 export const AuthContext = createContext({
   isAuth: false,
   setIsAuth: () => {},
-  userCategoria: null,
-  setUserCategoria: () => {},
+  categoria: null,
+  setCategoria: () => {},
+  token: null,
+  setToken: () => {},
+  refreshToken: null,
+  setRefreshToken: () => {}
 });

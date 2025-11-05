@@ -6,8 +6,7 @@ import {
   aggiungiUtente,
   eliminaUtente,
   modificaUtente,
-  setCurrentPage,
-  caricaUtentiLocalStorage
+  setCurrentPage
 } from "../../redux/utentiSlice";
 
 import Navbar from "../UI/navbar/Navbar";
@@ -67,7 +66,6 @@ const Utenti = () => {
 
   // 📥 Carica utenti
   useEffect(() => {
-    dispatch(caricaUtentiLocalStorage()); // Prima i dati locali
     dispatch(fetchUtenti()).then(data => setLista(data));
   }, [dispatch]);
 

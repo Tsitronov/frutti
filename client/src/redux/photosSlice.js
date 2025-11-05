@@ -3,17 +3,13 @@ import api from '../api';
 
 const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
-// 🔐 Заголовок с категорией пользователя
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token');
-  const categoria = localStorage.getItem('userCategoria');
-  return {
-    authorization: token ? `Bearer ${token}` : '',
-    'categoria': categoria || ''
-  };
+// 🔐 Заголовок только с категорией пользователя
+const getCategoriaHeader = () => {
+  const categoria = localStorage.getItem('categoria'); // у тебя теперь categoria, не userCategoria
+  return categoria ? { categoria } : {};
 };
 
-// 📤 Загрузка фото (массив)
+// 📤 Загрузка фото
 export const uploadPhotos = createAsyncThunk(
   'photos/uploadPhotos',
   async (photos, { rejectWithValue }) => {
@@ -22,11 +18,13 @@ export const uploadPhotos = createAsyncThunk(
 
     try {
       const res = await api.post(`${API_BASE}/api/upload-photos`, formData, {
-        headers: getAuthHeaders()
+        headers: {
+          ...getCategoriaHeader(),
+        },
       });
       return res.data.photos;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || err.message || 'Ошибка загрузки');
+      return rejectWithValue(err.response?.data?.error || err.message || 'Ошибка загрузки фото');
     }
   }
 );
@@ -36,7 +34,11 @@ export const fetchPhotos = createAsyncThunk(
   'photos/fetchPhotos',
   async (_, { rejectWithValue }) => {
     try {
-      const res = await api.get(`${API_BASE}/api/photos`, { headers: getAuthHeaders() });
+      const res = await api.get(`${API_BASE}/api/photos`, {
+        headers: {
+          ...getCategoriaHeader(),
+        },
+      });
       return res.data.photos || [];
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || err.message || 'Ошибка загрузки списка');
@@ -49,19 +51,23 @@ export const deletePhoto = createAsyncThunk(
   'photos/deletePhoto',
   async (photoId, { rejectWithValue }) => {
     try {
-      await api.delete(`${API_BASE}/api/delete-photo/${photoId}`, { headers: getAuthHeaders() });
+      await api.delete(`${API_BASE}/api/delete-photo/${photoId}`, {
+        headers: {
+          ...getCategoriaHeader(),
+        },
+      });
       return photoId;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || err.message || 'Ошибка удаления');
+      return rejectWithValue(err.response?.data?.error || err.message || 'Ошибка удаления фото');
     }
   }
 );
 
 // 🧩 Начальное состояние
 const initialState = {
-  photos: [],   // массив объектов {id, url, path, filename, ...}
+  photos: [],
   loading: false,
-  error: null
+  error: null,
 };
 
 // 🪄 Slice
@@ -69,36 +75,53 @@ const photosSlice = createSlice({
   name: 'photos',
   initialState,
   reducers: {
-    clearError: state => { state.error = null; }
+    clearError: (state) => {
+      state.error = null;
+    },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      // 🔄 upload
-      .addCase(uploadPhotos.pending, state => { state.loading = true; state.error = null; })
+      // uploadPhotos
+      .addCase(uploadPhotos.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(uploadPhotos.fulfilled, (state, action) => {
         state.loading = false;
-        // 👉 Добавляем новые фото в state с url = path
         state.photos = [...state.photos, ...action.payload.map(p => ({ ...p, url: p.path }))];
       })
-      .addCase(uploadPhotos.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
+      .addCase(uploadPhotos.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
-      // 🔄 fetch list
-      .addCase(fetchPhotos.pending, state => { state.loading = true; state.error = null; })
+      // fetchPhotos
+      .addCase(fetchPhotos.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(fetchPhotos.fulfilled, (state, action) => {
         state.loading = false;
-        // 👉 Добавляем url = path для каждого фото
         state.photos = action.payload.map(p => ({ ...p, url: p.path }));
       })
-      .addCase(fetchPhotos.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
+      .addCase(fetchPhotos.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
-      // 🔄 delete
-      .addCase(deletePhoto.pending, state => { state.loading = true; })
+      // deletePhoto
+      .addCase(deletePhoto.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(deletePhoto.fulfilled, (state, action) => {
         state.loading = false;
         state.photos = state.photos.filter(p => p.id !== action.payload);
       })
-      .addCase(deletePhoto.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
-  }
+      .addCase(deletePhoto.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
 });
 
 export const { clearError } = photosSlice.actions;

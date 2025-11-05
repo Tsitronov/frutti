@@ -6,8 +6,7 @@ import {
   aggiungiAppunto,
   eliminaAppunto,
   modificaAppunto,
-  setCurrentPage,
-  caricaAppuntiLocalStorage
+  setCurrentPage
 } from "../../redux/appuntiSlice";
 
 import Navbar from '../UI/navbar/Navbar';
@@ -21,7 +20,6 @@ const Appunti = () => {
   const currentPage = useSelector((state) => state.appunti.currentPage);
 
   useEffect(() => {
-    dispatch(caricaAppuntiLocalStorage()); // Prima i dati locali
     dispatch(fetchAppunti());
   }, [dispatch]);
 

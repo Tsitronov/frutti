@@ -17,36 +17,50 @@ import { useSelector} from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { setTokens } from './api.js';
+import api from "./api";
+import { AuthContext } from "./AuthContext";
 
 
 
 function App() {
   const navigate = useNavigate();
-  const [isAuth, setIsAuth] = useState(!!localStorage.getItem('token'));
-  const [userCategoria, setUserCategoria] = useState(localStorage.getItem('userCategoria') || null);
+  const [isAuth, setIsAuth] = useState(false);
+  const [categoria, setCategoria] = useState(null);
+
+  const response = await api.post('/login', { username, password });
+  setTokens(response.data.accessToken, response.data.refreshToken);
+  setIsAuth(true);
 
   const theme = useSelector((state) => state.theme?.theme || 'light');
   useEffect(() => {
     document.body.className = theme;
   }, [theme]);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
 
-    if (!token) {
-      navigate('/loginDemo');
-    } else {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      if (payload.exp * 1000 < Date.now()) {
-        localStorage.removeItem('token');
-        navigate('/loginDemo');
-      }
+    // 🔑 Функция логина
+  const handleLogin = async (username, password) => {
+    try {
+      const response = await api.post('/login', { username, password });
+      setTokens(response.data.accessToken, response.data.refreshToken);
+      setIsAuth(true);
+      setCategoria(response.data.categoria);
+      navigate('/'); // переход после входа
+    } catch (err) {
+      console.error('Ошибка входа:', err);
     }
+  };
+
+  // 🚪 Проверка токена при загрузке страницы
+  useEffect(() => {
+    // при обновлении страницы пользователь не авторизован, пока не войдёт заново
+    setIsAuth(false);
+    setCategoria(null);
   }, []);
 
 
   return (
-    <AuthContext.Provider value={{ isAuth, setIsAuth, userCategoria, setUserCategoria }}>
+    <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria, handleLogin }}>
       <Routes>
         <Route path="/utentiDemo" element={<ProtectedRoute> <Utenti /> </ProtectedRoute>} />
         <Route path="/utentiTable" element={<ProtectedRoute> <UtentiTable /> </ProtectedRoute>} />

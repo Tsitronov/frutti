@@ -6,8 +6,7 @@ import {
   aggiungiFrutto,
   eliminaFrutto,
   modificaFrutto,
-  setCurrentPage,
-  caricaFruttiLocalStorage
+  setCurrentPage
 } from "../../redux/fruttiSlice";
 
 import Navbar from '../UI/navbar/Navbar';
@@ -21,7 +20,6 @@ const Generale = () => {
   const currentPage = useSelector((state) => state.frutti.currentPage);
 
   useEffect(() => {
-    dispatch(caricaFruttiLocalStorage()); // Prima i dati locali
     dispatch(fetchFrutti());
   }, [dispatch]);
 

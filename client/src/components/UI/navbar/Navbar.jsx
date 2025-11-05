@@ -4,6 +4,8 @@ import { AuthContext } from '../../../context';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { toggleTheme } from "../../../redux/themeSlice";
+import { setTokens } from '../../../api';
+const { categoria } = useContext(AuthContext);
 
 const Navbar = () => {
   const { isAuth, setIsAuth } = useContext(AuthContext);
@@ -49,15 +51,11 @@ const Navbar = () => {
 
   const logout = () => {
     setIsAuth(false);
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('auth');
-    localStorage.removeItem('userCategoria');
+    setCategoria(null);
+    setTokens(null, null); // очищаем токены
     navigate('/loginDemo', { replace: true });
-    closeMobileMenu();
   };
 
-  const categoria = localStorage.getItem('userCategoria');
 
   const toggleThemeLocal = () => {
     dispatch(toggleTheme());
