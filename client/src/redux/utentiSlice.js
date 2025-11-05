@@ -34,10 +34,10 @@ export const modificaUtente = createAsyncThunk(
   'utenti/modificaUtente',
   async (utente, { rejectWithValue }) => {
     try {
-    const res = await api.put(${URL}/${utente.id}, utente);
-    return res.data;
+      const res = await api.put(`${URL}/${utente.id}`, utente);
+      return res.data;
     } catch (err) {
-    return rejectWithValue(err.response?.data?.error || 'Ошибка обновления utente');
+      return rejectWithValue(err.response?.data?.error || 'Ошибка обновления utente');
     }
   }
 );
@@ -47,7 +47,7 @@ export const eliminaUtente = createAsyncThunk(
   'utenti/eliminaUtente',
   async (id, { rejectWithValue }) => {
   try {
-    await api.delete(${URL}/${id});
+    await api.delete(`${URL}/${id}`);
     return id;
   } catch (err) {
     return rejectWithValue(err.response?.data?.error || 'Ошибка удаления utente');
