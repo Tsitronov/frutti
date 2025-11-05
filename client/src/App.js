@@ -27,7 +27,7 @@ function App() {
   const [isAuth, setIsAuth] = useState(false);
   const [categoria, setCategoria] = useState(null);
 
-  const response = await api.post('/login', { username, password });
+  const response = await api.post('/loginDemo', { username, password });
   setTokens(response.data.accessToken, response.data.refreshToken);
   setIsAuth(true);
 
@@ -37,25 +37,29 @@ function App() {
   }, [theme]);
 
 
-    // 🔑 Функция логина
   const handleLogin = async (username, password) => {
     try {
+      setLoading(true);
       const response = await api.post('/login', { username, password });
       setTokens(response.data.accessToken, response.data.refreshToken);
       setIsAuth(true);
-      setCategoria(response.data.categoria);
-      navigate('/'); // переход после входа
+      setUserCategoria(response.data.categoria);
+      navigate('/utentiDemo');
     } catch (err) {
       console.error('Ошибка входа:', err);
+      alert('Неверный логин или пароль');
+    } finally {
+      setLoading(false);
     }
   };
 
-  // 🚪 Проверка токена при загрузке страницы
   useEffect(() => {
-    // при обновлении страницы пользователь не авторизован, пока не войдёт заново
-    setIsAuth(false);
-    setCategoria(null);
-  }, []);
+    // Проверяем токен при запуске
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/loginDemo');
+    }
+  }, [navigate]);
 
 
   return (
