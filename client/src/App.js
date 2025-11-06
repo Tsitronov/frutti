@@ -24,6 +24,7 @@ import api from "./api.js";
 
 function App() {
   const navigate = useNavigate();
+
   const [isAuth, setIsAuth] = useState(false);
   const [categoria, setCategoria] = useState(null);
 
@@ -53,6 +54,10 @@ function App() {
       setIsAuth(true);
     }
   }, []);
+
+  if (!isAuth) {
+    return <Navigate to="/loginDemo" />;
+  }
 
 
   return (
