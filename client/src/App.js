@@ -27,10 +27,6 @@ function App() {
   const [isAuth, setIsAuth] = useState(false);
   const [categoria, setCategoria] = useState(null);
 
-  const response = await api.post('/loginDemo', { username, password });
-  setTokens(response.data.accessToken, response.data.refreshToken);
-  setIsAuth(true);
-
   const theme = useSelector((state) => state.theme?.theme || 'light');
   useEffect(() => {
     document.body.className = theme;
