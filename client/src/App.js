@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Login from './components/pages/Login';
 import SulSito from './components/pages/SulSito';
 import Generale from './components/pages/Generale';
@@ -21,18 +21,39 @@ import { setTokens } from './api.js';
 import api from "./api.js";
 
 
-
 function App() {
   const navigate = useNavigate();
 
   const [isAuth, setIsAuth] = useState(false);
   const [categoria, setCategoria] = useState(null);
+  const [loading, setLoading] = useState(true); 
 
   const theme = useSelector((state) => state.theme?.theme || 'light');
   useEffect(() => {
     document.body.className = theme;
   }, [theme]);
 
+  // Проверка токена при загрузке
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await api.get('/api/validateToken', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setTokens(response.data.accessToken, response.data.refreshToken);
+          setIsAuth(true);
+          setCategoria(response.data.categoria);
+        } catch (err) {
+          console.warn('Токен недействителен', err);
+          setIsAuth(false);
+        }
+      }
+      setLoading(false); // проверка закончена
+    };
+    checkToken();
+  }, []);
 
   const handleLogin = async (username, password) => {
     try {
@@ -43,21 +64,15 @@ function App() {
       navigate('/utentiDemo');
     } catch (err) {
       console.error('Ошибка входа:', err);
-      throw err; // важно, чтобы Login.jsx получил ошибку и показал сообщение
+      throw err;
     }
   };
 
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsAuth(true);
-    }
-  }, []);
-
-  if (!isAuth) {
-    return <Navigate to="/loginDemo" />;
+  if (loading) {
+    // Показать загрузку пока идёт проверка токена
+    return <div style={{ textAlign: 'center', marginTop: '50px' }}>Загрузка...</div>;
   }
+
 
 
   return (
@@ -69,11 +84,9 @@ function App() {
         <Route path="/appuntiDemo" element={<ProtectedRoute> <Appunti /> </ProtectedRoute>} />
         <Route path="/importExcel" element={<ProtectedRoute> <ImportExcel /> </ProtectedRoute>} />
         <Route path="/reportDemo" element={<ProtectedRoute> <Report /> </ProtectedRoute>} />
-        <Route path="/" element={<ProtectedRoute> <Generale /> </ProtectedRoute>} />
         <Route path="/generaleDemo" element={<ProtectedRoute> <Generale /> </ProtectedRoute>} />
         <Route path="/" element={<SulSito />} />
         <Route index element={<SulSito />} />
-        <Route path="*" element={<SulSito />} />
         <Route
           path="/adminDemo"
           element={
@@ -90,6 +103,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<Navigate to="/loginDemo" />} />
       </Routes>
     </AuthContext.Provider>
   );
