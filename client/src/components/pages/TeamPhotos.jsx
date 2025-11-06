@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPhotos } from '../../redux/photosSlice';
 import Navbar from "../UI/navbar/Navbar";
 import PhotoUploader from './PhotoUploader';
+import { useContext } from 'react';
+import { AuthContext } from '../context'; 
 
 const TeamPhotos = () => {
+  const { isAuth, categoria } = useContext(AuthContext);
   const dispatch = useDispatch();
   const { photos = [], loading, error } = useSelector((state) => state.photos);
 
@@ -61,7 +64,7 @@ return (
           <p className="empty-state"> На данный момент нет фотографий </p>
         )}
 
-        {Number(localStorage.getItem('categoria')) > 1 && (
+        {isAuth && categoria !== '1' && (
           <PhotoUploader />
         )}
 

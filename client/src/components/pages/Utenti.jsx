@@ -16,7 +16,11 @@ import ModalUtente from "../UI/modal/ModalUtente";
 import RicercaUtenteForm from "../UI/forms/RicercaUtenteForm";
 import SidebarCategories from "../UI/sidebar/SidebarCategories"; // Assuming path
 
+import { useContext } from 'react';
+import { AuthContext } from '../context'; 
+
 const Utenti = () => {
+  const { isAuth, categoria } = useContext(AuthContext);
   const dispatch = useDispatch();
   const utenti = useSelector((state) => state.utenti.lista) || [];
   const [lista, setLista] = useState([]);
@@ -236,7 +240,7 @@ const Utenti = () => {
                 ))}
               </ul>
 
-              {localStorage.getItem('categoria') !== '1' &&
+              {isAuth && categoria !== '1' &&
                 <div className="toggleLink" onClick={toggleUtentiForm}> Добавить 🙂 </div>
               }
             </div>
@@ -349,7 +353,7 @@ const Utenti = () => {
                       </button>
                     )}
 
-                    {localStorage.getItem('categoria') !== '1' && (
+                    {isAuth && categoria !== '1' && (
                       <div className="actions" onClick={(e) => e.stopPropagation()}>
                         <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
                         <button 

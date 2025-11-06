@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useContext } from 'react';
+import { AuthContext } from '../context'; 
 
 import {
   fetchAppunti,
@@ -15,6 +17,7 @@ import ModaleAppunti from "../UI/modal/ModaleAppunti";
 import AppuntiForm from "../UI/forms/AppuntiForm";
 
 const Appunti = () => {
+  const { isAuth, categoria } = useContext(AuthContext);
   const dispatch = useDispatch();
   const appunti = useSelector(state => state.appunti.lista) || [];
   const currentPage = useSelector((state) => state.appunti.currentPage);
@@ -133,7 +136,7 @@ const Appunti = () => {
 
       <div className="sidebar-appunti">
 
-      {localStorage.getItem('categoria') !== '1' &&
+      {isAuth && categoria !== '1' &&
         <div className="toggleLink" onClick={toggleAppuntiForm}> Добавить 🙂 </div>
       }
 
@@ -190,7 +193,7 @@ const Appunti = () => {
                     )}
                   </div>
 
-                  {localStorage.getItem('categoria') !== '1' &&
+                  {isAuth && categoria !== '1' &&
                     <div className="actions">
                       <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
                       <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Вы уверены, что хотите удалить?") && dispatch(eliminaAppunto(item.id))}>❌</button>
