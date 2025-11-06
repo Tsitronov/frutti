@@ -4,7 +4,7 @@ import { fetchPhotos } from '../../redux/photosSlice';
 import Navbar from "../UI/navbar/Navbar";
 import PhotoUploader from './PhotoUploader';
 import { useContext } from 'react';
-import { AuthContext } from '../context'; 
+import { AuthContext } from '../../context';
 
 const TeamPhotos = () => {
   const { isAuth, categoria } = useContext(AuthContext);

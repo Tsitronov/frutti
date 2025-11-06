@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useContext } from 'react';
+import { AuthContext } from '../../context';
 
 import {
   fetchFrutti,
@@ -15,6 +17,7 @@ import ModaleGenerale from "../UI/modal/ModaleGenerale";
 import GeneraleForm from "../UI/forms/GeneraleForm";
 
 const Generale = () => {
+  const { isAuth, categoria } = useContext(AuthContext);
   const dispatch = useDispatch();
   const frutti = useSelector(state => state.frutti.lista) || [];
   const currentPage = useSelector((state) => state.frutti.currentPage);
@@ -132,7 +135,7 @@ const Generale = () => {
       <Navbar />
 
       <div className="sidebar-appunti">
-        {localStorage.getItem('categoria') !== '1' &&
+        {isAuth && categoria !== '1' &&
           <div className="toggleLink" onClick={toggleFruttiForm}> Добавить 🙂 </div>
         }
         <div className="categories">
@@ -189,7 +192,7 @@ const Generale = () => {
                     )}
                   </div>
 
-                  {localStorage.getItem('categoria') !== '1' &&
+                  {isAuth && categoria !== '1' &&
                     <div className="actions">
                       <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
                       <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Вы уверены, что хотите удалить?") && dispatch(eliminaFrutto(item.id))}>❌</button>

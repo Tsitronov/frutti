@@ -17,7 +17,7 @@ import RicercaUtenteForm from "../UI/forms/RicercaUtenteForm";
 import SidebarCategories from "../UI/sidebar/SidebarCategories"; // Assuming path
 
 import { useContext } from 'react';
-import { AuthContext } from '../context'; 
+import { AuthContext } from '../../context'; 
 
 const Utenti = () => {
   const { isAuth, categoria } = useContext(AuthContext);

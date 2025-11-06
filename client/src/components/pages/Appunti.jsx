@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useContext } from 'react';
-import { AuthContext } from '../context'; 
+import { AuthContext } from '../../context';
 
 import {
   fetchAppunti,
