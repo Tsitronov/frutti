@@ -9,9 +9,6 @@ const Login = () => {
   const { setIsAuth, setCategoria } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const { setIsAuth, setCategoria } = useContext(AuthContext);
-  const navigate = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const [localError, setLocalError] = useState('');
 
