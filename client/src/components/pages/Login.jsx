@@ -45,13 +45,6 @@ const Login = () => {
     }
   }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-
   return (
     <div className="container-login">
       <div className="main-content-login">
