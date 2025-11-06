@@ -35,7 +35,7 @@ function App() {
 
   const handleLogin = async (username, password) => {
     try {
-      const response = await api.post('/loginDemo', { username, password });
+      const response = await api.post('/api/loginDemo', { username, password });
       setTokens(response.data.accessToken, response.data.refreshToken);
       setIsAuth(true);
       setCategoria(response.data.categoria);
