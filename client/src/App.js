@@ -10,7 +10,7 @@ import UtentiTable from './components/pages/UtentiTable';
 import Report from './components/pages/Report';
 import Admin from './components/pages/Admin';
 import TeamPhotos from './components/pages/TeamPhotos';
-import Navbar from './components/UI/navbar/Navbar';
+import Navbar from './components/UI/navbar/Navbar.jsx';
 
 import { AuthContext } from './context';
 import { useSelector} from 'react-redux';
