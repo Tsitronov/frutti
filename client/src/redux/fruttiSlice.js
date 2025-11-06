@@ -3,18 +3,18 @@ import api from '../api.js';
 
 const URL = `${process.env.REACT_APP_API_URL}/api/fruttiDemo`;
 
-// 📥 GET – получить все фрукты
 export const fetchFrutti = createAsyncThunk(
   'frutti/fetchFrutti',
   async (_, { rejectWithValue }) => {
     try {
       const res = await api.get(URL);
-      return Array.isArray(res.data) ? res.data : [];
+      return Array.isArray(res.data.frutti) ? res.data.frutti : [];
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || 'Ошибка загрузки frutti');
     }
   }
 );
+
 
 // ➕ POST – добавить фрукт
 export const aggiungiFrutto = createAsyncThunk(

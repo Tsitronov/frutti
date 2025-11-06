@@ -3,20 +3,19 @@ import api from '../api.js';
 
 const URL = `${process.env.REACT_APP_API_URL}/api/appuntiDemo`;
 
-// 📥 GET – получить все записи
 export const fetchAppunti = createAsyncThunk(
   'appunti/fetchAppunti',
   async (_, { rejectWithValue }) => {
     try {
       const res = await api.get(URL);
-      return Array.isArray(res.data) ? res.data : [];
+      return res.data.appunti || [];  // Извлекаем массив из объекта ответа
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || 'Ошибка загрузки appunti');
     }
   }
 );
 
-// ➕ POST – добавить запись
+
 export const aggiungiAppunto = createAsyncThunk(
   'appunti/aggiungiAppunto',
   async (appunto, { rejectWithValue }) => {
@@ -29,7 +28,7 @@ export const aggiungiAppunto = createAsyncThunk(
   }
 );
 
-// ✏ PUT – обновить запись
+
 export const modificaAppunto = createAsyncThunk(
   'appunti/modificaAppunto',
   async (appunto, { rejectWithValue }) => {
@@ -43,7 +42,7 @@ export const modificaAppunto = createAsyncThunk(
   }
 );
 
-// ❌ DELETE – удалить запись
+
 export const eliminaAppunto = createAsyncThunk(
   'appunti/eliminaAppunto',
   async (id, { rejectWithValue }) => {
@@ -56,7 +55,7 @@ export const eliminaAppunto = createAsyncThunk(
   }
 );
 
-// 🧩 Slice
+
 const appuntiSlice = createSlice({
   name: 'appunti',
   initialState: {
