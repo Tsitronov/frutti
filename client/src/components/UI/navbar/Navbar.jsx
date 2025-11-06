@@ -8,7 +8,7 @@ import { setTokens } from '../../../api.js';
 
 const Navbar = () => {
   const { isAuth, setIsAuth, categoria, setCategoria } = useContext(AuthContext);
-  if (!isAuth && !categoria) return null;
+  const categoria = isAuth ? categoria : '1';
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
