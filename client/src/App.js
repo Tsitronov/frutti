@@ -46,13 +46,13 @@ function App() {
     }
   };
 
+
   useEffect(() => {
-    // Проверяем токен при запуске
     const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/loginDemo');
+    if (token) {
+      setIsAuth(true);
     }
-  }, [navigate]);
+  }, []);
 
 
   return (
