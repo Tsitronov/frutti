@@ -35,17 +35,14 @@ function App() {
 
   const handleLogin = async (username, password) => {
     try {
-      setLoading(true);
-      const response = await api.post('/login', { username, password });
+      const response = await api.post('/loginDemo', { username, password });
       setTokens(response.data.accessToken, response.data.refreshToken);
       setIsAuth(true);
       setCategoria(response.data.categoria);
       navigate('/utentiDemo');
     } catch (err) {
       console.error('Ошибка входа:', err);
-      alert('Неверный логин или пароль');
-    } finally {
-      setLoading(false);
+      throw err; // важно, чтобы Login.jsx получил ошибку и показал сообщение
     }
   };
 
