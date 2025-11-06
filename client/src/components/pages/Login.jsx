@@ -1,49 +1,27 @@
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { AuthContext } from '../../context';
-import { setTokens } from '../../api.js';
 
 const Login = () => {
-  const { setIsAuth, setCategoria } = useContext(AuthContext);
-  const navigate = useNavigate();
-
+  const { handleLogin } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [localError, setLocalError] = useState('');
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
+    setLocalError('');
     setLoading(true);
+
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/loginDemo`,
-        data
-      );
-
-      if (response.data.message === 'Login riuscito') {
-        setIsAuth(true);
-
-        // ✅ сохраняем роль пользователя в памяти
-        const categoria = response.data.categoria || '0';
-        setCategoria(categoria);
-
-        // ✅ сохраняем токены через helper
-        setTokens(response.data.accessToken, response.data.refreshToken);
-
-        setLocalError('');
-        navigate('/utentiDemo');
-      } else {
-        setLocalError('Неожиданный ответ от сервера');
-      }
+      await handleLogin(data.username, data.password);
     } catch (err) {
-      console.error('Error:', err.response?.data, err.message);
-      setLocalError(err.response?.data?.message || 'Неверный логин или пароль');
+      console.error('Ошибка логина:', err);
+      setLocalError('Неверный логин или пароль');
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="container-login">
@@ -69,15 +47,15 @@ const Login = () => {
                 type="password"
                 className="input-login"
                 placeholder="Введите пароль"
-                {...register('password', {
-                  required: 'Пароль обязателен',
-                })}
+                {...register('password', { required: 'Пароль обязателен' })}
               />
               {errors.password && (
                 <p className="error-login">{errors.password.message}</p>
               )}
 
-              <button className="button-login">Войти</button>
+              <button className="button-login" disabled={loading}>
+                {loading ? 'Загрузка...' : 'Войти'}
+              </button>
             </form>
           </div>
         </div>

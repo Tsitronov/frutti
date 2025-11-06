@@ -39,7 +39,7 @@ function App() {
       const response = await api.post('/login', { username, password });
       setTokens(response.data.accessToken, response.data.refreshToken);
       setIsAuth(true);
-      setUserCategoria(response.data.categoria);
+      setCategoria(response.data.categoria);
       navigate('/utentiDemo');
     } catch (err) {
       console.error('Ошибка входа:', err);
