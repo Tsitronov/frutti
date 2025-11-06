@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from "react-router-dom";
+import Navbar from "../UI/navbar/Navbar";
 import { fetchUtenti } from "../../redux/utentiSlice";
 
 const UtentiTable = () => {

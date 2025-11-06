@@ -9,6 +9,7 @@ import {
   setCurrentPage
 } from "../../redux/appuntiSlice";
 
+import Navbar from '../UI/navbar/Navbar';
 import Pagination from "../UI/pagination/Pagination.jsx";
 import ModaleAppunti from "../UI/modal/ModaleAppunti";
 import AppuntiForm from "../UI/forms/AppuntiForm";

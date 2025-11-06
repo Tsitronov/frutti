@@ -9,6 +9,7 @@ import {
   setCurrentPage
 } from "../../redux/fruttiSlice";
 
+import Navbar from '../UI/navbar/Navbar';
 import Pagination from "../UI/pagination/Pagination.jsx";
 import ModaleGenerale from "../UI/modal/ModaleGenerale";
 import GeneraleForm from "../UI/forms/GeneraleForm";

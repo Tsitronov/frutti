@@ -6,6 +6,7 @@ import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
+import Navbar from "../UI/navbar/Navbar";
 
 const Report = () => {
   const utenti = useSelector((state) => state.utenti.lista || []);

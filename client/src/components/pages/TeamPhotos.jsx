@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPhotos } from '../../redux/photosSlice';
+import Navbar from "../UI/navbar/Navbar";
 import PhotoUploader from './PhotoUploader';
 
 const TeamPhotos = () => {

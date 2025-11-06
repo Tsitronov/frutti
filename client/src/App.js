@@ -10,7 +10,6 @@ import UtentiTable from './components/pages/UtentiTable';
 import Report from './components/pages/Report';
 import Admin from './components/pages/Admin';
 import TeamPhotos from './components/pages/TeamPhotos';
-import Navbar from './components/UI/navbar/Navbar.jsx';
 
 import { AuthContext } from './context';
 import { useSelector} from 'react-redux';
@@ -61,7 +60,6 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria, handleLogin }}>
-      <Navbar />
       <Routes>
         <Route path="/utentiDemo" element={<ProtectedRoute> <Utenti /> </ProtectedRoute>} />
         <Route path="/utentiTable" element={<ProtectedRoute> <UtentiTable /> </ProtectedRoute>} />
