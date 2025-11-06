@@ -9,7 +9,6 @@ import {
   deleteUser
 } from "../../redux/usersSlice";
 
-import Navbar from "../UI/navbar/Navbar";
 
 const Admin = () => {
   const dispatch = useDispatch();

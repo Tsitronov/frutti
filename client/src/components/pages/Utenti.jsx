@@ -9,7 +9,6 @@ import {
   setCurrentPage
 } from "../../redux/utentiSlice";
 
-import Navbar from "../UI/navbar/Navbar";
 import Pagination from "../UI/pagination/Pagination";
 import ModalUtenteCercato from "../UI/modal/ModalUtenteCercato";
 import ModalUtente from "../UI/modal/ModalUtente";

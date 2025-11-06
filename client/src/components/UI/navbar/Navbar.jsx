@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { toggleTheme } from "../../../redux/themeSlice";
 import { setTokens } from '../../../api.js';
-const { categoria } = useContext(AuthContext);
 
 const Navbar = () => {
-  const { isAuth, setIsAuth } = useContext(AuthContext);
+  const { isAuth, setIsAuth, categoria, setCategoria } = useContext(AuthContext);
+  if (!isAuth && !categoria) return null;
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const Navbar = () => {
   const logout = () => {
     setIsAuth(false);
     setCategoria(null);
-    setTokens(null, null); // очищаем токены
+    setTokens(null, null);
     navigate('/loginDemo', { replace: true });
   };
 
