@@ -7,8 +7,8 @@ import { toggleTheme } from "../../../redux/themeSlice";
 import { setTokens } from '../../../api.js';
 
 const Navbar = () => {
-  const { isAuth, setIsAuth, categoria, setCategoria } = useContext(AuthContext);
-  const categoria = isAuth ? categoria : '1';
+  const { isAuth, setIsAuth, categoria: contextCategoria, setCategoria } = useContext(AuthContext);
+  const categoria = isAuth ? contextCategoria : '1';
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
