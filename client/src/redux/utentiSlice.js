@@ -1,19 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../api';
+import api from '../api.js';
 
 const URL = `${process.env.REACT_APP_API_URL}/api/utentiDemo`;
 
 // 📥 GET – получить всех пользователей
 export const fetchUtenti = createAsyncThunk(
-'utenti/fetchUtenti',
-async (_, { rejectWithValue }) => {
-  try {
-    const res = await api.get(URL);
-    return Array.isArray(res.data) ? res.data : [];
-  } catch (err) {
-    return rejectWithValue(err.response?.data?.error || 'Ошибка загрузки utenti');
+  'utenti/fetchUtenti',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.get(URL);
+      return Array.isArray(res.data) ? res.data : [];
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error || 'Ошибка загрузки utenti');
+    }
   }
-}
 );
 
 // ➕ POST – добавить пользователя

@@ -18,7 +18,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { setTokens } from './api.js';
-import api from "./api";
+import api from "./api.js";
 
 
 

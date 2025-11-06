@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../context';
-import { setTokens } from '../../api';
+import { setTokens } from '../../api.js';
 
 const Login = () => {
   const { setIsAuth, setCategoria } = useContext(AuthContext);
