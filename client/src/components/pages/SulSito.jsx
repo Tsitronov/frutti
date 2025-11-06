@@ -1,4 +1,4 @@
-import Navbar from "../UI/navbar/Navbar";
+import Navbar from "../UI/navbar/Navbar.jsx";
 
 const SulSito = () => {
   return (
