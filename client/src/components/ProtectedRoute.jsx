@@ -3,14 +3,16 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context';
 
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
-  const { isAuth, userCategoria } = useContext(AuthContext);
+  const { isAuth, categoria } = useContext(AuthContext);
   const location = useLocation();
 
+  // Если пользователь не авторизован — отправляем на логин
   if (!isAuth) {
     return <Navigate to="/loginDemo" state={{ from: location }} replace />;
   }
 
-  if (requireAdmin && String(userCategoria) !== '3') {
+  // Если требуется админ, но категория не 3 — перенаправляем
+  if (requireAdmin && String(categoria) !== '3') {
     return <Navigate to="/generaleDemo" replace />;
   }
 
