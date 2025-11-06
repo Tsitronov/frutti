@@ -61,7 +61,7 @@ return (
           <p className="empty-state"> На данный момент нет фотографий </p>
         )}
 
-        {Number(localStorage.getItem('userCategoria')) > 1 && (
+        {Number(localStorage.getItem('categoria')) > 1 && (
           <PhotoUploader />
         )}
 

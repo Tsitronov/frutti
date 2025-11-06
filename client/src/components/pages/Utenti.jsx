@@ -236,7 +236,7 @@ const Utenti = () => {
                 ))}
               </ul>
 
-              {localStorage.getItem('userCategoria') !== '1' &&
+              {localStorage.getItem('categoria') !== '1' &&
                 <div className="toggleLink" onClick={toggleUtentiForm}> Добавить 🙂 </div>
               }
             </div>
@@ -349,7 +349,7 @@ const Utenti = () => {
                       </button>
                     )}
 
-                    {localStorage.getItem('userCategoria') !== '1' && (
+                    {localStorage.getItem('categoria') !== '1' && (
                       <div className="actions" onClick={(e) => e.stopPropagation()}>
                         <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
                         <button 

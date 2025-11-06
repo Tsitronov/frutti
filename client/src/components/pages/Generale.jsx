@@ -132,7 +132,7 @@ const Generale = () => {
       <Navbar />
 
       <div className="sidebar-appunti">
-        {localStorage.getItem('userCategoria') !== '1' &&
+        {localStorage.getItem('categoria') !== '1' &&
           <div className="toggleLink" onClick={toggleFruttiForm}> Добавить 🙂 </div>
         }
         <div className="categories">
@@ -189,7 +189,7 @@ const Generale = () => {
                     )}
                   </div>
 
-                  {localStorage.getItem('userCategoria') !== '1' &&
+                  {localStorage.getItem('categoria') !== '1' &&
                     <div className="actions">
                       <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
                       <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Вы уверены, что хотите удалить?") && dispatch(eliminaFrutto(item.id))}>❌</button>
