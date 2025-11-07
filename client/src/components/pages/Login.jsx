@@ -39,34 +39,39 @@ try {
 
 };
 
-return ( <div className="container-login"> <div className="main-content-login"> <div className="content-login"> <h3 className="title-login">Страница входа</h3> <div className="article-list-login">
-{loading && <div className="loading-spinner"></div>}
-{localError && <p className="error-login">{localError}</p>}
+return ( 
+<div className="container-login"> 
+  <div className="main-content-login"> 
+    <div className="content-login">
+     <h3 className="title-login">Страница входа</h3> 
+     <div className="article-list-login">
+      {loading && <div className="loading-spinner"></div>}
+      {localError && <p className="error-login">{localError}</p>}
 
-        <form className="form-login" onSubmit={handleSubmit(onSubmit)}>
-          <input
-            type="text"
-            className="input-login"
-            placeholder="Введите логин"
-            {...register('username', { required: 'Требуется логин' })}
-          />
-          {errors.username && (
-            <p className="error-login">{errors.username.message}</p>
-          )}
+      <form className="form-login" onSubmit={handleSubmit(onSubmit)}>
+        <input
+          type="text"
+          className="input-login"
+          placeholder="Введите логин"
+          {...register('username', { required: 'Требуется логин' })}
+        />
+        {errors.username && (
+          <p className="error-login">{errors.username.message}</p>
+        )}
 
-          <input
-            type="password"
-            className="input-login"
-            placeholder="Введите пароль"
-            {...register('password', { required: 'Пароль обязателен' })}
-          />
-          {errors.password && (
-            <p className="error-login">{errors.password.message}</p>
-          )}
+        <input
+          type="password"
+          className="input-login"
+          placeholder="Введите пароль"
+          {...register('password', { required: 'Пароль обязателен' })}
+        />
+        {errors.password && (
+          <p className="error-login">{errors.password.message}</p>
+        )}
 
-          <button type="submit" className="button-login" disabled={loading}>
-            {loading ? 'Входим...' : 'Войти'}
-          </button>
+        <button type="submit" className="button-login" disabled={loading}>
+          {loading ? 'Входим...' : 'Войти'}
+        </button>
         </form>
       </div>
     </div>

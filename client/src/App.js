@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
+import { AuthContext } from './context';
+import { useSelector } from 'react-redux';
+import ProtectedRoute from './components/ProtectedRoute';
+import api from './api.js';
+import { setTokens } from './api.js';
+
+// Страницы
 import Login from './components/pages/Login';
 import SulSito from './components/pages/SulSito';
 import Generale from './components/pages/Generale';
@@ -11,99 +18,63 @@ import Report from './components/pages/Report';
 import Admin from './components/pages/Admin';
 import TeamPhotos from './components/pages/TeamPhotos';
 
-import { AuthContext } from './context';
-import { useSelector} from 'react-redux';
-
-import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { setTokens } from './api.js';
-import api from "./api.js";
-
 
 function App() {
-  const navigate = useNavigate();
-
   const [isAuth, setIsAuth] = useState(false);
   const [categoria, setCategoria] = useState(null);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   const theme = useSelector((state) => state.theme?.theme || 'light');
   useEffect(() => {
     document.body.className = theme;
   }, [theme]);
 
-  // Проверка токена при загрузке
+  // ✅ Проверка токена при запуске (с задержкой для плавного UX)
   useEffect(() => {
     const checkToken = async () => {
       const token = localStorage.getItem('token');
-      if (token) {
-        try {
-          const response = await api.get('/api/validateToken', {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setTokens(response.data.accessToken, response.data.refreshToken);
-          setIsAuth(true);
-          setCategoria(response.data.categoria);
-        } catch (err) {
-          console.warn('Токен недействителен', err);
-          setIsAuth(false);
-        }
+      if (!token) {
+        setLoading(false);
+        return;
       }
-      setLoading(false); // проверка закончена
+      try {
+        const response = await api.get('/api/validateToken');
+        setIsAuth(true);
+        setCategoria(response.data.categoria);
+      } catch (err) {
+        console.warn('Token check failed:', err);
+        setIsAuth(false);
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+      } finally {
+        setLoading(false);
+      }
     };
     checkToken();
   }, []);
 
-  const handleLogin = async (username, password) => {
-    try {
-      const response = await api.post('/api/loginDemo', { username, password });
-      setTokens(response.data.accessToken, response.data.refreshToken);
-      setIsAuth(true);
-      setCategoria(response.data.categoria);
-      navigate('/utentiDemo');
-    } catch (err) {
-      console.error('Ошибка входа:', err);
-      throw err;
-    }
-  };
-
+  // 🌀 Пока идёт проверка токена, показываем плавную заставку
   if (loading) {
-    // Показать загрузку пока идёт проверка токена
-    return <div style={{ textAlign: 'center', marginTop: '50px' }}>Загрузка...</div>;
+    return (<div className="spinner"></div>);
   }
 
-
-
   return (
-    <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria, handleLogin }}>
+    <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria }}>
       <Routes>
-        <Route path="/utentiDemo" element={<ProtectedRoute> <Utenti /> </ProtectedRoute>} />
-        <Route path="/utentiTable" element={<ProtectedRoute> <UtentiTable /> </ProtectedRoute>} />
-        <Route path="/loginDemo" element={<Login />} />
-        <Route path="/appuntiDemo" element={<ProtectedRoute> <Appunti /> </ProtectedRoute>} />
-        <Route path="/importExcel" element={<ProtectedRoute> <ImportExcel /> </ProtectedRoute>} />
-        <Route path="/reportDemo" element={<ProtectedRoute> <Report /> </ProtectedRoute>} />
-        <Route path="/generaleDemo" element={<ProtectedRoute> <Generale /> </ProtectedRoute>} />
         <Route path="/" element={<SulSito />} />
-        <Route index element={<SulSito />} />
-        <Route
-          path="/adminDemo"
-          element={
-            <ProtectedRoute requireAdmin={true}>
-              <Admin />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/team-photos"
-          element={
-            <ProtectedRoute>
-              <TeamPhotos />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<Navigate to="/loginDemo" />} />
+        <Route path="/loginDemo" element={<Login />} />
+
+        <Route path="/generaleDemo" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
+        <Route path="/appuntiDemo" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />
+        <Route path="/utentiDemo" element={<ProtectedRoute><Utenti /></ProtectedRoute>} />
+        <Route path="/utentiTable" element={<ProtectedRoute><UtentiTable /></ProtectedRoute>} />
+        <Route path="/reportDemo" element={<ProtectedRoute><Report /></ProtectedRoute>} />
+        <Route path="/importExcel" element={<ProtectedRoute><ImportExcel /></ProtectedRoute>} />
+        <Route path="/team-photos" element={<ProtectedRoute><TeamPhotos /></ProtectedRoute>} />
+        <Route path="/adminDemo" element={<ProtectedRoute requireAdmin={true}><Admin /></ProtectedRoute>} />
+
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </AuthContext.Provider>
   );
