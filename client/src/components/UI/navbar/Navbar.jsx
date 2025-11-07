@@ -49,11 +49,17 @@ const Navbar = () => {
   };
 
 
-  const logout = () => {
-    setIsAuth(false);
-    setCategoria(null);
-    setTokens(null, null);
-    navigate('/loginDemo', { replace: true });
+  const logout = async () => {
+    try {
+      await api.post('/api/logout'); // сервер очистит cookie
+    } catch (err) {
+      console.error('Ошибка при выходе:', err);
+    } finally {
+      setIsAuth(false);
+      setCategoria(null);
+      setTokens(null, null); // очищает accessToken из localStorage
+      navigate('/loginDemo', { replace: true });
+    }
   };
 
 
@@ -127,9 +133,9 @@ const Navbar = () => {
           <li><NavItem to="/appuntiDemo">Заметки</NavItem></li>
           <li><NavItem to="/generaleDemo">Общее</NavItem></li>
           <li><NavItem to="/utentiDemo">Пользователи</NavItem></li>
-          {(categoria === '2' || categoria === '3') && <li><NavItem to="/utentiTable">Таблица пользователей</NavItem></li>}
+          {(categoria === '2' || categoria === '3') && <li><NavItem to="/utentiTable"> Таблица пользователей </NavItem></li>}
           {categoria === '3' && <li><NavItem to="/adminDemo">Админ</NavItem></li>}
-          {(categoria === '2' || categoria === '3') && <li><NavItem to="/team-photos">Фото команды</NavItem></li>}
+          {(categoria === '2' || categoria === '3') && <li><NavItem to="/team-photos"> Фото команды </NavItem></li>}
           {isAuth ? (
             <li>
               <span className="nav-link logout" onClick={logout}> Выход </span>

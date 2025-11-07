@@ -56,7 +56,7 @@ function App() {
 
   // 🌀 Пока идёт проверка токена, показываем плавную заставку
   if (loading) {
-    return (<div className="spinner"></div>);
+    return (<div className="loading-screen"> <div className="loading-spinner"></div></div>);
   }
 
   return (
