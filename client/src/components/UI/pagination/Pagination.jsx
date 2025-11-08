@@ -5,7 +5,6 @@ const Pagination = ({ totalItems = 0, itemsPerPage = 1, currentPage, onPageChang
     const pages = [];
 
     if (totalPages <= 6) {
-      // Если страниц мало, показываем все
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
@@ -16,7 +15,7 @@ const Pagination = ({ totalItems = 0, itemsPerPage = 1, currentPage, onPageChang
         pages.push('...');
       }
 
-      // Добавляем соседние страницы вокруг текущей
+
       const startPage = Math.max(2, currentPage - 1);
       const endPage = Math.min(totalPages - 1, currentPage + 1);
 

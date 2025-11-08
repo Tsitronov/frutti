@@ -52,7 +52,7 @@ const Admin = () => {
   };
 
   const handleDeleteAdmin = (id) => {
-    if (window.confirm("Вы уверены, что хотите удалить?")) {
+    if (window.confirm("Sei sicuro di voler eliminare?")) {
       dispatch(deleteUser(id));
     }
   };
@@ -66,10 +66,10 @@ const Admin = () => {
 
           <div className="admin-sibedar">
             <div className="toggleLink" onClick={toggleAdminForm}>
-              {showForm ? "Закрыть форму" : "Добавить 🙂"}
+              {showForm ? "Chiudi forma" : "Aggiungi 🙂"}
             </div>
             <NavLink className="toggleLink" to="/importExcel">Excel</NavLink>
-            <NavLink className="toggleLink" to="/sulSito">Описание</NavLink>
+            <NavLink className="toggleLink" to="/sulSito">Descrizione</NavLink>
           </div>
 
           {showForm && (
@@ -78,7 +78,7 @@ const Admin = () => {
                 <form className="adminForm" onSubmit={handleSubmitAdmin}>
                   <input
                     name="username"
-                    placeholder="Имя пользователя"
+                    placeholder="nome"
                     value={formAdmin.username}
                     onChange={handleChangeAdmin}
                     required
@@ -86,20 +86,20 @@ const Admin = () => {
                   <input
                     name="password"
                     type="password"
-                    placeholder="Пароль"
+                    placeholder="password"
                     value={formAdmin.password}
                     onChange={handleChangeAdmin}
                     required={!editId}
                   />
                   <input
                     name="categoria"
-                    placeholder="Категория"
+                    placeholder="categoria"
                     value={formAdmin.categoria}
                     onChange={handleChangeAdmin}
                   />
                   <div className="modal-buttons">
-                    <button type="submit" className="btn-salva">{editId ? "Обновить" : "Добавить"}</button>
-                    <button type="button" className="btn-elimina" onClick={resetFormAdmin}>❌ Отмена</button>
+                    <button type="submit" className="btn-salva">{editId ? "Aggiorna" : "Aggiungi"}</button>
+                    <button type="button" className="btn-elimina" onClick={resetFormAdmin}>❌ Annulla </button>
                   </div>
                 </form>
               </div>
@@ -122,14 +122,14 @@ const Admin = () => {
                         className="btn-azione btn-modifica"
                         onClick={() => handleEditAdmin(item)}
                       >
-                        ✏️ Редактировать
+                        ✏️ Modifica
                       </button>
                       <button
                         type="button"
                         className="btn-azione btn-elimina"
                         onClick={() => handleDeleteAdmin(item.id)}
                       >
-                        ❌ Удалить
+                        ❌ Elimina
                       </button>
                     </td>
                   </tr>
@@ -138,7 +138,7 @@ const Admin = () => {
             </table>
           </div>
 
-          {lista.length === 0 && !isLoading && <p className="carico-dati">Пользователь не найден.</p>}
+          {lista.length === 0 && !isLoading && <p className="carico-dati"> Utente non trovato.</p>}
         </div>
       </div>
     </div>

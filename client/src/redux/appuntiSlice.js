@@ -1,16 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../api.js';
 
-const URL = `${process.env.REACT_APP_API_URL}/api/appuntiDemo`;
+const URL = `${process.env.REACT_APP_API_URL}/api/appunti`;
 
 export const fetchAppunti = createAsyncThunk(
   'appunti/fetchAppunti',
   async (_, { rejectWithValue }) => {
     try {
       const res = await api.get(URL);
-      return res.data.appunti || [];  // Извлекаем массив из объекта ответа
+      return res.data.appunti || [];
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || 'Ошибка загрузки appunti');
+      return rejectWithValue(err.response?.data?.error || 'error carica appunti');
     }
   }
 );
@@ -23,7 +23,7 @@ export const aggiungiAppunto = createAsyncThunk(
       const res = await api.post(URL, appunto);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || 'Ошибка добавления');
+      return rejectWithValue(err.response?.data?.error || 'error aggiungere');
     }
   }
 );
@@ -37,7 +37,7 @@ export const modificaAppunto = createAsyncThunk(
       const res = await api.put(`${URL}/${id}`, { nome, descrizione, categoria });
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || 'Ошибка обновления');
+      return rejectWithValue(err.response?.data?.error || 'error modifica');
     }
   }
 );
@@ -50,7 +50,7 @@ export const eliminaAppunto = createAsyncThunk(
       await api.delete(`${URL}/${id}`);
       return id;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || 'Ошибка удаления');
+      return rejectWithValue(err.response?.data?.error || 'error elimina');
     }
   }
 );
@@ -74,7 +74,6 @@ const appuntiSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // fetch
       .addCase(fetchAppunti.pending, (state) => {
         state.isLoading = true;
         state.error = null;

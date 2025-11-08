@@ -3,13 +3,13 @@ import api from '../api.js';
 
 const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
-// 🔐 Заголовок только с категорией пользователя
+
 const getCategoriaHeader = () => {
-  const categoria = localStorage.getItem('categoria'); // у тебя теперь categoria, не userCategoria
+  const categoria = localStorage.getItem('categoria');
   return categoria ? { categoria } : {};
 };
 
-// 📤 Загрузка фото
+
 export const uploadPhotos = createAsyncThunk(
   'photos/uploadPhotos',
   async (photos, { rejectWithValue }) => {
@@ -24,12 +24,12 @@ export const uploadPhotos = createAsyncThunk(
       });
       return res.data.photos;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || err.message || 'Ошибка загрузки фото');
+      return rejectWithValue(err.response?.data?.error || err.message || 'error carica');
     }
   }
 );
 
-// 📥 Получение списка фото
+
 export const fetchPhotos = createAsyncThunk(
   'photos/fetchPhotos',
   async (_, { rejectWithValue }) => {
@@ -41,12 +41,12 @@ export const fetchPhotos = createAsyncThunk(
       });
       return res.data.photos || [];
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || err.message || 'Ошибка загрузки списка');
+      return rejectWithValue(err.response?.data?.error || err.message || 'error lenco message');
     }
   }
 );
 
-// ❌ Удаление фото
+
 export const deletePhoto = createAsyncThunk(
   'photos/deletePhoto',
   async (photoId, { rejectWithValue }) => {
@@ -58,19 +58,19 @@ export const deletePhoto = createAsyncThunk(
       });
       return photoId;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || err.message || 'Ошибка удаления фото');
+      return rejectWithValue(err.response?.data?.error || err.message || 'error elimina photo');
     }
   }
 );
 
-// 🧩 Начальное состояние
+
 const initialState = {
   photos: [],
   loading: false,
   error: null,
 };
 
-// 🪄 Slice
+
 const photosSlice = createSlice({
   name: 'photos',
   initialState,
@@ -81,7 +81,6 @@ const photosSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // uploadPhotos
       .addCase(uploadPhotos.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -95,7 +94,7 @@ const photosSlice = createSlice({
         state.error = action.payload;
       })
 
-      // fetchPhotos
+  
       .addCase(fetchPhotos.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -109,7 +108,7 @@ const photosSlice = createSlice({
         state.error = action.payload;
       })
 
-      // deletePhoto
+
       .addCase(deletePhoto.pending, (state) => {
         state.loading = true;
       })

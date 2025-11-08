@@ -14,7 +14,7 @@ import Pagination from "../UI/pagination/Pagination";
 import ModalUtenteCercato from "../UI/modal/ModalUtenteCercato";
 import ModalUtente from "../UI/modal/ModalUtente";
 import RicercaUtenteForm from "../UI/forms/RicercaUtenteForm";
-import SidebarCategories from "../UI/sidebar/SidebarCategories"; // Assuming path
+import SidebarCategories from "../UI/sidebar/SidebarCategories";
 
 import { useContext } from 'react';
 import { AuthContext } from '../../context'; 
@@ -54,26 +54,25 @@ const Utenti = () => {
 
   const itemsPerPage = 4;
 
-  // Маппинг для русских названий категорий (для отображения)
   const categoryLabels = useMemo(() => ({
-    reparto: 'Отдел',
-    stanza: 'Комната',
-    cognome: 'Фамилия',
-    bagno: 'Ванна',
-    barba: 'Борода',
-    autonomia: 'Автономия',
-    vestiti: 'Одежда',
-    alimentazione: 'Питание',
-    accessori: 'Аксессуары',
-    altro: 'Другое',
+    reparto: 'reparto',
+    stanza: 'stanza',
+    cognome: 'nome',
+    bagno: 'bagno',
+    barba: 'barba',
+    autonomia: 'autonomia',
+    vestiti: 'vestiti',
+    alimentazione: 'alimentazione',
+    accessori: 'accessori',
+    altro: 'altro',
   }), []);
 
-  // 📥 Carica utenti
+
   useEffect(() => {
     dispatch(fetchUtenti()).then(data => setLista(data));
   }, [dispatch]);
 
-  // ✅ Aggiorna reparto selezionato
+
   useEffect(() => {
     if (utenti.length > 0) {
       const repartiUnici = [...new Set(utenti.map((u) => u.reparto))].sort();
@@ -87,26 +86,26 @@ const Utenti = () => {
   }, [utenti]);
 
 
-  // 📌 Ottimizzazione: reparti
+
   const reparti = useMemo(() => {
     return Array.isArray(utenti)
       ? [...new Set(utenti.map((u) => u.reparto))].sort()
       : [];
   }, [utenti]);
 
-  // 📌 Ottimizzazione: cognomiUnici
+
   const cognomiUnici = useMemo(() => {
     return [...new Set(utenti.map((u) => u.cognome))].sort();
   }, [utenti]);
 
-  // 📌 Ottimizzazione: utentiDelReparto
+
   const utentiDelReparto = useMemo(() => {
     return repartoSelezionato
       ? utenti.filter((u) => u.reparto === repartoSelezionato)
       : utenti;
   }, [utenti, repartoSelezionato]);
 
-  // 📌 Ottimizzazione: utentiVisibili
+
   const utentiVisibili = useMemo(() => {
     const filtrati = repartoSelezionato
       ? utenti
@@ -118,7 +117,6 @@ const Utenti = () => {
     return filtrati.slice(indexOfFirst, indexOfLast);
   }, [utenti, repartoSelezionato, currentPage, itemsPerPage]);
 
-  // 📌 Ottimizzazione: getColorClass
   const getColorClass = useCallback((valore) => {
     if (!valore) return "";
     const v = valore.toLowerCase();
@@ -175,11 +173,11 @@ const Utenti = () => {
   };
 
   const apriFinestraFiltro = (campo) => {
-    const label = categoryLabels[campo] || campo; // Используем русский лейбл
+    const label = categoryLabels[campo] || campo;
     const risultati = utentiDelReparto
       .filter((u) => u[campo])
       .map((u) => ({ cognome: u.cognome, valore: u[campo] }));
-    setModalData({ campo, label, risultati }); // Передаем label для модала
+    setModalData({ campo, label, risultati });
     setShowModal(true);
   };
 
@@ -249,7 +247,7 @@ const Utenti = () => {
             <SidebarCategories
               repartoSelezionato={repartoSelezionato}
               categories={["bagno", "barba", "alimentazione", "accessori", "autonomia", "vestiti"]}
-              categoryLabels={categoryLabels} // Передаем маппинг лейблов
+              categoryLabels={categoryLabels}
               apriFinestraFiltro={apriFinestraFiltro}
             />
 
@@ -282,7 +280,7 @@ const Utenti = () => {
                       onClick={handleSalva}
                       disabled={isLoading}
                     >
-                      {isLoading ? <span className="spinner"></span> : '💾 Сохранить'}
+                      {isLoading ? <span className="spinner"></span> : '💾 salva'}
                     </button>
                     <button
                       type="button"
@@ -301,7 +299,7 @@ const Utenti = () => {
                       onClick={handleAggiungi}
                       disabled={isLoading}
                     >
-                      {isLoading ? <span className="spinner"></span> : '➕ Добавить'}
+                      {isLoading ? <span className="spinner"></span> : '➕ aggiungi'}
                     </button>
                     <button
                       type="button"
@@ -319,7 +317,6 @@ const Utenti = () => {
 
           <div className="article-list">
             {utentiVisibili.map((item) => {
-              // Расширенное условие: скролл если altro >7 ИЛИ суммарная длина >60 (адаптировано для лучшей активации)
               const haLungoContenuto = (item.altro?.length || 0) > 7 || 
                 Object.values({ alimentazione: item.alimentazione, autonomia: item.autonomia, bagno: item.bagno, barba: item.barba, vestiti: item.vestiti, accessori: item.accessori })
                   .reduce((sum, val) => sum + (val?.length || 0), 0) > 10;
@@ -361,7 +358,7 @@ const Utenti = () => {
                           className="btn-azione btn-delete" 
                           onClick={(e) => { 
                             e.stopPropagation(); 
-                            if (window.confirm("Вы уверены, что хотите удалить?")) {
+                            if (window.confirm("Sei sicuro di voler eliminare?")) {
                               dispatch(eliminaUtente(item.id));
                             }
                           }}
@@ -390,7 +387,7 @@ const Utenti = () => {
         <ModalUtente
           modalData={modalData}
           getColorClass={getColorClass}
-          categoryLabels={categoryLabels} // Передаем маппинг для модала
+          categoryLabels={categoryLabels}
           setShowModal={setShowModal}
         />
       )}
@@ -399,7 +396,7 @@ const Utenti = () => {
         <ModalUtenteCercato
           utenteTrovato={utenteTrovato}
           getColorClass={getColorClass}
-          categoryLabels={categoryLabels} // Передаем для модала
+          categoryLabels={categoryLabels}
           setMostraModalInfo={setMostraModalInfo}
         />
       )}

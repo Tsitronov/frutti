@@ -16,7 +16,7 @@ const ModaleGenerale = ({categoriaSelezionata, setCategoriaSelezionata, fruttiFi
 
             ))}
           
-          <button type="button" onClick={() => setCategoriaSelezionata(null)}>❌ Закрыть</button>
+          <button type="button" onClick={() => setCategoriaSelezionata(null)}>❌ Chiudi </button>
         </div>
     </div>
     );

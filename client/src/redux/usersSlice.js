@@ -1,27 +1,27 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../api.js';
 
-const URL = `${process.env.REACT_APP_API_URL}/api/adminDemo`;
+const URL = `${process.env.REACT_APP_API_URL}/api/admin`;
 
-// 📥 GET – получить всех пользователей
+
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   const res = await api.get(URL);
   return Array.isArray(res.data) ? res.data : [];
 });
 
-// ➕ POST – добавить пользователя
+
 export const addUser = createAsyncThunk('users/addUser', async (user) => {
   const res = await api.post(URL, user);
   return res.data;
 });
 
-// ✏ PUT – обновить пользователя
+
 export const updateUser = createAsyncThunk('users/updateUser', async ({ id, user }) => {
   const res = await api.put(`${URL}/${id}`, user);
   return res.data;
 });
 
-// ❌ DELETE – удалить пользователя
+
 export const deleteUser = createAsyncThunk('users/deleteUser', async (id) => {
   await api.delete(`${URL}/${id}`);
   return id;
@@ -42,7 +42,6 @@ const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // fetchUsers
       .addCase(fetchUsers.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -56,18 +55,15 @@ const usersSlice = createSlice({
         state.error = action.error.message;
       })
 
-      // addUser
       .addCase(addUser.fulfilled, (state, action) => {
         state.lista.push(action.payload);
       })
 
-      // updateUser
       .addCase(updateUser.fulfilled, (state, action) => {
         const index = state.lista.findIndex(u => u.id === action.payload.id);
         if (index !== -1) state.lista[index] = action.payload;
       })
 
-      // deleteUser
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.lista = state.lista.filter(u => u.id !== action.payload);
       });

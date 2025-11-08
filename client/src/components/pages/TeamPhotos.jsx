@@ -15,7 +15,6 @@ const TeamPhotos = () => {
     dispatch(fetchPhotos());
   }, [dispatch]);
 
-  // Функция для исправления кириллицы
   function fixFilename(str) {
     if (!str) return "";
     try {
@@ -50,7 +49,7 @@ return (
                   crossOrigin="anonymous"
                   className="photo-image"
                   onError={(e) => { 
-                    e.target.src = "/placeholder.png"; // добавь placeholder.png в public/
+                    e.target.src = "/placeholder.png";
                     e.target.style.opacity = "0.6";
                     e.target.title = "Изображение не найдено";
                   }}

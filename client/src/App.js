@@ -30,7 +30,7 @@ function App() {
     document.body.className = theme;
   }, [theme]);
 
-  // ✅ Проверка токена при запуске (с задержкой для плавного UX)
+
   useEffect(() => {
     const checkToken = async () => {
       const token = localStorage.getItem('token');
@@ -54,7 +54,7 @@ function App() {
     checkToken();
   }, []);
 
-  // 🌀 Пока идёт проверка токена, показываем плавную заставку
+
   if (loading) {
     return (<div className="loading-screen"> <div className="loading-spinner"></div></div>);
   }
@@ -63,16 +63,16 @@ function App() {
     <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria }}>
       <Routes>
         <Route path="/" element={<SulSito />} />
-        <Route path="/loginDemo" element={<Login />} />
+        <Route path="/login" element={<Login />} />
 
-        <Route path="/generaleDemo" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
-        <Route path="/appuntiDemo" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />
-        <Route path="/utentiDemo" element={<ProtectedRoute><Utenti /></ProtectedRoute>} />
+        <Route path="/generale" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
+        <Route path="/appunti" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />
+        <Route path="/utenti" element={<ProtectedRoute><Utenti /></ProtectedRoute>} />
         <Route path="/utentiTable" element={<ProtectedRoute><UtentiTable /></ProtectedRoute>} />
-        <Route path="/reportDemo" element={<ProtectedRoute><Report /></ProtectedRoute>} />
+        <Route path="/report" element={<ProtectedRoute><Report /></ProtectedRoute>} />
         <Route path="/importExcel" element={<ProtectedRoute><ImportExcel /></ProtectedRoute>} />
         <Route path="/team-photos" element={<ProtectedRoute><TeamPhotos /></ProtectedRoute>} />
-        <Route path="/adminDemo" element={<ProtectedRoute requireAdmin={true}><Admin /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute requireAdmin={true}><Admin /></ProtectedRoute>} />
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

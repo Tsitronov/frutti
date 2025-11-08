@@ -41,19 +41,19 @@ const Appunti = () => {
 
   const itemsPerPage = 7;
 
-  // 📌 Ottimizzazione: categorieUniche
+
   const categorieUniche = useMemo(() => {
     return [...new Set(appunti.map(f => f.categoria))];
   }, [appunti]);
 
-  // 📌 Ottimizzazione: appuntiFiltrati
+
   const appuntiFiltrati = useMemo(() => {
     return categoriaSelezionata
       ? appunti.filter(f => f.categoria === categoriaSelezionata)
       : appunti;
   }, [appunti, categoriaSelezionata]);
 
-  // 📌 Ottimizzazione: appuntiVisibili
+
   const appuntiVisibili = useMemo(() => {
     const lista = categoriaSelezionata
       ? appunti.filter(f => f.categoria === categoriaSelezionata)
@@ -63,7 +63,7 @@ const Appunti = () => {
     return lista.slice(indexOfFirst, indexOfLast);
   }, [appunti, categoriaSelezionata, currentPage, itemsPerPage]);
 
-  // 📌 Ottimizzazione: funzioni per AppuntiForm
+
   const handleAggiungiAppunto = useCallback(() => {
     if (form.descrizione) {
       dispatch(aggiungiAppunto({
