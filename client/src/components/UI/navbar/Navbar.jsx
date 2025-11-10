@@ -57,8 +57,8 @@ const Navbar = () => {
     } finally {
       setIsAuth(false);
       setCategoria(null);
-      setTokens(null, null);
-      navigate('/login', { replace: true });
+      setTokens(null);
+      navigate('/loginDemo', { replace: true });
     }
   };
 
