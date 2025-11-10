@@ -4,7 +4,7 @@ import { AuthContext } from '../../../context';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { toggleTheme } from "../../../redux/themeSlice";
-import { setTokens } from '../../../api.js';
+import api, { setTokens }from '../../../api.js';
 
 const Navbar = () => {
   const { isAuth, setIsAuth, categoria: contextCategoria, setCategoria } = useContext(AuthContext);
