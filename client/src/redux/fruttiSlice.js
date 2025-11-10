@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../api.js';
 
-const URL = `${process.env.REACT_APP_API_URL}/api/fruttiDemo`;
+const URL = `${process.env.REACT_APP_API_URL}/api/frutti`;
 
 export const fetchFrutti = createAsyncThunk(
   'frutti/fetchFrutti',
@@ -10,7 +10,7 @@ export const fetchFrutti = createAsyncThunk(
       const res = await api.get(URL);
       return Array.isArray(res.data.frutti) ? res.data.frutti : [];
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || 'Ошибка загрузки frutti');
+      return rejectWithValue(err.response?.data?.error || 'error carica frutti');
     }
   }
 );
@@ -24,12 +24,12 @@ export const aggiungiFrutto = createAsyncThunk(
       const res = await api.post(URL, frutto);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || 'Ошибка добавления');
+      return rejectWithValue(err.response?.data?.error || 'error aggiungere');
     }
   }
 );
 
-// ✏ PUT – обновить фрукт
+
 export const modificaFrutto = createAsyncThunk(
   'frutti/modificaFrutto',
   async (frutto, { rejectWithValue }) => {
@@ -38,12 +38,12 @@ export const modificaFrutto = createAsyncThunk(
       const res = await api.put(`${URL}/${id}`, { nome, descrizione, categoria });
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || 'Ошибка обновления');
+      return rejectWithValue(err.response?.data?.error || 'error modifica');
     }
   }
 );
 
-// ❌ DELETE – удалить фрукт
+
 export const eliminaFrutto = createAsyncThunk(
   'frutti/eliminaFrutto',
   async (id, { rejectWithValue }) => {
@@ -51,12 +51,12 @@ export const eliminaFrutto = createAsyncThunk(
       await api.delete(`${URL}/${id}`);
       return id;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.error || 'Ошибка удаления');
+      return rejectWithValue(err.response?.data?.error || 'error elimina');
     }
   }
 );
 
-// 🧩 Slice
+
 const fruttiSlice = createSlice({
   name: 'frutti',
   initialState: {
@@ -75,7 +75,6 @@ const fruttiSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // fetch
       .addCase(fetchFrutti.pending, (state) => {
         state.isLoading = true;
         state.error = null;

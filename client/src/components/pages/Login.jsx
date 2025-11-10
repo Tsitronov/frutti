@@ -19,19 +19,19 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await api.post('/api/loginDemo', data);
+      const response = await api.post('/api/login', data);
 
       if (response.data?.accessToken) {
         setTokens(response.data.accessToken, response.data.refreshToken);
         setIsAuth(true);
         setCategoria(response.data.categoria);
-        navigate('/utentiDemo');
+        navigate('/utenti');
       } else {
-        setLocalError('Неверный ответ от сервера');
+        setLocalError('Risposta del server non valida');
       }
     } catch (err) {
-      console.error('Ошибка логина:', err);
-      setLocalError(err.response?.data?.error || 'Неверный логин или пароль');
+      console.error('Errore di accesso:', err);
+      setLocalError(err.response?.data?.error || 'Accesso o password non validi');
     } finally {
       setLoading(false);
     }
@@ -41,7 +41,7 @@ const Login = () => {
     <div className="container-login"> 
       <div className="main-content-login"> 
         <div className="content-login">
-         <h3 className="title-login">Страница входа</h3> 
+         <h3 className="title-login">Pagina di accesso</h3> 
          <div className="article-list-login">
           {loading && <div className="loading-spinner"></div>}
           {localError && <p className="error-login">{localError}</p>}
@@ -50,8 +50,8 @@ const Login = () => {
               <input
                 type="text"
                 className="input-login"
-                placeholder="Введите логин"
-                {...register('username', { required: 'Требуется логин' })}
+                placeholder="login"
+                {...register('username', { required: 'Accesso richiesto' })}
               />
               {errors.username && (
                 <p className="error-login">{errors.username.message}</p>
@@ -59,14 +59,14 @@ const Login = () => {
               <input
                 type="password"
                 className="input-login"
-                placeholder="Введите пароль"
-                {...register('password', { required: 'Пароль обязателен' })}
+                placeholder="password"
+                {...register('password', { required: 'Password richiesta' })}
               />
               {errors.password && (
                 <p className="error-login">{errors.password.message}</p>
               )}
               <button type="submit" className="button-login" disabled={loading}>
-                {loading ? 'Входим...' : 'Войти'}
+                {loading ? 'in corso...' : 'Accedi'}
               </button>
             </form>
 

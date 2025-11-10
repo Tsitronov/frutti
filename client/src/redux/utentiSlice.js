@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../api.js';
 
-const URL = `${process.env.REACT_APP_API_URL}/api/utentiDemo`;
+const URL = `${process.env.REACT_APP_API_URL}/api/utenti`;
 
-// 📥 GET – получить всех пользователей
+
 export const fetchUtenti = createAsyncThunk(
   'utenti/fetchUtenti',
   async (_, { rejectWithValue }) => {
@@ -16,7 +16,7 @@ export const fetchUtenti = createAsyncThunk(
   }
 );
 
-// ➕ POST – добавить пользователя
+
 export const aggiungiUtente = createAsyncThunk(
   'utenti/aggiungiUtente',
   async (utente, { rejectWithValue }) => {
@@ -29,7 +29,7 @@ export const aggiungiUtente = createAsyncThunk(
   }
 );
 
-// ✏ PUT – обновить пользователя
+
 export const modificaUtente = createAsyncThunk(
   'utenti/modificaUtente',
   async (utente, { rejectWithValue }) => {
@@ -42,7 +42,7 @@ export const modificaUtente = createAsyncThunk(
   }
 );
 
-// ❌ DELETE – удалить пользователя
+
 export const eliminaUtente = createAsyncThunk(
   'utenti/eliminaUtente',
   async (id, { rejectWithValue }) => {
@@ -73,7 +73,6 @@ const utentiSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    // fetchUtenti
     .addCase(fetchUtenti.pending, (state) => {
       state.isLoading = true;
       state.error = null;
@@ -87,7 +86,7 @@ const utentiSlice = createSlice({
       state.error = action.payload || 'Ошибка загрузки utenti';
     })
 
-    // aggiungiUtente
+
     .addCase(aggiungiUtente.fulfilled, (state, action) => {
       if (action.payload) state.lista.push(action.payload);
     })
@@ -95,7 +94,7 @@ const utentiSlice = createSlice({
       state.error = action.payload;
     })
 
-    // modificaUtente
+ 
     .addCase(modificaUtente.fulfilled, (state, action) => {
       const index = state.lista.findIndex((u) => u.id === action.payload.id);
       if (index !== -1) state.lista[index] = action.payload;
@@ -104,7 +103,7 @@ const utentiSlice = createSlice({
       state.error = action.payload;
     })
 
-    // eliminaUtente
+
     .addCase(eliminaUtente.fulfilled, (state, action) => {
       state.lista = state.lista.filter((u) => u.id !== action.payload);
     })

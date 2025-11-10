@@ -29,25 +29,29 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    // Если accessToken истёк
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-
       try {
         const res = await axios.post(`${baseURL}/api/refresh`, {}, { withCredentials: true });
         const newAccess = res.data?.accessToken;
+
         if (newAccess) {
-          accessToken = newAccess;
+          setTokens(newAccess);
           originalRequest.headers['Authorization'] = `Bearer ${newAccess}`;
           return api(originalRequest);
         } else {
           window.location.href = '/loginDemo';
         }
       } catch (err) {
+        console.error('❌ Ошибка обновления токена:', err);
+        setTokens(null);
         window.location.href = '/loginDemo';
       }
     }
 
     if (error.response && error.response.status === 403) {
+      setTokens(null);
       window.location.href = '/loginDemo';
     }
 
@@ -56,3 +60,4 @@ api.interceptors.response.use(
 );
 
 export default api;
+

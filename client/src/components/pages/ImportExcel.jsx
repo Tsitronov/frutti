@@ -13,23 +13,23 @@ function ImportExcel() {
   
   // Filtri: array di oggetti condizioni
   const [filters, setFilters] = useState([
-    { id: 1, column: 'all', operator: 'contains', value: '', logic: 'AND' } // Primo per default
+    { id: 1, column: 'all', operator: 'contains', value: '', logic: 'AND' }
   ]);
-  const [globalLogic, setGlobalLogic] = useState('AND'); // Logica generale (AND/OR per tutti)
+  const [globalLogic, setGlobalLogic] = useState('AND');
 
-  // Caricamento automatico dati dal DB
+
   useEffect(() => {
     fetchData();
   }, []);
 
-  // Filtraggio al cambiamento di data o filters
+
   useEffect(() => {
     if (data.length === 0) {
       setFilteredData([]);
       return;
     }
 
-    // Funzione di controllo condizione per una riga
+
     const checkCondition = (row, filter) => {
       const colKey = filter.column === 'all' ? null : filter.column;
       let cellValue = '';
@@ -52,7 +52,7 @@ function ImportExcel() {
       }
     };
 
-    // Filtrare con logica
+
     let filtered = [...data];
     if (filters.some(f => f.value.trim())) { // Se ci sono non vuoti
       filtered = filtered.filter(row => {
@@ -85,7 +85,7 @@ function ImportExcel() {
 
   const handleUpload = async () => {
     if (!file) {
-      setError('Выберите файл!');
+      setError('Seleziona file!');
       return;
     }
     setLoading(true);
@@ -100,11 +100,11 @@ function ImportExcel() {
       });
       if (response.data.success) {
         setData(response.data.data);
-        setError('Данные обновлены');
+        setError('Dati aggiornati');
         fetchData(); 
       }
     } catch (err) {
-      setError('Ошибка: ' + (err.response?.data?.error || err.message));
+      setError('Errore: ' + (err.response?.data?.error || err.message));
     } finally {
       setLoading(false);
     }
@@ -140,7 +140,7 @@ function ImportExcel() {
 
       <div className="main-content-table-utenti">
         <div className="content-table-utenti"  style={{marginTop:"5rem"}}>
-          <h4> Загрузка Excel с множественными условиями поиска </h4>
+          <h4> Caricamento Excel con multiple condizioni di ricerca </h4>
           <div className="filtri">
           <input 
             type="file" 
@@ -148,7 +148,7 @@ function ImportExcel() {
             onChange={handleFileChange} 
           />
           <button onClick={handleUpload} disabled={loading || !file}>
-            {loading ? 'Загрузка...' : 'Загрузить и сохранить'}
+            {loading ? 'Caricamento...' : 'Carica e salva'}
           </button>
           </div>
           
@@ -156,7 +156,7 @@ function ImportExcel() {
           
           {data.length > 0 && (
             <div>
-              <h4>Фильтры (множественные условия):</h4>
+              <h4>Filtri (multiple condizioni):</h4>
               <div className="forma-ricerca">
                 
                 {filters.map((filter, index) => (
@@ -177,7 +177,7 @@ function ImportExcel() {
                         onChange={(e) => updateFilter(filter.id, 'column', e.target.value)}
                         className="forma-ricerca"
                       >
-                        <option value="all">Все столбцы</option>
+                        <option value="all">Tutte le colonne</option>
                         {headers.map((key) => (
                           <option key={key} value={key}>{key}</option>
                         ))}
@@ -187,21 +187,21 @@ function ImportExcel() {
                         onChange={(e) => updateFilter(filter.id, 'operator', e.target.value)}
                         className="forma-ricerca"
                       >
-                        <option value="contains">Содержит</option>
-                        <option value="equals">Равно</option>
-                        <option value="gt">&gt; (больше)</option>
-                        <option value="lt">&lt; (меньше)</option>
-                        <option value="empty">Пусто</option>
+                        <option value="contains">Contiene</option>
+                        <option value="equals">Uguale</option>
+                        <option value="gt">&gt; (maggiore)</option>
+                        <option value="lt">&lt; (minore)</option>
+                        <option value="empty">Vuoto</option>
                       </select>
                       <input
                         type="text"
-                        placeholder="Значение..."
+                        placeholder="Valore..."
                         value={filter.value}
                         onChange={(e) => updateFilter(filter.id, 'value', e.target.value)}
                         disabled={filter.operator === 'empty'}
                       />
                       {filters.length > 1 && (
-                        <button onClick={() => removeFilter(filter.id)}>Удалить</button>
+                        <button onClick={() => removeFilter(filter.id)}>Elimina</button>
                       )}
                     </div>
                   </div>
@@ -209,19 +209,19 @@ function ImportExcel() {
                 <div className="filtri">
                   <button onClick={addFilter} 
                     className="btn-elimina">
-                    Добавить условие 
+                    Aggiungi condizione  
                   </button>
                   <select
                     value={globalLogic}
                     onChange={(e) => setGlobalLogic(e.target.value)}
                   >
-                    <option value="AND">Общая логика: AND</option>
-                    <option value="OR">Общая логика: OR</option>
+                    <option value="AND">Logica generale: E</option>
+                    <option value="OR">Logica generale: O </option>
                   </select>
-                  <button onClick={clearFilters}  onClick={addFilter} >Очистить фильтры</button>
+                  <button onClick={clearFilters}  onClick={addFilter} > Pulisci filtri </button>
                 </div>
                 <p>
-                  Найдено строк: {filteredData.length} из {data.length}
+                  Trovate righe: {filteredData.length} из {data.length}
                 </p>
               </div>
 
@@ -252,7 +252,7 @@ function ImportExcel() {
                 </table>
 
                 {filteredData.length === 0 && (
-                  <p>Нет результатов. Измените фильтры.</p>
+                  <p>Nessun risultato. Cambia i filtri.</p>
                 )}
               </div>
             </div>

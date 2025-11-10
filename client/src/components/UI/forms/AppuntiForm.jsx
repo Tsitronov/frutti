@@ -6,13 +6,13 @@ const AppuntiForm = ({form, setForm, categorieUniche, handleSalva, handleAggiung
               <input
             value={form.nome || ""}
             onChange={(e) => setForm({ ...form, nome: e.target.value })}
-            placeholder="Название"
+            placeholder="nome"
           />
           <input
             list="suggestions"
             value={form.categoria || ""}
             onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-            placeholder="Категория"
+            placeholder="categoria"
           />
           <datalist id="suggestions">
             {categorieUniche.map((cat, i) => (
@@ -23,26 +23,26 @@ const AppuntiForm = ({form, setForm, categorieUniche, handleSalva, handleAggiung
           <textarea
             value={form.descrizione || ""}
             onChange={(e) => {setForm({ ...form, descrizione: e.target.value })}}
-            placeholder="Описание"
+            placeholder="descrizione"
           ></textarea>
 
 
         {form.id !== null ? (
           <>
             <button type="button" onClick={handleSalva} disabled={isLoading}>
-              {isLoading ? <span className="spinner"></span> : '💾 Изменить'} 
+              {isLoading ? <span className="spinner"></span> : '💾 Modifica'} 
             </button>
             <button type="button" className="btn-elimina" onClick={toggleAppuntiForm} disabled={isLoading}>
-              ❌ Отмена
+              ❌ Annulla
             </button>
           </>
         ) : (
           <>
             <button type="button" onClick={handleAggiungiAppunto} disabled={isLoading}>
-              {isLoading ? <span className="spinner"></span> : '➕ Добавить'}
+              {isLoading ? <span className="spinner"></span> : '➕ Aggiungi'}
             </button>
             <button type="button" className="btn-elimina" onClick={toggleAppuntiForm} disabled={isLoading}>
-              ❌ Отмена
+              ❌ Annulla
             </button>
           </>
         )}

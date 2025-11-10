@@ -17,14 +17,14 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  // Detect mobile resize
+
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Close menu on outside click — с фиксом для hamburger
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (isMobileMenuOpen && !e.target.closest('.mobile-hamburger, .mobile-menu-overlay')) {
@@ -35,7 +35,7 @@ const Navbar = () => {
     return () => document.removeEventListener('click', handleClickOutside);
   }, [isMobileMenuOpen]);
 
-  // Sync theme to body class
+
   useEffect(() => {
     if (theme === 'dark') {
       document.body.classList.add('dark');
@@ -51,14 +51,14 @@ const Navbar = () => {
 
   const logout = async () => {
     try {
-      await api.post('/api/logout'); // сервер очистит cookie
+      await api.post('/api/logout');
     } catch (err) {
       console.error('Ошибка при выходе:', err);
     } finally {
       setIsAuth(false);
       setCategoria(null);
-      setTokens(null, null); // очищает accessToken из localStorage
-      navigate('/loginDemo', { replace: true });
+      setTokens(null, null);
+      navigate('/login', { replace: true });
     }
   };
 
@@ -98,17 +98,17 @@ const Navbar = () => {
         </button>
       )}
 
-      {/* Mobile Overlay Menu */}
+
       {isMobile && isMobileMenuOpen && (
         <div className="mobile-menu-overlay open">
-          <NavItem to="/appuntiDemo" onClick={closeMobileMenu}>Заметки</NavItem>
-          <NavItem to="/generaleDemo" onClick={closeMobileMenu}>Общее</NavItem>
-          <NavItem to="/utentiDemo" onClick={closeMobileMenu}>Пользователи</NavItem>
+          <NavItem to="/appunti" onClick={closeMobileMenu}>Заметки</NavItem>
+          <NavItem to="/generale" onClick={closeMobileMenu}>Общее</NavItem>
+          <NavItem to="/utenti" onClick={closeMobileMenu}>Пользователи</NavItem>
           {(categoria === '2' || categoria === '3') && (
             <NavItem to="/utentiTable" onClick={closeMobileMenu}>Таблица пользователей</NavItem>
           )}
           {categoria === '3' && (
-            <NavItem to="/adminDemo" onClick={closeMobileMenu}>Админ</NavItem>
+            <NavItem to="/admin" onClick={closeMobileMenu}>Админ</NavItem>
           )}
           {(categoria === '2' || categoria === '3') && (
             <NavItem to="/team-photos" onClick={closeMobileMenu}>Фото команды</NavItem>
@@ -116,7 +116,7 @@ const Navbar = () => {
           {isAuth ? (
             <button className="nav-link logout" onClick={logout}>Выход</button>
           ) : (
-            <NavItem to="/loginDemo" onClick={closeMobileMenu}>Вход</NavItem>
+            <NavItem to="/login" onClick={closeMobileMenu}>Вход</NavItem>
           )}
           <button 
             className="theme-toggle-mobile" 
@@ -127,26 +127,25 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Desktop Nav Links - Nascondi su mobile */}
+
       {!isMobile && (
         <ul className="top-nav-links">
-          <li><NavItem to="/appuntiDemo">Заметки</NavItem></li>
-          <li><NavItem to="/generaleDemo">Общее</NavItem></li>
-          <li><NavItem to="/utentiDemo">Пользователи</NavItem></li>
+          <li><NavItem to="/appunti">Appunti</NavItem></li>
+          <li><NavItem to="/generale">Generale</NavItem></li>
+          <li><NavItem to="/utenti">Utenti</NavItem></li>
           {(categoria === '2' || categoria === '3') && <li><NavItem to="/utentiTable"> Таблица пользователей </NavItem></li>}
-          {categoria === '3' && <li><NavItem to="/adminDemo">Админ</NavItem></li>}
+          {categoria === '3' && <li><NavItem to="/admin">Admin</NavItem></li>}
           {(categoria === '2' || categoria === '3') && <li><NavItem to="/team-photos"> Фото команды </NavItem></li>}
           {isAuth ? (
             <li>
-              <span className="nav-link logout" onClick={logout}> Выход </span>
+              <span className="nav-link logout" onClick={logout}> Logout </span>
             </li>
           ) : (
-            <li><NavItem to="/loginDemo">Вход</NavItem></li>
+            <li><NavItem to="/login">Login</NavItem></li>
           )}
         </ul>
       )}
 
-      {/* Theme Toggle - Sempre visibile, ma position fixed su desktop */}
       <button 
         className="theme-toggle-mobile" 
         onClick={(e) => { 

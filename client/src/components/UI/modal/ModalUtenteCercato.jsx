@@ -2,7 +2,7 @@ const ModalUtenteCercato = ({ utenteTrovato, getColorClass, categoryLabels, setM
   return (
     <div className="modal" role="dialog" aria-modal="true">
       <div className="modal-content">
-        <h3>🧾 Информация о пользователе</h3>
+        <h3>🧾 Informazioni utente </h3>
         {utenteTrovato ? (
           <ul>
             <li key="reparto"><strong>{categoryLabels.reparto}:</strong> {utenteTrovato.reparto}</li>
@@ -19,9 +19,9 @@ const ModalUtenteCercato = ({ utenteTrovato, getColorClass, categoryLabels, setM
             <li key="altro"><strong>{categoryLabels.altro}:</strong> {utenteTrovato.altro}</li>
           </ul>
         ) : (
-          <p>⚠️ Пользователь не найден.</p>
+          <p>⚠️ Utente non trovato.</p>
         )}
-        <button type="button" onClick={() => setMostraModalInfo(false)}>❌ Закрыть</button>
+        <button type="button" onClick={() => setMostraModalInfo(false)}>❌ Chiudi </button>
       </div>
     </div>
   );

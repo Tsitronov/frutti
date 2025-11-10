@@ -41,19 +41,19 @@ const Generale = () => {
 
   const itemsPerPage = 4;
 
-  // 📌 Ottimizzazione: categorieUniche
+
   const categorieUniche = useMemo(() => {
     return [...new Set(frutti.map(f => f.categoria))];
   }, [frutti]);
 
-  // 📌 Ottimizzazione: fruttiFiltrati
+
   const fruttiFiltrati = useMemo(() => {
     return categoriaSelezionata
       ? frutti.filter(f => f.categoria === categoriaSelezionata)
       : frutti;
   }, [frutti, categoriaSelezionata]);
 
-  // 📌 Ottimizzazione: fruttiVisibili
+
   const fruttiVisibili = useMemo(() => {
     const lista = categoriaSelezionata
       ? frutti.filter(f => f.categoria === categoriaSelezionata)
@@ -63,7 +63,7 @@ const Generale = () => {
     return lista.slice(indexOfFirst, indexOfLast);
   }, [frutti, categoriaSelezionata, currentPage, itemsPerPage]);
 
-  // 📌 Ottimizzazione: funzioni per GeneraleForm
+
   const handleAggiungiFrutto = useCallback(() => {
     if (form.nome && form.descrizione && form.categoria) {
       dispatch(aggiungiFrutto({
