@@ -19,7 +19,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await api.post('/api/loginDemo', data);
+      const response = await api.post('/api/login', data);
 
       if (response.data?.accessToken) {
         setTokens(response.data.accessToken, response.data.refreshToken);

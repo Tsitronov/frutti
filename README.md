@@ -1,4 +1,4 @@
-# frutti - Custom CRM Demo
+# frutti - Custom CRM
 
 This is a versatile CRM system built with React, Redux, Express, and PostgreSQL. It helps manage data, schedules, and needs efficiently for various use cases, including elderly care, rehabilitation, and more.
 
