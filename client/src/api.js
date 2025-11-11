@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 
 const baseURL = process.env.REACT_APP_API_URL || '';
@@ -44,13 +45,13 @@ api.interceptors.response.use(
       } catch (err) {
         console.error('❌ Ошибка обновления токена:', err);
         setTokens(null);
-        window.location.href = '/login';
+        window.location.href = '/loginDemo';
       }
     }
 
     if (error.response && error.response.status === 403) {
       setTokens(null);
-      window.location.href = '/login';
+      window.location.href = '/loginDemo';
     }
 
     return Promise.reject(error);

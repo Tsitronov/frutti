@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../api.js';
 
-const URL = `${process.env.REACT_APP_API_URL}/api/appunti`;
+const URL = `${process.env.REACT_APP_API_URL}/api/appuntiDemo`;
 
 export const fetchAppunti = createAsyncThunk(
   'appunti/fetchAppunti',
