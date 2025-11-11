@@ -32,32 +32,31 @@ function App() {
 
 
   useEffect(() => {
-    const checkToken = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setLoading(false);
-        return;
-      }
+    const initAuth = async () => {
       try {
-        const response = await api.get('/api/validateToken');
-        setIsAuth(true);
-        setCategoria(response.data.categoria);
+        const res = await api.post('/api/refresh', {}, { withCredentials: true });
+        if (res.data?.accessToken) {
+          setTokens(res.data.accessToken);
+          const validate = await api.get('/api/validateToken');
+          setIsAuth(true);
+          setCategoria(validate.data.categoria);
+        } else {
+          setIsAuth(false);
+        }
       } catch (err) {
-        console.warn('Token check failed:', err);
         setIsAuth(false);
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
       } finally {
         setLoading(false);
       }
     };
-    checkToken();
-  }, []);
 
+    initAuth();
+  }, []);
 
   if (loading) {
     return (<div className="loading-screen"> <div className="loading-spinner"></div></div>);
   }
+
 
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria }}>

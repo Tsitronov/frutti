@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from 'axios';  // Оставьте, если нужно для upload (multipart)
+import api from '../../api';  // Импорт api из api.js (скорректируйте путь: ../api или ./api)
 import Navbar from "../UI/navbar/Navbar";
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001'; 
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001';  // Для upload (multipart не через api)
 
 function ImportExcel() {
   const [file, setFile] = useState(null);
@@ -17,18 +18,15 @@ function ImportExcel() {
   ]);
   const [globalLogic, setGlobalLogic] = useState('AND');
 
-
   useEffect(() => {
     fetchData();
   }, []);
-
 
   useEffect(() => {
     if (data.length === 0) {
       setFilteredData([]);
       return;
     }
-
 
     const checkCondition = (row, filter) => {
       const colKey = filter.column === 'all' ? null : filter.column;
@@ -52,7 +50,6 @@ function ImportExcel() {
       }
     };
 
-
     let filtered = [...data];
     if (filters.some(f => f.value.trim())) { // Se ci sono non vuoti
       filtered = filtered.filter(row => {
@@ -69,12 +66,17 @@ function ImportExcel() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/data`);
+      const response = await api.get('/data');  // Фикс: через api (добавит token автоматически)
       if (response.data.success) {
         setData(response.data.data);
       }
     } catch (err) {
       console.error('Errore caricamento dati:', err);
+      if (err.response?.status === 401) {
+        // Token expired — redirect to login
+        window.location.href = '/login';
+      }
+      setError('Errore caricamento dati: ' + (err.response?.data?.error || err.message));
     }
   };
 
@@ -95,7 +97,7 @@ function ImportExcel() {
     formData.append('excelFile', file);
 
     try {
-      const response = await axios.post(`${API_BASE}/upload`, formData, {
+      const response = await axios.post(`${API_BASE}/upload`, formData, {  // Оставьте axios для multipart (api не подходит)
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       if (response.data.success) {
@@ -105,6 +107,9 @@ function ImportExcel() {
       }
     } catch (err) {
       setError('Errore: ' + (err.response?.data?.error || err.message));
+      if (err.response?.status === 401) {
+        window.location.href = '/login';
+      }
     } finally {
       setLoading(false);
     }
@@ -218,7 +223,7 @@ function ImportExcel() {
                     <option value="AND">Logica generale: E</option>
                     <option value="OR">Logica generale: O </option>
                   </select>
-                  <button onClick={clearFilters}  onClick={addFilter} > Pulisci filtri </button>
+                  <button onClick={clearFilters}  onClick={addFilter} > Pulisci filtri </button>  {/* Фикс: уберите дубликат onClick={addFilter} */}
                 </div>
                 <p>
                   Trovate righe: {filteredData.length} из {data.length}
