@@ -1,4 +1,3 @@
-// src/api.js
 import axios from 'axios';
 
 const baseURL = process.env.REACT_APP_API_URL || '';
@@ -41,18 +40,18 @@ api.interceptors.response.use(
           originalRequest.headers['Authorization'] = `Bearer ${newAccess}`;
           return api(originalRequest);
         } else {
-          window.location.href = '/loginDemo';
+          window.location.href = '/login';
         }
       } catch (err) {
         console.error('❌ Ошибка обновления токена:', err);
         setTokens(null);
-        window.location.href = '/loginDemo';
+        window.location.href = '/login';
       }
     }
 
     if (error.response && error.response.status === 403) {
       setTokens(null);
-      window.location.href = '/loginDemo';
+      window.location.href = '/login';
     }
 
     return Promise.reject(error);
