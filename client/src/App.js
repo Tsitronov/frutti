@@ -6,7 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import api from './api.js';
 import { setTokens } from './api.js';
 
-// Страницы
+
 import Login from './components/pages/Login';
 import SulSito from './components/pages/SulSito';
 import Generale from './components/pages/Generale';
