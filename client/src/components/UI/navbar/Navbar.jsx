@@ -4,7 +4,7 @@ import { AuthContext } from '../../../context';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { toggleTheme } from "../../../redux/themeSlice";
-import api, { setTokens }from '../../../api.js';
+import api, { setTokens } from '../../../api.js';
 
 const Navbar = () => {
   const { isAuth, setIsAuth, categoria: contextCategoria, setCategoria } = useContext(AuthContext);
@@ -58,7 +58,7 @@ const Navbar = () => {
       setIsAuth(false);
       setCategoria(null);
       setTokens(null);
-      navigate('/loginDemo', { replace: true });
+      navigate('/login', { replace: true });
     }
   };
 
