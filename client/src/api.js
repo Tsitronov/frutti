@@ -9,20 +9,20 @@ const api = axios.create({
 
 let accessToken = null;
 
+
 export const setTokens = (newAccess) => {
   accessToken = newAccess;
-  console.log('Token set:', accessToken ? 'Yes' : 'No');  // Добавил лог для проверки setTokens после login
 };
 
+
 api.interceptors.request.use((config) => {
-  if (accessToken) {
-    config.headers['Authorization'] = `Bearer ${accessToken}`;
-    console.log('Token added to request:', config.url);  // Лог: добавлен ли token и к какому URL
-  } else {
-    console.warn('No token for request:', config.url);  // Лог: если token null — проблема здесь
+  const token = sessionStorage.getItem('accessToken') || accessToken;  // sessionStorage + memory
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
   }
   return config;
 });
+
 
 api.interceptors.response.use(
   (response) => response,
@@ -59,3 +59,4 @@ api.interceptors.response.use(
 );
 
 export default api;
+

@@ -46,7 +46,7 @@ function App() {
       } catch (err) {
         setIsAuth(false);
       } finally {
-        setLoading(false);
+        setTimeout(() => setLoading(false), 300);
       }
     };
 
@@ -56,7 +56,6 @@ function App() {
   if (loading) {
     return (<div className="loading-screen"> <div className="loading-spinner"></div></div>);
   }
-
 
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria }}>

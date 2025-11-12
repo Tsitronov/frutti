@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';  // Оставьте, если нужно для upload (multipart)
-import api from '../../api';  // Импорт api из api.js (скорректируйте путь: ../api или ./api)
+import axios from 'axios';
+import api from '../../api';
+import { setTokens } from '../../api';
 import Navbar from "../UI/navbar/Navbar";
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001';  // Для upload (multipart не через api)
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 function ImportExcel() {
   const [file, setFile] = useState(null);
@@ -66,15 +67,17 @@ function ImportExcel() {
 
   const fetchData = async () => {
     try {
-      const response = await api.get('/data');  // Фикс: через api (добавит token автоматически)
+      const response = await api.get('/data');
       if (response.data.success) {
         setData(response.data.data);
       }
     } catch (err) {
       console.error('Errore caricamento dati:', err);
       if (err.response?.status === 401) {
-        // Token expired — redirect to login
+        setTokens(null);  // Сброс токена
+        localStorage.removeItem('accessToken');
         window.location.href = '/login';
+        return;
       }
       setError('Errore caricamento dati: ' + (err.response?.data?.error || err.message));
     }
@@ -97,8 +100,19 @@ function ImportExcel() {
     formData.append('excelFile', file);
 
     try {
-      const response = await axios.post(`${API_BASE}/upload`, formData, {  // Оставьте axios для multipart (api не подходит)
-        headers: { 'Content-Type': 'multipart/form-data' }
+      const token = sessionStorage.getItem('accessToken');  // <-- Здесь! Бери токен из sessionStorage
+      console.log('Upload token from sessionStorage:', token ? 'Found' : 'Missing');  // Лог для дебага (убери потом)
+      if (!token) {
+        setError('Sessione scaduta — ricarica la pagina e loggati di nuovo');
+        window.location.href = '/login';
+        return;
+      }
+
+      const response = await axios.post(`${API_BASE}/upload`, formData, {
+        headers: { 
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`  // Токен добавляется в header
+        }
       });
       if (response.data.success) {
         setData(response.data.data);
@@ -108,6 +122,8 @@ function ImportExcel() {
     } catch (err) {
       setError('Errore: ' + (err.response?.data?.error || err.message));
       if (err.response?.status === 401) {
+        setTokens(null);
+        sessionStorage.removeItem('accessToken');
         window.location.href = '/login';
       }
     } finally {
@@ -144,7 +160,7 @@ function ImportExcel() {
       <Navbar />
 
       <div className="main-content-table-utenti">
-        <div className="content-table-utenti"  style={{marginTop:"5rem"}}>
+        <div className="content-table-utenti" style={{marginTop:"5rem"}}>
           <h4> Caricamento Excel con multiple condizioni di ricerca </h4>
           <div className="filtri">
           <input 
@@ -212,7 +228,7 @@ function ImportExcel() {
                   </div>
                 ))}
                 <div className="filtri">
-                  <button onClick={addFilter} 
+                  <button onClick={addFilter}
                     className="btn-elimina">
                     Aggiungi condizione  
                   </button>
@@ -223,7 +239,7 @@ function ImportExcel() {
                     <option value="AND">Logica generale: E</option>
                     <option value="OR">Logica generale: O </option>
                   </select>
-                  <button onClick={clearFilters}  onClick={addFilter} > Pulisci filtri </button>  {/* Фикс: уберите дубликат onClick={addFilter} */}
+                  <button onClick={clearFilters}> Pulisci filtri </button>  {/* Фикс: убрал дубликат onClick */}
                 </div>
                 <p>
                   Trovate righe: {filteredData.length} из {data.length}

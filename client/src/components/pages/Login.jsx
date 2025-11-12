@@ -22,7 +22,9 @@ const Login = () => {
       const response = await api.post('/api/login', data);
 
       if (response.data?.accessToken) {
-        setTokens(response.data.accessToken, response.data.refreshToken);
+        setTokens(response.data.accessToken);
+        sessionStorage.setItem('accessToken', response.data.accessToken);
+        console.log('Token saved to sessionStorage');
         setIsAuth(true);
         setCategoria(response.data.categoria);
         navigate('/utenti');
