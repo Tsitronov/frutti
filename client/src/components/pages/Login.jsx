@@ -18,25 +18,39 @@ const Login = () => {
     setLocalError('');
     setLoading(true);
 
-    try {
-      const response = await api.post('/api/login', data);
+    let attempts = 0;
+    while (attempts < 3) {
+      try {
+        const response = await api.post('/api/login', data);
 
-      if (response.data?.accessToken) {
-        setTokens(response.data.accessToken);
-        sessionStorage.setItem('accessToken', response.data.accessToken);
-        console.log('Token saved to sessionStorage');
-        setIsAuth(true);
-        setCategoria(response.data.categoria);
-        navigate('/utenti');
-      } else {
-        setLocalError('Risposta del server non valida');
+        if (response.data?.accessToken) {
+          setTokens(response.data.accessToken);
+          sessionStorage.setItem('accessToken', response.data.accessToken);
+          console.log('Login success, token saved');
+          setIsAuth(true);
+          setCategoria(response.data.categoria);
+          navigate('/utenti');
+          return;
+        } else {
+          setLocalError('Risposta del server non valida');
+          break;
+        }
+      } catch (err) {
+        attempts++;
+        console.error(`Login attempt ${attempts} failed:`, err.response?.status, err.message);
+        if (err.response?.status === 401) {
+          setLocalError(err.response?.data?.error || 'Accesso o password non validi');
+          break;
+        }
+        if (err.response?.status === 429) {
+          setLocalError('Troppi tentativi — attendi 15 minuti');
+          break;
+        }
+        // Жди перед retry (2с, 4с, 6с)
+        await new Promise(resolve => setTimeout(resolve, 2000 * attempts));
       }
-    } catch (err) {
-      console.error('Errore di accesso:', err);
-      setLocalError(err.response?.data?.error || 'Accesso o password non validi');
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return ( 
