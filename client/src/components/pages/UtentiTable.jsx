@@ -35,8 +35,6 @@ const UtentiTable = () => {
   }), []);
 
 
-
-
   useEffect(() => {
     dispatch(fetchUtenti()).then((action) => {
       if (fetchUtenti.fulfilled.match(action)) {
@@ -188,7 +186,7 @@ const UtentiTable = () => {
                   </div>
                 ))}
                 <div className="filtri">
-                  <button type="button" onClick={addFilter} className="btn-modifica">Добавить условие</button>
+                  <button type="button" onClick={addFilter} className="btn-modifica"> condizione </button>
                   <select
                     value={globalLogic}
                     onChange={(e) => setGlobalLogic(e.target.value)}
@@ -197,7 +195,7 @@ const UtentiTable = () => {
                     <option value="AND">Logica globale: E</option>
                     <option value="OR">Logica globale: O</option>
                   </select>
-                  <button type="button" onClick={clearFilters} className="btn-salva">Очистить фильтры</button>
+                  <button type="button" onClick={clearFilters} className="btn-salva">Cancella filtri</button>
                 </div>
                 <p className="verde">
                   Trovate righe: <strong>{filteredData.length}</strong> из <strong>{data.length}</strong>

@@ -133,9 +133,9 @@ const Navbar = () => {
           <li><NavItem to="/appunti">Appunti</NavItem></li>
           <li><NavItem to="/generale">Generale</NavItem></li>
           <li><NavItem to="/utenti">Utenti</NavItem></li>
-          {(categoria === '2' || categoria === '3') && <li><NavItem to="/utentiTable"> Таблица пользователей </NavItem></li>}
+          {(categoria === '2' || categoria === '3') && <li><NavItem to="/utentiTable">Excel</NavItem></li>}
           {categoria === '3' && <li><NavItem to="/admin">Admin</NavItem></li>}
-          {(categoria === '2' || categoria === '3') && <li><NavItem to="/team-photos"> Фото команды </NavItem></li>}
+          {(categoria === '2' || categoria === '3') && <li><NavItem to="/team-photos">Foto</NavItem></li>}
           {isAuth ? (
             <li>
               <span className="nav-link logout" onClick={logout}> Logout </span>

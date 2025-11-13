@@ -217,7 +217,7 @@ const Utenti = () => {
               setMostraModalInfo={setMostraModalInfo}
             />
 
-            <div className="sidebar-reparti"> Отдел 
+            <div className="sidebar-reparti">reparti
               <ul className="repartoNome reparti-list">
                 {reparti.map((reparto, i) => (
                   <li key={i}>
@@ -239,7 +239,7 @@ const Utenti = () => {
               </ul>
 
               {isAuth && categoria !== '1' &&
-                <div className="toggleLink" onClick={toggleUtentiForm}> Добавить 🙂 </div>
+                <div className="toggleLink" onClick={toggleUtentiForm}> Aggiungi 🙂 </div>
               }
             </div>
 
@@ -288,7 +288,7 @@ const Utenti = () => {
                       onClick={resetForm}
                       disabled={isLoading}
                     >
-                      ❌ Отмена
+                      ❌ cancellare
                     </button>
                   </>
                 ) : (
@@ -307,7 +307,7 @@ const Utenti = () => {
                       onClick={resetForm}
                       disabled={isLoading}
                     >
-                      ❌ Отмена
+                      ❌ cancellare
                     </button>
                   </>
                 )}

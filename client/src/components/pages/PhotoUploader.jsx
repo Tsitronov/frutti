@@ -92,7 +92,7 @@ const PhotoUploader = () => {
             />
             <div className="uploader-photo-actions">
               <button onClick={() => handleDelete(photo.id)} disabled={loading} className="delete-button">
-                Удалить
+                Elimina
               </button>
             </div>
           </div>

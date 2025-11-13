@@ -137,7 +137,7 @@ const Appunti = () => {
       <div className="sidebar-appunti">
 
       {isAuth && categoria !== '1' &&
-        <div className="toggleLink" onClick={toggleAppuntiForm}> Добавить 🙂 </div>
+        <div className="toggleLink" onClick={toggleAppuntiForm}>Aggiungi 🙂</div>
       }
 
         <div className="categories">
