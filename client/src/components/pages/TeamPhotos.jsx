@@ -42,7 +42,7 @@ return (
               <div key={photo.id || index} className="photo-item">
                 <img 
                   src={src}
-                  alt={filename || `фото ${photo.id || index}`}
+                  alt={filename || `photo ${photo.id || index}`}
                   loading="lazy"
                   sizes="(max-width: 600px) 100vw, 50vw"
                   width="400"
@@ -51,7 +51,7 @@ return (
                   onError={(e) => { 
                     e.target.src = "/placeholder.png";
                     e.target.style.opacity = "0.6";
-                    e.target.title = "Изображение не найдено";
+                    e.target.title = "Immagine non trovata";
                   }}
                 />
                 <p className="photo-filename">{filename}</p>
@@ -60,7 +60,7 @@ return (
           })}
         </div>
         {(!loading && photos.length === 0) && (
-          <p className="empty-state"> На данный момент нет фотографий </p>
+          <p className="empty-state"> Al momento non ci sono foto. </p>
         )}
 
         {isAuth && categoria !== '1' && (

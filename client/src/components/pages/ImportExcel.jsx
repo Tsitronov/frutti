@@ -100,8 +100,7 @@ function ImportExcel() {
     formData.append('excelFile', file);
 
     try {
-      const token = sessionStorage.getItem('accessToken');  // <-- Здесь! Бери токен из sessionStorage
-      console.log('Upload token from sessionStorage:', token ? 'Found' : 'Missing');  // Лог для дебага (убери потом)
+      const token = sessionStorage.getItem('accessToken');
       if (!token) {
         setError('Sessione scaduta — ricarica la pagina e loggati di nuovo');
         window.location.href = '/login';
@@ -111,7 +110,7 @@ function ImportExcel() {
       const response = await axios.post(`${API_BASE}/upload`, formData, {
         headers: { 
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}`  // Токен добавляется в header
+          'Authorization': `Bearer ${token}`
         }
       });
       if (response.data.success) {
@@ -131,23 +130,19 @@ function ImportExcel() {
     }
   };
 
-  // Aggiungi nuova condizione
   const addFilter = () => {
     const newId = filters.length + 1;
     setFilters([...filters, { id: newId, column: 'all', operator: 'contains', value: '', logic: 'AND' }]);
   };
 
-  // Rimuovi condizione
   const removeFilter = (id) => {
     setFilters(filters.filter(f => f.id !== id));
   };
 
-  // Aggiorna condizione
   const updateFilter = (id, field, value) => {
     setFilters(filters.map(f => f.id === id ? { ...f, [field]: value } : f));
   };
 
-  // Reset filtri
   const clearFilters = () => {
     setFilters([{ id: 1, column: 'all', operator: 'contains', value: '', logic: 'AND' }]);
     setGlobalLogic('AND');
@@ -239,7 +234,7 @@ function ImportExcel() {
                     <option value="AND">Logica generale: E</option>
                     <option value="OR">Logica generale: O </option>
                   </select>
-                  <button onClick={clearFilters}> Pulisci filtri </button>  {/* Фикс: убрал дубликат onClick */}
+                  <button onClick={clearFilters}> Pulisci filtri </button>
                 </div>
                 <p>
                   Trovate righe: {filteredData.length} из {data.length}

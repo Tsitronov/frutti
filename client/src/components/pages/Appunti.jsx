@@ -196,7 +196,7 @@ const Appunti = () => {
                   {isAuth && categoria !== '1' &&
                     <div className="actions">
                       <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
-                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Вы уверены, что хотите удалить?") && dispatch(eliminaAppunto(item.id))}>❌</button>
+                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Sei sicuro di voler eliminare?") && dispatch(eliminaAppunto(item.id))}>❌</button>
                     </div>
                   }
                 </div>
