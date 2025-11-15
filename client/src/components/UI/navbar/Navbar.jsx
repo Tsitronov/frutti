@@ -101,22 +101,22 @@ const Navbar = () => {
 
       {isMobile && isMobileMenuOpen && (
         <div className="mobile-menu-overlay open">
-          <NavItem to="/appunti" onClick={closeMobileMenu}>Заметки</NavItem>
-          <NavItem to="/generale" onClick={closeMobileMenu}>Общее</NavItem>
-          <NavItem to="/utenti" onClick={closeMobileMenu}>Пользователи</NavItem>
+          <NavItem to="/appunti" onClick={closeMobileMenu}>Appunti</NavItem>
+          <NavItem to="/generale" onClick={closeMobileMenu}>Generale</NavItem>
+          <NavItem to="/utenti" onClick={closeMobileMenu}>Utenti</NavItem>
           {(categoria === '2' || categoria === '3') && (
-            <NavItem to="/utentiTable" onClick={closeMobileMenu}>Таблица пользователей</NavItem>
+            <NavItem to="/utentiTable" onClick={closeMobileMenu}>Tabella</NavItem>
           )}
           {categoria === '3' && (
-            <NavItem to="/admin" onClick={closeMobileMenu}>Админ</NavItem>
+            <NavItem to="/admin" onClick={closeMobileMenu}>Admin</NavItem>
           )}
           {(categoria === '2' || categoria === '3') && (
             <NavItem to="/team-photos" onClick={closeMobileMenu}>Фото команды</NavItem>
           )}
           {isAuth ? (
-            <button className="nav-link logout" onClick={logout}>Выход</button>
+            <button className="nav-link logout" onClick={logout}>Logout</button>
           ) : (
-            <NavItem to="/login" onClick={closeMobileMenu}>Вход</NavItem>
+            <NavItem to="/login" onClick={closeMobileMenu}>Login</NavItem>
           )}
           <button 
             className="theme-toggle-mobile" 
@@ -133,7 +133,7 @@ const Navbar = () => {
           <li><NavItem to="/appunti">Appunti</NavItem></li>
           <li><NavItem to="/generale">Generale</NavItem></li>
           <li><NavItem to="/utenti">Utenti</NavItem></li>
-          {(categoria === '2' || categoria === '3') && <li><NavItem to="/utentiTable">Excel</NavItem></li>}
+          {(categoria === '2' || categoria === '3') && <li><NavItem to="/utentiTable">Tabella</NavItem></li>}
           {categoria === '3' && <li><NavItem to="/admin">Admin</NavItem></li>}
           {(categoria === '2' || categoria === '3') && <li><NavItem to="/team-photos">Foto</NavItem></li>}
           {isAuth ? (
