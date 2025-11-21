@@ -59,7 +59,7 @@ function App() {
           if (valRes.ok) {
             const valData = await valRes.json();
             setIsAuth(true);
-            setCategoria(Number(valData.categoria)); // ← ВАЖНО: приводим к числу
+            setCategoria(Number(valData.categoria));
           }
         }
 
