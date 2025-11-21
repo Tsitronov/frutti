@@ -63,7 +63,7 @@ return (
           <p className="empty-state"> Al momento non ci sono foto. </p>
         )}
 
-        {isAuth && categoria !== 1 && (
+        {isAuth && Number(categoria) >= 2 && (
           <PhotoUploader />
         )}
 

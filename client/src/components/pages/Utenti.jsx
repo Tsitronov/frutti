@@ -238,7 +238,7 @@ const Utenti = () => {
                 ))}
               </ul>
 
-              {isAuth && categoria !== 1 &&
+              {isAuth && Number(categoria) >= 2 &&
                 <div className="toggleLink" onClick={toggleUtentiForm}> Aggiungi 🙂 </div>
               }
             </div>
@@ -350,7 +350,7 @@ const Utenti = () => {
                       </button>
                     )}
 
-                    {isAuth && categoria !== 1 && (
+                    {isAuth && Number(categoria) >= 2 && (
                       <div className="actions" onClick={(e) => e.stopPropagation()}>
                         <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
                         <button 
