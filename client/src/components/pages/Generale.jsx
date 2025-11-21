@@ -135,7 +135,7 @@ const Generale = () => {
       <Navbar />
 
       <div className="sidebar-appunti">
-        {isAuth && categoria !== '1' &&
+        {isAuth && categoria !== 1 &&
           <div className="toggleLink" onClick={toggleFruttiForm}>Aggiungi 🙂</div>
         }
         <div className="categories">
@@ -192,7 +192,7 @@ const Generale = () => {
                     )}
                   </div>
 
-                  {isAuth && categoria !== '1' &&
+                  {isAuth && categoria !== 1 &&
                     <div className="actions">
                       <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
                       <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Sei sicuro di voler eliminare?") && dispatch(eliminaFrutto(item.id))}>❌</button>

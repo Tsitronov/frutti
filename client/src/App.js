@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { AuthContext } from './context';
 import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute';
-import api from './api.js';
-import { setTokens } from './api.js';
-
+import api, { setTokens } from './api.js';
 
 import Login from './components/pages/Login';
 import SulSito from './components/pages/SulSito';
 import Generale from './components/pages/Generale';
 import Appunti from './components/pages/Appunti';
-import ImportExcel from './components/pages/ImportExcel';
 import Utenti from './components/pages/Utenti';
 import UtentiTable from './components/pages/UtentiTable';
 import Report from './components/pages/Report';
@@ -31,34 +28,62 @@ function App() {
   }, [theme]);
 
 
+  const attemptedRef = useRef(false);
+
   useEffect(() => {
-    const initAuth = async () => {
+    const tryRefresh = async () => {
+      if (attemptedRef.current) return;
+      attemptedRef.current = true;
+
       try {
-        const res = await api.post('/api/refresh', {}, { withCredentials: true });
-        if (res.data?.accessToken) {
-          setTokens(res.data.accessToken);
-          const validate = await api.get('/api/validateToken');
-          setIsAuth(true);
-          setCategoria(validate.data.categoria);
-        } else {
-          setIsAuth(false);
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
+
+        const res = await fetch('https://frutti-backend.onrender.com/api/refresh', {
+          method: 'POST',
+          credentials: 'include',
+          signal: controller.signal
+        });
+
+        clearTimeout(timeout);
+
+        if (res.ok) {
+          const data = await res.json();
+          setTokens(data.accessToken);
+
+          const valRes = await fetch('https://frutti-backend.onrender.com/api/validateToken', {
+            credentials: 'include',
+            headers: { Authorization: `Bearer ${data.accessToken}` }
+          });
+
+          if (valRes.ok) {
+            const valData = await valRes.json();
+            setIsAuth(true);
+            setCategoria(Number(valData.categoria)); // ← ВАЖНО: приводим к числу
+          }
         }
+
       } catch (err) {
-        setIsAuth(false);
+        console.log("Нет сессии или кука не пришла — идём на логин");
       } finally {
-        setTimeout(() => setLoading(false), 300);
+        setLoading(false);
       }
     };
 
-    initAuth();
+    tryRefresh();
   }, []);
 
+
   if (loading) {
-    return (<div className="loading-screen"> <div className="loading-spinner"></div></div>);
+    return (
+      <div className="loading-screen">
+        <div className="loading-spinner"></div>
+      </div>
+    );
   }
 
   return (
-    <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria }}>
+    <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria, loading, setLoading  }}>
       <Routes>
         <Route path="/" element={<SulSito />} />
         <Route path="/login" element={<Login />} />
@@ -68,7 +93,6 @@ function App() {
         <Route path="/utenti" element={<ProtectedRoute><Utenti /></ProtectedRoute>} />
         <Route path="/utentiTable" element={<ProtectedRoute><UtentiTable /></ProtectedRoute>} />
         <Route path="/report" element={<ProtectedRoute><Report /></ProtectedRoute>} />
-        <Route path="/importExcel" element={<ProtectedRoute><ImportExcel /></ProtectedRoute>} />
         <Route path="/team-photos" element={<ProtectedRoute><TeamPhotos /></ProtectedRoute>} />
         <Route path="/admin" element={<ProtectedRoute requireAdmin={true}><Admin /></ProtectedRoute>} />
 

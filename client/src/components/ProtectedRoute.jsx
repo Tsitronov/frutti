@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
   }
 
 
-  if (requireAdmin && String(categoria) !== '3') {
+  if (requireAdmin && String(categoria) !== 3) {
     return <Navigate to="/generale" replace />;
   }
 

@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 
 const baseURL = process.env.REACT_APP_API_URL || '';
@@ -8,48 +9,59 @@ const api = axios.create({
 });
 
 let accessToken = null;
+let isRefreshing = false;
+let refreshPromise = null;
 
-
-export const setTokens = (newAccess) => {
-  accessToken = newAccess;
+export const setTokens = (token) => {
+  accessToken = token;
 };
 
-
 api.interceptors.request.use((config) => {
-  const token = sessionStorage.getItem('accessToken') || accessToken;  // sessionStorage + memory
-  if (token) {
-    config.headers['Authorization'] = `Bearer ${token}`;
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
 });
-
 
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      try {
-        const res = await axios.post(`${baseURL}/api/refresh`, {}, { withCredentials: true });
-        const newAccess = res.data?.accessToken;
 
-        if (newAccess) {
-          setTokens(newAccess);
-          originalRequest.headers['Authorization'] = `Bearer ${newAccess}`;
-          return api(originalRequest);
-        } else {
-          window.location.href = '/login';
-        }
-      } catch (err) {
-        console.error('❌ Ошибка обновления токена:', err);
+      if (!isRefreshing) {
+        isRefreshing = true;
+
+        refreshPromise = axios
+          .post(`${baseURL}/api/refresh`, {}, { withCredentials: true })
+          .then((res) => {
+            const newAccess = res.data?.accessToken;
+
+            if (newAccess) {
+              setTokens(newAccess);
+              return newAccess;
+            } else {
+              throw new Error('No accessToken from refresh');
+            }
+          })
+          .finally(() => {
+            isRefreshing = false;
+          });
+      }
+
+      try {
+        const newAccess = await refreshPromise;
+        originalRequest.headers.Authorization = `Bearer ${newAccess}`;
+        return api(originalRequest);
+      } catch {
         setTokens(null);
         window.location.href = '/login';
       }
     }
 
-    if (error.response && error.response.status === 403) {
+    if (error.response?.status === 403) {
       setTokens(null);
       window.location.href = '/login';
     }
@@ -59,4 +71,3 @@ api.interceptors.response.use(
 );
 
 export default api;
-
