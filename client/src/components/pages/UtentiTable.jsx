@@ -180,7 +180,7 @@ const UtentiTable = () => {
                         onClick={() => removeFilter(filter.id)}
                         className="btn-elimina"
                       >
-                        Удалить
+                        eliminare
                       </button>
                     )}
                   </div>

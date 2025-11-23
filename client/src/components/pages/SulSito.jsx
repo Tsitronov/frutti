@@ -22,13 +22,13 @@ const SulSito = () => {
 
       <div className="features-grid">
         <div className="feature-card">
-          🏥 <p>Istituzioni</p>
+          <a href="Istituzioni">🏥 <p>Istituzioni</p></a>
         </div>
         <div className="feature-card">
-          🏠 <p>Famiglie</p>
+          <a href="Famiglie">🏠 <p>Famiglie</p></a>
         </div>
         <div className="feature-card">
-          👩‍⚕️ <p>Badanti private</p>
+          <a href="Famiglie">👩‍⚕️ <p>Badanti private</p></a>
         </div>
       </div>
 
@@ -37,7 +37,7 @@ const SulSito = () => {
       <p className="intro-text-sito">Ecco le varianti di applicazione:</p>
 
       <h2 className="section-title-sito">Istituzioni</h2>
-      <ul className="description-list-sito">
+      <ul id="Istituzioni" className="description-list-sito">
         <li><strong>Case di riposo e ospizi</strong>: Scenario principale. Distribuzione per reparti, monitoraggio delle esigenze — questo risparmia tempo sulla carta.</li>
         <li><strong>Centri di riabilitazione e cliniche per anziani/disabili</strong>: Per tracciare la riabilitazione (ad esempio, "autonomia: S" per l'autosufficienza). È possibile aggiungere moduli per fisioterapia o farmaci.</li>
         <li><strong>Casa-famiglia o centri per bambini con disabilità</strong>: Adattare "alimentazione" come dieta, "bagno" come igiene, "altro" per esigenze speciali (giocattoli, terapia).</li>
@@ -46,8 +46,8 @@ const SulSito = () => {
       </ul>
 
       <h2 className="section-title-sito">Privati</h2>
-      <ul className="description-list-sito">
-        <li><strong>Famiglie con parenti anziani</strong>: Versione semplificata per assistenza domiciliare — un solo "admin" (figlio/figlia) gestisce i dati sul genitore (orario assunzione farmaci, menu). Possibile SaaS con abbonamento (5-10€/mese).</li>
+      <ul id="Famiglie" className="description-list-sito">
+        <li><strong>Famiglie con parenti anziani</strong>: Versione semplificata per assistenza domiciliare — un solo "admin" (figlio/figlia) gestisce i dati sul genitore (orario assunzione farmaci, menu).</li>
         <li><strong>Badanti/babysitter private</strong>: App per freelance di assistenza — il cliente carica i dati, la badante li modifica in tempo reale (con permessi).</li>
         <li><strong>Personal trainer o nutrizionisti</strong>: Adattare per clienti — "alimentazione" come dieta, "autonomia" come livello di fitness, per piani personalizzati.</li>
       </ul>
@@ -56,10 +56,11 @@ const SulSito = () => {
         <p>Dovunque sia necessario un semplice tracciamento "chi, cosa, quando" senza grandi budget per software (tipo Cerner o Epic). In Europa/Italia è richiesto a causa dell'invecchiamento della popolazione — secondo Eurostat, entro il 2050 il numero di persone di età superiore ai 65 anni raggiungerà 134,5 milioni, pari a circa il 30% della popolazione UE.</p>
       </div>
 
-      <p className="contact-text-sito">Contattatemi per personalizzazioni: tsitronov2017@gmail.com</p> 
-      <a href="mailto:tsitronov2017@gmail.com" className="cta-button-sito">
+      <p className="contact-text-sito">Contattatemi per personalizzazioni: tsitronov2017@gmail.com
+        <a href="mailto:tsitronov2017@gmail.com" className="cta-button-sito">
         Scrivimi 📬
-      </a>
+        </a>
+      </p> 
     </div>
   );
 };

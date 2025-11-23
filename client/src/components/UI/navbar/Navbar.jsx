@@ -90,19 +90,19 @@ const Navbar = () => {
 
       {isMobile && isMobileMenuOpen && (
         <div className="mobile-menu-overlay open">
-          <NavItem to="/appunti" onClick={closeMobileMenu}>appunti</NavItem>
-          <NavItem to="/generale" onClick={closeMobileMenu}>generale</NavItem>
-          <NavItem to="/utenti" onClick={closeMobileMenu}>utenti</NavItem>
+          <NavItem to="/appunti" onClick={closeMobileMenu}>Appunti</NavItem>
+          <NavItem to="/generale" onClick={closeMobileMenu}>Generale</NavItem>
+          <NavItem to="/utenti" onClick={closeMobileMenu}>Utenti</NavItem>
           
           {/* ← ИСПРАВЛЕНО: теперь cat, а не categoria */}
-          {(cat === 2 || cat === 3) && <NavItem to="/utentiTable" onClick={closeMobileMenu}>table</NavItem>}
-          {cat === 3 && <NavItem to="/admin" onClick={closeMobileMenu}>admin</NavItem>}
-          {(cat === 2 || cat === 3) && <NavItem to="/team-photos" onClick={closeMobileMenu}>photo</NavItem>}
+          {(cat === 2 || cat === 3) && <NavItem to="/utentiTable" onClick={closeMobileMenu}>Table</NavItem>}
+          {cat === 3 && <NavItem to="/admin" onClick={closeMobileMenu}>Admin</NavItem>}
+          {(cat === 2 || cat === 3) && <NavItem to="/team-photos" onClick={closeMobileMenu}>Photo</NavItem>}
           
           {isAuth ? (
-            <button className="nav-link logout" onClick={logout}>logout</button>
+            <button className="nav-link logout" onClick={logout}>Logout</button>
           ) : (
-            <NavItem to="/login" onClick={closeMobileMenu}>login</NavItem>
+            <NavItem to="/login" onClick={closeMobileMenu}>Login</NavItem>
           )}
           <button className="theme-toggle-mobile" onClick={(e) => { e.stopPropagation(); toggleThemeLocal(); closeMobileMenu(); }}>
             {theme === "light" ? "🌙" : "☀️"}
@@ -112,16 +112,16 @@ const Navbar = () => {
 
       {!isMobile && (
         <ul className="top-nav-links">
-          <li><NavItem to="/appunti">appunti</NavItem></li>
-          <li><NavItem to="/generale">generale</NavItem></li>
-          <li><NavItem to="/utenti">utenti</NavItem></li>
+          <li><NavItem to="/appunti">Appunti</NavItem></li>
+          <li><NavItem to="/generale">Generale</NavItem></li>
+          <li><NavItem to="/utenti">Utenti</NavItem></li>
           
-          {(cat === 2 || cat === 3) && <li><NavItem to="/utentiTable">table</NavItem></li>}
-          {cat === 3 && <li><NavItem to="/admin">admin</NavItem></li>}
-          {(cat === 2 || cat === 3) && <li><NavItem to="/team-photos">photo</NavItem></li>}
+          {(cat === 2 || cat === 3) && <li><NavItem to="/utentiTable">Table</NavItem></li>}
+          {cat === 3 && <li><NavItem to="/admin">Admin</NavItem></li>}
+          {(cat === 2 || cat === 3) && <li><NavItem to="/team-photos">Photo</NavItem></li>}
           
           {isAuth ? (
-            <li><span className="nav-link logout" onClick={logout}>logout</span></li>
+            <li><span className="nav-link logout" onClick={logout}>Logout</span></li>
           ) : (
             <li><NavItem to="/login">Login</NavItem></li>
           )}
