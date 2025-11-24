@@ -22,13 +22,13 @@ const SulSito = () => {
 
       <div className="features-grid">
         <div className="feature-card">
-          <a href="Istituzioni">🏥 <p>Istituzioni</p></a>
+          <a href="#Istituzioni">🏥 <p>Istituzioni</p></a>
         </div>
         <div className="feature-card">
-          <a href="Famiglie">🏠 <p>Famiglie</p></a>
+          <a href="#Famiglie">🏠 <p>Famiglie</p></a>
         </div>
         <div className="feature-card">
-          <a href="Famiglie">👩‍⚕️ <p>Badanti private</p></a>
+          <a href="#Famiglie">👩‍⚕️ <p>Badanti private</p></a>
         </div>
       </div>
 
