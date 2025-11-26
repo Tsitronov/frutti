@@ -126,14 +126,14 @@ const Admin = () => {
                         className="btn-azione btn-modifica"
                         onClick={() => handleEditAdmin(item)}
                       >
-                        ✏️ Редактировать
+                        ✏️ Modificare
                       </button>
                       <button
                         type="button"
                         className="btn-azione btn-elimina"
                         onClick={() => handleDeleteAdmin(item.id)}
                       >
-                        ❌ Modificare
+                        ❌ eliminare
                       </button>
                     </td>
                   </tr>

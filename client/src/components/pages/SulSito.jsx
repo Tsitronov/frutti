@@ -54,6 +54,17 @@ const SulSito = () => {
 
       <div className="stat-block-sito">
         <p>Dovunque sia necessario un semplice tracciamento "chi, cosa, quando" senza grandi budget per software (tipo Cerner o Epic). In Europa/Italia è richiesto a causa dell'invecchiamento della popolazione — secondo Eurostat, entro il 2050 il numero di persone di età superiore ai 65 anni raggiungerà 134,5 milioni, pari a circa il 30% della popolazione UE.</p>
+        </br>
+        <iframe
+          width="100%"
+          height="500"
+          src="https://www.youtube-nocookie.com/embed/Mb68k4-_tLU"
+          title="demoVideo"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          loading="lazy"
+          style={{ border: 0, borderRadius: '12px' }}
+        ></iframe>
+
       </div>
 
       <p className="contact-text-sito">Contattatemi per personalizzazioni: tsitronov2017@gmail.com
