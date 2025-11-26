@@ -204,6 +204,7 @@ const Utenti = () => {
         <div className="content">
 
           <div className="carico-dati-container">
+            {isLoading && <div className="loading-spinner"></div>}
             {error && <span className="carico-dati">{error}</span>}
           </div>
 

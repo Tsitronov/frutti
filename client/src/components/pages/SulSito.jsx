@@ -28,7 +28,7 @@ const SulSito = () => {
           <a href="#Famiglie">🏠 <p>Famiglie</p></a>
         </div>
         <div className="feature-card">
-          <a href="#Famiglie">👩‍⚕️ <p>Badanti private</p></a>
+          <a href="#Badanti">👩‍⚕️ <p>Badanti private</p></a>
         </div>
       </div>
 
@@ -45,8 +45,8 @@ const SulSito = () => {
         <li><strong>Scuole/asili nido per bambini con bisogni speciali</strong>: Filtri per "reparti" come classi, schede per piani individuali (IEP nell'educazione).</li>
       </ul>
 
-      <h2 className="section-title-sito">Privati</h2>
-      <ul id="Famiglie" className="description-list-sito">
+      <h2 id="Famiglie" className="section-title-sito">Privati</h2>
+      <ul id="Badanti" className="description-list-sito">
         <li><strong>Famiglie con parenti anziani</strong>: Versione semplificata per assistenza domiciliare — un solo "admin" (figlio/figlia) gestisce i dati sul genitore (orario assunzione farmaci, menu).</li>
         <li><strong>Badanti/babysitter private</strong>: App per freelance di assistenza — il cliente carica i dati, la badante li modifica in tempo reale (con permessi).</li>
         <li><strong>Personal trainer o nutrizionisti</strong>: Adattare per clienti — "alimentazione" come dieta, "autonomia" come livello di fitness, per piani personalizzati.</li>
@@ -58,7 +58,7 @@ const SulSito = () => {
 
       <p className="contact-text-sito">Contattatemi per personalizzazioni: tsitronov2017@gmail.com
         <a href="mailto:tsitronov2017@gmail.com" className="cta-button-sito">
-        Scrivimi 📬
+          Scrivimi 📬
         </a>
       </p> 
     </div>

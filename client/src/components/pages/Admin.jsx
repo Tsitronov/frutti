@@ -57,7 +57,7 @@ const Admin = () => {
   };
 
   const handleDeleteAdmin = (id) => {
-    if (window.confirm("Вы уверены, что хотите удалить?")) {
+    if (window.confirm("Sei sicuro di voler eliminare?")) {
       dispatch(deleteUser(id));
     }
   };
@@ -71,9 +71,9 @@ const Admin = () => {
 
           <div className="admin-sibedar">
             <div className="toggleLink" onClick={toggleAdminForm}>
-              {showForm ? "Chiudi forma" : "Добавить 🙂"}
+              {showForm ? "Chiudi forma" : "Aggiungere 🙂"}
             </div>
-            <NavLink className="toggleLink" to="/sulSito">Описание</NavLink>
+            <NavLink className="toggleLink" to="/sulSito">Descrizione</NavLink>
           </div>
 
           {showForm && (
@@ -102,8 +102,8 @@ const Admin = () => {
                     onChange={handleChangeAdmin}
                   />
                   <div className="modal-buttons">
-                    <button type="submit" className="btn-salva">{editId ? "Обновить" : "Добавить"}</button>
-                    <button type="button" className="btn-elimina" onClick={resetFormAdmin}>❌ Отмена </button>
+                    <button type="submit" className="btn-salva">{editId ? "aggiornamento" : "aggiungere"}</button>
+                    <button type="button" className="btn-elimina" onClick={resetFormAdmin}>❌ cancellare </button>
                   </div>
                 </form>
               </div>
@@ -133,7 +133,7 @@ const Admin = () => {
                         className="btn-azione btn-elimina"
                         onClick={() => handleDeleteAdmin(item.id)}
                       >
-                        ❌ Удалить
+                        ❌ Modificare
                       </button>
                     </td>
                   </tr>
@@ -142,7 +142,7 @@ const Admin = () => {
             </table>
           </div>
 
-          {lista.length === 0 && !isLoading && <p className="carico-dati"> Пользователь не найден.</p>}
+          {lista.length === 0 && !isLoading && <p className="carico-dati"> Utente non trovato.</p>}
         </div>
       </div>
     </div>
