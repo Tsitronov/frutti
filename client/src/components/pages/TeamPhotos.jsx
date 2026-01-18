@@ -13,6 +13,8 @@ const TeamPhotos = () => {
   const dispatch = useDispatch();
   const { photos = [], loading, error } = useSelector((state) => state.photos);
 
+  const [photoSelezionato, setPhotoSelezionato] = useState(null);
+
   useEffect(() => {
     dispatch(fetchPhotos());
   }, [dispatch]);
@@ -55,6 +57,7 @@ const TeamPhotos = () => {
                       e.target.style.opacity = "0.6";
                       e.target.title = "Immagine non trovata";
                     }}
+                    onClick={() => setPhotoSelezionato(photo)}
                   />
                   <p className="photo-filename">{filename}</p>
                 </div>
