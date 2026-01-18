@@ -1,20 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPhotos } from '../../redux/photosSlice';
 import Navbar from "../UI/navbar/Navbar";
 import PhotoUploader from './PhotoUploader';
-import { useContext } from 'react';
-import { AuthContext } from '../../context';
+
+import ModalePhoto from "../UI/modal/ModalePhoto";
 
 const TeamPhotos = () => {
-  const { isAuth, categoria } = useContext(AuthContext);
   const dispatch = useDispatch();
   const { photos = [], loading, error } = useSelector((state) => state.photos);
+
+
+  const [photoSelezionato, setPhotoSelezionato] = useState(null);
+
+
 
   useEffect(() => {
     dispatch(fetchPhotos());
   }, [dispatch]);
 
+  // Функция для исправления кириллицы
   function fixFilename(str) {
     if (!str) return "";
     try {
@@ -53,6 +58,7 @@ return (
                     e.target.style.opacity = "0.6";
                     e.target.title = "Immagine non trovata";
                   }}
+                  onClick={() => setPhotoSelezionato(photo)}
                 />
                 <p className="photo-filename">{filename}</p>
               </div>
@@ -60,12 +66,21 @@ return (
           })}
         </div>
         {(!loading && photos.length === 0) && (
-          <p className="empty-state"> Al momento non ci sono foto. </p>
+          <p className="empty-state"> Nessuna foto al momento </p>
         )}
 
-        {isAuth && Number(categoria) >= 2 && (
+        {Number(localStorage.getItem('userCategoria')) > 1 && (
           <PhotoUploader />
         )}
+
+
+        {photoSelezionato && (
+          <ModalePhoto
+            photoSelezionato={photoSelezionato}
+            setPhotoSelezionato={setPhotoSelezionato}
+          />
+        )}
+
 
       </div>
     </div>

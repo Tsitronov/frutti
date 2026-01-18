@@ -198,7 +198,7 @@ const UtentiTable = () => {
                   <button type="button" onClick={clearFilters} className="btn-salva">Cancella filtri</button>
                 </div>
                 <p className="verde">
-                  Trovate righe: <strong>{filteredData.length}</strong> из <strong>{data.length}</strong>
+                  &nbsp; Trovate righe: <strong>{filteredData.length}</strong> из <strong>{data.length}</strong>
                 </p>
               </div>
 
