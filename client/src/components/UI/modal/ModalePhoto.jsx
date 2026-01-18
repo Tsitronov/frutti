@@ -14,11 +14,11 @@ const src = photoSelezionato.url || (photoSelezionato.filename ? `/team-photos/$
               crossOrigin="anonymous"
               className="photoSelezionato"
               onError={(e) => { 
-                e.target.src = "/placeholder.png"; // добавь placeholder.png в public/
+                e.target.src = "/placeholder.png";
                 e.target.style.opacity = "0.6";
                 e.target.title = "Immagine non trovata";
               }}
-              onClick={() => setPhotoSelezionato(photoSelezionato.id)} /////////////////
+              onClick={() => setPhotoSelezionato(photoSelezionato.id)}
             />
           </div>
 
