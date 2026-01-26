@@ -171,7 +171,7 @@ const Generale = () => {
               <div key={item.id} className="article-item-wrapper">
                 <div className="article-item">
                   <div className="item-info">
-                    {item.categoria} - {item.nome}
+                    <p> {item.categoria}</p>  <p> {item.nome}</p> 
                   </div>
                   <div className="item-lungo-container">
                     <p
