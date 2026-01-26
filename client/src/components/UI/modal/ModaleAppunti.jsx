@@ -10,7 +10,14 @@ const ModaleAppunti = ({categoriaSelezionata, setCategoriaSelezionata, appuntiFi
                 </li>
                   
                 <li>
-                  {f.descrizione}
+                  {f.descrizione
+                    .split('.')
+                    .filter(r => r.trim() !== '')
+                    .map((riga, index) => (
+                      <span key={index}>
+                        {riga.trim()}.<br /><br />
+                      </span>
+                    ))}
                 </li>
               </ul>
 

@@ -177,9 +177,16 @@ const Generale = () => {
                     <p
                       ref={(el) => (testoRefs.current[item.id] = el)}
                       onScroll={() => handleScroll(item.id)}
-                      className={isLungo(item.descrizione) ? 'testo-lungo' : 'testo-normale'}
+                      className={isLungo(item.descrizione) ? 'testo-lungo testo-lungo-generale' : 'testo-normale testo-normale-generale'}
                     >
-                      {item.descrizione}
+                      {item.descrizione
+                      .split('.')
+                      .filter(r => r.trim() !== '')
+                      .map((riga, index) => (
+                        <span key={index}>
+                          {riga.trim()}.<br />
+                        </span>
+                      ))}
                     </p>
 
                     {isLungo(item.descrizione) && scrollStates[item.id] && (

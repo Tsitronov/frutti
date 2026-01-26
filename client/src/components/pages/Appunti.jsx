@@ -181,7 +181,12 @@ const Appunti = () => {
                       onScroll={() => handleScroll(item.id)}
                       className={isLungo(item.descrizione) ? 'testo-lungo-appunti' : 'testo-lungo-normale'}
                     >
-                      {item.descrizione}
+                      {item.descrizione
+                        .split('.')
+                        .filter(r => r.trim() !=='')
+                        .map((riga, index) => (
+                          <span key = {index}> {riga.trim()}. <br /> </span>
+                        ))}
                     </p>
 
                     {isLungo(item.descrizione) && scrollStates[item.id] && (
