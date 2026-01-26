@@ -7,7 +7,7 @@ const ModaleGenerale = ({categoriaSelezionata, setCategoriaSelezionata, fruttiFi
               <ul key={f.id} >
                 <li className="blue">
                   {f.nome}
-                </li>
+                </li><br />
                   
                 <li>
                   {f.descrizione

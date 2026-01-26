@@ -7,7 +7,7 @@ const ModaleAppunti = ({categoriaSelezionata, setCategoriaSelezionata, appuntiFi
               <ul key={f.id} >
                 <li className="blue">
                   {f.nome}
-                </li>
+                </li><br />
                   
                 <li>
                   {f.descrizione
