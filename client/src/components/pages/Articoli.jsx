@@ -9,8 +9,7 @@ import {
   aggiungiArticolo,
   eliminaArticolo,
   modificaArticolo,
-  setCurrentPage,
-  caricaArticoliLocalStorage
+  setCurrentPage
 } from "../../redux/articoliSlice";
 
 import Navbar from '../UI/navbar/Navbar';
