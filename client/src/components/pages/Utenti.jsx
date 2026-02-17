@@ -11,10 +11,12 @@ import {
 
 import Navbar from "../UI/navbar/Navbar";
 import Pagination from "../UI/pagination/Pagination";
-import ModalUtenteCercato from "../UI/modal/ModalUtenteCercato";
 import ModalUtente from "../UI/modal/ModalUtente";
-import RicercaUtenteForm from "../UI/forms/RicercaUtenteForm";
 import SidebarCategories from "../UI/sidebar/SidebarCategories";
+
+import BotChat from "./BotChat";   // ✅ ТОЛЬКО бот
+import ModaleChatbot from "../UI/modal/ModaleChatbot";
+import { clearResponse } from "../../redux/botSlice";
 
 import { useContext } from 'react';
 import { AuthContext } from '../../context'; 
@@ -45,9 +47,6 @@ const Utenti = () => {
   const [modificaId, setModificaId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState({ campo: "", valore: "", cognomi: [] });
-  const [cognomeRicerca, setCognomeRicerca] = useState("");
-  const [utenteTrovato, setUtenteTrovato] = useState(null);
-  const [mostraModalInfo, setMostraModalInfo] = useState(false);
   const [scrollStates, setScrollStates] = useState({});
   const testoRefs = useRef({});
 
@@ -70,6 +69,21 @@ const Utenti = () => {
 
   useEffect(() => {
     dispatch(fetchUtenti()).then(data => setLista(data));
+  }, [dispatch]);
+
+
+  useEffect(() => {
+    if (typeof botResponse === "string" && botResponse.trim() !== "") {
+      setShowChatbotModal(true);
+    }
+  }, [botResponse]);
+
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearResponse());
+      setShowChatbotModal(false);
+    };
   }, [dispatch]);
 
 
@@ -209,14 +223,8 @@ const Utenti = () => {
           </div>
 
           <div className={"sidebar"}>
-            <RicercaUtenteForm
-              cognomeRicerca={cognomeRicerca}
-              setCognomeRicerca={setCognomeRicerca}
-              cognomiUnici={cognomiUnici}
-              utenti={utenti}
-              setUtenteTrovato={setUtenteTrovato}
-              setMostraModalInfo={setMostraModalInfo}
-            />
+
+            <BotChat />
 
             <div className="sidebar-reparti">reparti
               <ul className="repartoNome reparti-list">
@@ -393,14 +401,13 @@ const Utenti = () => {
         />
       )}
 
-      {mostraModalInfo && utenteTrovato && (
-        <ModalUtenteCercato
-          utenteTrovato={utenteTrovato}
-          getColorClass={getColorClass}
-          categoryLabels={categoryLabels}
-          setMostraModalInfo={setMostraModalInfo}
+      {showChatbotModal && botResponse && (
+        <ModaleChatbot
+          botResponse={botResponse}
+          setOpenModal={setShowChatbotModal}
         />
       )}
+
     </div>
   );
 };
