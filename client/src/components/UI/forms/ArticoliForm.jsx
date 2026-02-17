@@ -1,9 +1,9 @@
-const AppuntiForm = ({form, setForm, categorieUniche, handleSalva, handleAggiungiAppunto, toggleAppuntiForm, isLoading}) => {
-  return(
-    <div className="appuntiForm appuntiFormDisplayNone">
-      <div className="modal">
+const ArticoliForm = ({form, setForm, categorieUniche, handleSalva, handleAggiungiArticolo, toggleArticoliForm, isLoading}) => {
+	return(
+    <div className="articoliForm articoliFormDisplayNone">
+		  <div className="modal">
         <div className="modal-content">
-              <input
+    		  <input
             value={form.nome || ""}
             onChange={(e) => setForm({ ...form, nome: e.target.value })}
             placeholder="nome"
@@ -12,7 +12,7 @@ const AppuntiForm = ({form, setForm, categorieUniche, handleSalva, handleAggiung
             list="suggestions"
             value={form.categoria || ""}
             onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-            placeholder="categoria"
+            placeholder="Categoria"
           />
           <datalist id="suggestions">
             {categorieUniche.map((cat, i) => (
@@ -23,25 +23,25 @@ const AppuntiForm = ({form, setForm, categorieUniche, handleSalva, handleAggiung
           <textarea
             value={form.descrizione || ""}
             onChange={(e) => {setForm({ ...form, descrizione: e.target.value })}}
-            placeholder="descrizione"
+            placeholder="Descrizione"
           ></textarea>
 
 
         {form.id !== null ? (
           <>
             <button type="button" onClick={handleSalva} disabled={isLoading}>
-              {isLoading ? <span className="spinner"></span> : '💾 Modifica'} 
+              {isLoading ? <span className="spinner"></span> : '💾 Cambia'} 
             </button>
-            <button type="button" className="btn-elimina" onClick={toggleAppuntiForm} disabled={isLoading}>
+            <button type="button" className="btn-elimina" onClick={toggleArticoliForm} disabled={isLoading}>
               ❌ Annulla
             </button>
           </>
         ) : (
           <>
-            <button type="button" onClick={handleAggiungiAppunto} disabled={isLoading}>
+            <button type="button" onClick={handleAggiungiArticolo} disabled={isLoading}>
               {isLoading ? <span className="spinner"></span> : '➕ Aggiungi'}
             </button>
-            <button type="button" className="btn-elimina" onClick={toggleAppuntiForm} disabled={isLoading}>
+            <button type="button" className="btn-elimina" onClick={toggleArticoliForm} disabled={isLoading}>
               ❌ Annulla
             </button>
           </>
@@ -49,6 +49,6 @@ const AppuntiForm = ({form, setForm, categorieUniche, handleSalva, handleAggiung
         </div>
       </div>
     </div>
-    );
+	);
 }
-export default AppuntiForm;
+export default ArticoliForm;

@@ -9,6 +9,7 @@ import Login from './components/pages/Login';
 import SulSito from './components/pages/SulSito';
 import Generale from './components/pages/Generale';
 import Appunti from './components/pages/Appunti';
+import Articoli from './components/pages/Articoli';
 import Utenti from './components/pages/Utenti';
 import UtentiTable from './components/pages/UtentiTable';
 import Report from './components/pages/Report';
@@ -90,6 +91,7 @@ function App() {
 
         <Route path="/generale" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
         <Route path="/appunti" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />
+        <Route path="/articoli" element={<ProtectedRoute><Articoli /></ProtectedRoute>} />
         <Route path="/utenti" element={<ProtectedRoute><Utenti /></ProtectedRoute>} />
         <Route path="/utentiTable" element={<ProtectedRoute><UtentiTable /></ProtectedRoute>} />
         <Route path="/report" element={<ProtectedRoute><Report /></ProtectedRoute>} />

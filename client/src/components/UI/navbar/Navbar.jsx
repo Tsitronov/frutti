@@ -91,6 +91,7 @@ const Navbar = () => {
       {isMobile && isMobileMenuOpen && (
         <div className="mobile-menu-overlay open">
           <NavItem to="/appunti" onClick={closeMobileMenu}>Appunti</NavItem>
+          <NavItem to="/articoli" onClick={closeMobileMenu}>Articoli</NavItem>
           <NavItem to="/generale" onClick={closeMobileMenu}>Generale</NavItem>
           <NavItem to="/utenti" onClick={closeMobileMenu}>Utenti</NavItem>
           
@@ -113,6 +114,7 @@ const Navbar = () => {
       {!isMobile && (
         <ul className="top-nav-links">
           <li><NavItem to="/appunti">Appunti</NavItem></li>
+          <li><NavItem to="/articoli">Articoli</NavItem></li>
           <li><NavItem to="/generale">Generale</NavItem></li>
           <li><NavItem to="/utenti">Utenti</NavItem></li>
           

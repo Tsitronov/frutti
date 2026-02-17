@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 
-const ModaleGenerale = ({
+const ModaleArticoli = ({
   categoriaSelezionata,
   setCategoriaSelezionata,
-  fruttiFiltrati
+  articoliFiltrati
 }) => {
   const contentRef = useRef(null);
   const [showArrow, setShowArrow] = useState(false);
@@ -26,7 +26,7 @@ const ModaleGenerale = ({
         <h2 className="verde">{categoriaSelezionata}</h2>
 
         <div className="modal-body" ref={contentRef}>
-          {fruttiFiltrati.map(f => (
+          {articoliFiltrati.map(f => (
             <ul key={f.id}>
               <li className="blue">{f.nome}</li>
               <li style={{ whiteSpace: "pre-line" }}>
@@ -53,4 +53,4 @@ const ModaleGenerale = ({
   );
 };
 
-export default ModaleGenerale;
+export default ModaleArticoli;
