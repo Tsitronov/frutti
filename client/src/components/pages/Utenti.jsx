@@ -26,6 +26,8 @@ const Utenti = () => {
   const dispatch = useDispatch();
   const utenti = useSelector((state) => state.utenti.lista) || [];
   const [lista, setLista] = useState([]);
+  const [showChatbotModal, setShowChatbotModal] = useState(false);
+  const botResponse = useSelector(state => state.bot.response);
 
   const isLoading = useSelector((state) => state.utenti.isLoading);
   const error = useSelector((state) => state.utenti.error);
