@@ -20,7 +20,7 @@ export const aggiungiArticolo = createAsyncThunk(
   'articoli/aggiungiArticolo',
   async (articolo, { rejectWithValue }) => {
     try {
-      const res = await api.post(URL, Articolo);
+      const res = await api.post(URL, articolo);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || 'error aggiungere');
