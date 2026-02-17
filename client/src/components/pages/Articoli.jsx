@@ -24,7 +24,6 @@ const Articoli = () => {
   const currentPage = useSelector((state) => state.articoli.currentPage);
 
   useEffect(() => {
-    dispatch(caricaArticoliLocalStorage()); // Prima i dati locali
     dispatch(fetchArticoli());
   }, [dispatch]);
 
@@ -139,7 +138,7 @@ const Articoli = () => {
       <div className="sidebar-articoli">
 
       {isAuth && Number(categoria) >= 2 &&
-        <div className="toggleLink" onClick={toggleAppuntiForm}>Aggiungi 🙂</div>
+        <div className="toggleLink" onClick={toggleArticoliForm}>Aggiungi 🙂</div>
       }
 
         <div className="categories">
