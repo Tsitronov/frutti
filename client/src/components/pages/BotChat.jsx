@@ -13,11 +13,11 @@ export default function BotChat() {
   };
 
   return (
-    <div className="bot-chat" title={"questo bot  - scrivi per esempio: 23 o rep 2 o GGG o trovi GGG"}>
+    <div className="bot-chat" title={"questo bot  - scrivi per esempio: 203 o reparto 3 o Smit o trovi Smit"}>
       <input
         type="text"
         value={message}
-        placeholder="rep 2 o GGG o 23"
+        placeholder="rep 2 o Smit o 201"
         onChange={e => setMessage(e.target.value)}
         onKeyDown={e => e.key === "Enter" && handleSend()}
       />
