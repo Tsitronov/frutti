@@ -96,12 +96,12 @@ const articoliSlice = createSlice({
       })
 
       // edit
-    .addCase(modificaAppunto.fulfilled, (state, action) => {
+    .addCase(modificaArticolo.fulfilled, (state, action) => {
       const updated = action.payload;
 
       // Защита от пустого/неправильного ответа сервера
       if (!updated || typeof updated !== 'object' || !updated.id) {
-        console.warn("modificaAppunto вернул некорректные данные:", updated);
+        console.warn("modificaArticolo вернул некорректные данные:", updated);
         return;
       }
 
@@ -113,18 +113,18 @@ const articoliSlice = createSlice({
       if (index !== -1) {
         // Обновляем объект безопасно (сохраняем старые поля, если сервер не вернул все)
         state.lista[index] = { ...state.lista[index], ...updated };
-        console.log(`Успешно обновили Appunto с id ${updatedId} на индексе ${index}`);
+        console.log(`Успешно обновили Articolo с id ${updatedId} на индексе ${index}`);
       } else {
         console.warn(
-          `Не нашли Appunto с id ${updatedId} в списке. ` +
+          `Не нашли Articolo с id ${updatedId} в списке. ` +
           `Текущие id в списке: ${state.lista.map(i => i.id).join(', ')}`
         );
       }
     })
 
-    .addCase(modificaAppunto.rejected, (state, action) => {
-      state.error = action.payload || 'Ошибка обновления Appunto';
-      console.error("modificaAppunto rejected:", action.payload);
+    .addCase(modificaArticolo.rejected, (state, action) => {
+      state.error = action.payload || 'Ошибка обновления Articolo';
+      console.error("modificaArticolo rejected:", action.payload);
     })
 
       // delete
