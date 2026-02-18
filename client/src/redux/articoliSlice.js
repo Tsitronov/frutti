@@ -33,7 +33,7 @@ export const modificaArticolo = createAsyncThunk(
   'articoli/modificaArticolo',
   async (articolo, { rejectWithValue }) => {
     try {
-      const { id, nome, descrizione, categoria } = Articolo;
+      const { id, nome, descrizione, categoria } = articolo;
       const res = await api.put(`${URL}/${id}`, { nome, descrizione, categoria });
       return res.data;
     } catch (err) {
@@ -96,13 +96,36 @@ const articoliSlice = createSlice({
       })
 
       // edit
-      .addCase(modificaArticolo.fulfilled, (state, action) => {
-        const index = state.lista.findIndex((item) => item.id === action.payload.id);
-        if (index !== -1) state.lista[index] = action.payload;
-      })
-      .addCase(modificaArticolo.rejected, (state, action) => {
-        state.error = action.payload;
-      })
+    .addCase(modificaAppunto.fulfilled, (state, action) => {
+      const updated = action.payload;
+
+      // Защита от пустого/неправильного ответа сервера
+      if (!updated || typeof updated !== 'object' || !updated.id) {
+        console.warn("modificaAppunto вернул некорректные данные:", updated);
+        return;
+      }
+
+      // Приводим оба id к строке — это решает 95% проблем с number vs string
+      const updatedId = String(updated.id);
+
+      const index = state.lista.findIndex(item => String(item.id) === updatedId);
+
+      if (index !== -1) {
+        // Обновляем объект безопасно (сохраняем старые поля, если сервер не вернул все)
+        state.lista[index] = { ...state.lista[index], ...updated };
+        console.log(`Успешно обновили Appunto с id ${updatedId} на индексе ${index}`);
+      } else {
+        console.warn(
+          `Не нашли Appunto с id ${updatedId} в списке. ` +
+          `Текущие id в списке: ${state.lista.map(i => i.id).join(', ')}`
+        );
+      }
+    })
+
+    .addCase(modificaAppunto.rejected, (state, action) => {
+      state.error = action.payload || 'Ошибка обновления Appunto';
+      console.error("modificaAppunto rejected:", action.payload);
+    })
 
       // delete
       .addCase(eliminaArticolo.fulfilled, (state, action) => {
