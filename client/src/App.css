@@ -1773,6 +1773,10 @@ input, textarea, select {
   transform-origin: 1px;
 }
 
+.mobile-hamburger.open span {
+  background: #ffffff;
+}
+
 .mobile-hamburger.open span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
@@ -2657,7 +2661,6 @@ body.dark .mobile-menu-overlay button:hover {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    border:2px solid red;
   }
 
   .article-list {
