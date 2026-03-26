@@ -47,31 +47,43 @@ const ModaleChatbot = ({ botResponse, setOpenModal }) => {
             paddingRight: "0.5rem"
           }}
         >
-          {botResponse.split('\n\n').map((block, idx) => (
-            <div
-              key={idx}
-              style={{
-                marginBottom: "1.2rem",
-                paddingBottom: "1rem",
-                borderBottom: idx < botResponse.split('\n\n').length - 1
-                  ? `1px solid ${isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                  : "none"
-              }}
-            >
-              {block.split('\n').map((line, lineIdx) => {
-                const isCognome = /cognome/i.test(line);
-                return (
+          {(() => {
+            const lines = botResponse.split('\n');
+            const blocks = [];
+            let current = [];
+            lines.forEach((line) => {
+              if (line.trim() && !line.startsWith('•') && current.length > 0) {
+                blocks.push(current);
+                current = [line];
+              } else {
+                current.push(line);
+              }
+            });
+            if (current.length > 0) blocks.push(current);
+
+            return blocks.map((block, idx) => (
+              <div
+                key={idx}
+                style={{
+                  marginBottom: "1rem",
+                  paddingBottom: "1rem",
+                  borderBottom: idx < blocks.length - 1
+                    ? `1px solid ${isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                    : "none"
+                }}
+              >
+                {block.map((line, lineIdx) => (
                   <div key={lineIdx} style={{ marginBottom: "0.2rem" }}>
-                    {isCognome ? (
-                      <span style={{ color: "#a78bfa", fontWeight: "600" }}>{line}</span>
+                    {lineIdx === 0 ? (
+                      <span style={{ color: "#a78bfa", fontWeight: "700", fontSize: "1.1rem" }}>{line}</span>
                     ) : (
                       line
                     )}
                   </div>
-                );
-              })}
-            </div>
-          ))}
+                ))}
+              </div>
+            ));
+          })()}
         </div>
 
         {showArrow && (
