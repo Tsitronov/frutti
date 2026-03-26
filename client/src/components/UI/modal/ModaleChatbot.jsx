@@ -40,7 +40,6 @@ const ModaleChatbot = ({ botResponse, setOpenModal }) => {
           ref={contentRef}
           className="modal-body"
           style={{
-            whiteSpace: "pre-line",
             lineHeight: "1.65",
             fontSize: "1.05rem",
             maxHeight: "65vh",
@@ -48,19 +47,30 @@ const ModaleChatbot = ({ botResponse, setOpenModal }) => {
             paddingRight: "0.5rem"
           }}
         >
-          {botResponse.split('\n\n').map((paragraph, idx) => (
-            <p 
-              key={idx} 
-              style={{ 
-                margin: "0 0 1.2rem 0",
-                paddingBottom: "0.4rem",
-                borderBottom: idx < botResponse.split('\n\n').length - 1 
-                  ? "1px solid rgba(150,150,150,0.15)" 
+          {botResponse.split('\n\n').map((block, idx) => (
+            <div
+              key={idx}
+              style={{
+                marginBottom: "1.2rem",
+                paddingBottom: "1rem",
+                borderBottom: idx < botResponse.split('\n\n').length - 1
+                  ? `1px solid ${isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
                   : "none"
               }}
             >
-              {paragraph}
-            </p>
+              {block.split('\n').map((line, lineIdx) => {
+                const isCognome = /cognome/i.test(line);
+                return (
+                  <div key={lineIdx} style={{ marginBottom: "0.2rem" }}>
+                    {isCognome ? (
+                      <span style={{ color: "#a78bfa", fontWeight: "600" }}>{line}</span>
+                    ) : (
+                      line
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           ))}
         </div>
 
