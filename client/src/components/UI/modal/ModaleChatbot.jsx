@@ -27,7 +27,7 @@ const ModaleChatbot = ({ botResponse, setOpenModal }) => {
       <div 
         className="modal-content"
         style={{
-          backgroundColor: isDarkMode ? '#1e1e1e' : 'green',
+          backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff',
           color: isDarkMode ? '#e0e0e0' : '#1a1a1a',
           borderRadius: '12px',
           boxShadow: '0 10px 40px rgba(0,0,0,0.3)',
