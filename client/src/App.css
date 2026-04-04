@@ -2188,10 +2188,10 @@ body.dark .mobile-menu-overlay button:hover {
   overflow-x: hidden;
 }
 
-.main-container-sito > * {
+.sito-inner {
   max-width: 860px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .hero-sito {

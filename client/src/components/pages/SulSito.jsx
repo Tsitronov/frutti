@@ -5,6 +5,7 @@ const SulSito = () => {
   return (
     <div className="main-container-sito">
       <Navbar />
+      <div className="sito-inner">
 
       <section className="hero-sito">
         <img
@@ -83,6 +84,7 @@ const SulSito = () => {
         </a>
       </div>
 
+      </div>
     </div>
   );
 };
