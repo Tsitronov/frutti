@@ -2935,7 +2935,18 @@ body.dark .mobile-menu-overlay button:hover {
   }
 
   .features-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+  }
+
+  .feature-card {
+    padding: 0.8rem 0.5rem;
+    font-size: 1.4rem;
+    border-radius: 12px;
+  }
+
+  .feature-card p {
+    font-size: 0.75rem;
   }
 
 }
