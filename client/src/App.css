@@ -2188,7 +2188,7 @@ body.dark .mobile-menu-overlay button:hover {
   overflow-x: hidden;
 }
 
-.main-container-sito > *:not(.hero-sito) {
+.main-container-sito > * {
   max-width: 860px;
   margin-left: auto;
   margin-right: auto;
