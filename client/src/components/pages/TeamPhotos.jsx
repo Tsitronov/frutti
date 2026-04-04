@@ -37,7 +37,6 @@ const TeamPhotos = () => {
 
       <div className="photo-gallery-main">
         <div className="photo-gallery-content">
-          <h2 className="photo-gallery-title">📷 Foto del team</h2>
 
           <div className="photo-grid">
             {photos.map((photo, index) => {

@@ -23,18 +23,18 @@ const SulSito = () => {
       </section>
 
       <div className="features-grid">
-        <div className="feature-card">
+        <a className="feature-card" href="#istituzioni">
           <span>🏥</span>
           <p>Istituzioni</p>
-        </div>
-        <div className="feature-card">
+        </a>
+        <a className="feature-card" href="#privati">
           <span>🏠</span>
           <p>Famiglie</p>
-        </div>
-        <div className="feature-card">
+        </a>
+        <a className="feature-card" href="#privati">
           <span>👩‍⚕️</span>
           <p>Badanti private</p>
-        </div>
+        </a>
       </div>
 
       <p className="intro-text-sito">
@@ -43,14 +43,14 @@ const SulSito = () => {
         quotidiano senza complessi software EHR.
       </p>
 
-      <h2 className="section-title-sito">Istituzioni</h2>
+      <h2 id="istituzioni" className="section-title-sito">Istituzioni</h2>
       <ul className="description-list-sito">
         <li><strong>Case di riposo e ospizi</strong> — distribuzione per reparti, monitoraggio delle esigenze quotidiane.</li>
         <li><strong>Centri di riabilitazione</strong> — tracciamento riabilitazione e autonomia del paziente.</li>
         <li><strong>Servizi sociali / ONG</strong> — coordinazione per programmi di assistenza.</li>
       </ul>
 
-      <h2 className="section-title-sito">Privati</h2>
+      <h2 id="privati" className="section-title-sito">Privati</h2>
       <ul className="description-list-sito">
         <li><strong>Famiglie con parenti anziani</strong> — gestione semplice per assistenza domiciliare.</li>
         <li><strong>Badanti e caregiver</strong> — aggiornamento dati in tempo reale con permessi.</li>

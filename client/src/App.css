@@ -1680,7 +1680,7 @@ textarea {
 }
 
 .content-table-utenti th {
-  background: var(--gray-light);
+  background: #f1f5f9;
   font-weight: 600;
   color: var(--primary-blue);
 }
@@ -1690,16 +1690,7 @@ textarea {
 }
 
 .content-table-utenti tr:hover {
-  background: var(--gray-light);
   transition: background 0.2s ease;
-}
-
-.content-table-utenti h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--primary-color);
-  margin-top: 1.2rem;
-  margin-bottom: 0.8rem;
 }
 
 .error-login {
@@ -1909,15 +1900,6 @@ body.dark .mobile-menu-overlay button:hover {
 
 
 
-.photo-gallery-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--text-color);
-  margin: 1.5rem 0 1rem 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--primary-color);
-}
-
 .photo-gallery-container {
   min-height: 100vh;
   background: var(--bg-color);
@@ -1981,15 +1963,8 @@ body.dark .mobile-menu-overlay button:hover {
 }
 
 .photo-filename {
-  margin-top: 0.6rem;
-  font-size: 0.85rem;
+  margin-top: 1rem;
   font-weight: 500;
-  color: var(--text-color);
-  opacity: 0.7;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   text-align: center;
   color: var(--text-color);
   word-break: break-word;
@@ -2201,9 +2176,9 @@ body.dark .mobile-menu-overlay button:hover {
 
 /*** sulSito**/
 .main-container-sito {
-  max-width: 860px;
+  max-width: 100vw;
   width: 100%;
-  margin: 0 auto;
+  min-height: 100vh;
   padding: 4rem 2rem 4rem;
   background: var(--bg-color);
   color: var(--text-color);
@@ -2211,6 +2186,12 @@ body.dark .mobile-menu-overlay button:hover {
   font-family: 'Inter', sans-serif;
   transition: var(--transition);
   overflow-x: hidden;
+}
+
+.main-container-sito > *:not(.hero-sito) {
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hero-sito {
@@ -2251,6 +2232,7 @@ body.dark .mobile-menu-overlay button:hover {
   font-weight: 700;
   margin-bottom: 0.6rem;
   color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
 
 .hero-subtitle {
@@ -2298,7 +2280,9 @@ body.dark .mobile-menu-overlay button:hover {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  cursor: default;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text-color);
 }
 
 .feature-card:hover {
