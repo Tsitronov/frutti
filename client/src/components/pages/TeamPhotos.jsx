@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPhotos } from '../../redux/photosSlice';
 import Navbar from "../UI/navbar/Navbar";
@@ -22,7 +22,7 @@ const TeamPhotos = () => {
   function fixFilename(str) {
     if (!str) return "";
     try {
-      return decodeURIComponent(escape(str));
+      return decodeURIComponent(str);
     } catch (e) {
       return str;
     }
@@ -37,6 +37,7 @@ const TeamPhotos = () => {
 
       <div className="photo-gallery-main">
         <div className="photo-gallery-content">
+          <h2 className="photo-gallery-title">📷 Foto del team</h2>
 
           <div className="photo-grid">
             {photos.map((photo, index) => {
