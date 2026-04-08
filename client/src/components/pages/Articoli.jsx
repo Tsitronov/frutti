@@ -136,7 +136,7 @@ const Articoli = () => {
       <div className="sidebar">
 
       {isAuth && Number(categoria) >= 2 &&
-        <div className="toggleLink" onClick={toggleArticoliForm}>Aggiungi 🙂</div>
+        <div className="toggleLink" onClick={toggleArticoliForm}>+ Add</div>
       }
 
         <div className="categories">
@@ -198,7 +198,7 @@ const Articoli = () => {
                   {isAuth && Number(categoria) >= 2 &&
                     <div className="actions">
                       <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
-                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Sicuro che delete?") && dispatch(eliminaArticolo(item.id))}>❌</button>
+                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Delete this article?") && dispatch(eliminaArticolo(item.id))}>❌</button>
                     </div>
                   }
                 </div>

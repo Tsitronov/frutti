@@ -7,90 +7,92 @@ const SulSito = () => {
       <Navbar />
       <div className="sito-inner">
 
-      <section className="hero-sito">
-        <img
-          src="./avatar.png"
-          alt="Avatar del team"
-          loading="lazy"
-          width="80"
-          crossOrigin="anonymous"
-          className="hero-avatar"
-        />
-        <div className="hero-content">
-          <h1 className="hero-title">Sistema CRM per Assistenza</h1>
-          <p className="hero-subtitle">Gestione personalizzata per gruppi vulnerabili</p>
-          <NavLink to="/login" className="cta-hero-btn">Accedi al sistema →</NavLink>
+        <section className="hero-sito">
+          <img
+            src="./avatar.png"
+            alt="CareTrack team"
+            loading="lazy"
+            width="80"
+            crossOrigin="anonymous"
+            className="hero-avatar"
+          />
+          <div className="hero-content">
+            <h1 className="hero-title">CRM for Care Management</h1>
+            <p className="hero-subtitle">Personalized tracking for vulnerable individuals</p>
+            <NavLink to="/login" className="cta-hero-btn">Sign In →</NavLink>
+          </div>
+        </section>
+
+        <div className="features-grid">
+          <a className="feature-card" href="#institutions">
+            <span>🏥</span>
+            <p>Institutions</p>
+          </a>
+          <a className="feature-card" href="#individuals">
+            <span>🏠</span>
+            <p>Families</p>
+          </a>
+          <a className="feature-card" href="#individuals">
+            <span>👩‍⚕️</span>
+            <p>Caregivers</p>
+          </a>
         </div>
-      </section>
 
-      <div className="features-grid">
-        <a className="feature-card" href="#istituzioni">
-          <span>🏥</span>
-          <p>Istituzioni</p>
-        </a>
-        <a className="feature-card" href="#privati">
-          <span>🏠</span>
-          <p>Famiglie</p>
-        </a>
-        <a className="feature-card" href="#privati">
-          <span>👩‍⚕️</span>
-          <p>Badanti private</p>
-        </a>
-      </div>
-
-      <p className="intro-text-sito">
-        Sistema specializzato per la gestione dell'assistenza a gruppi vulnerabili —
-        alimentazione, igiene, autonomia. Ideale per strutture che necessitano di monitoraggio
-        quotidiano senza complessi software EHR.
-      </p>
-
-      <h2 id="istituzioni" className="section-title-sito">Istituzioni</h2>
-      <ul className="description-list-sito">
-        <li><strong>Case di riposo e ospizi</strong> — distribuzione per reparti, monitoraggio delle esigenze quotidiane.</li>
-        <li><strong>Centri di riabilitazione</strong> — tracciamento riabilitazione e autonomia del paziente.</li>
-        <li><strong>Servizi sociali / ONG</strong> — coordinazione per programmi di assistenza.</li>
-      </ul>
-
-      <h2 id="privati" className="section-title-sito">Privati</h2>
-      <ul className="description-list-sito">
-        <li><strong>Famiglie con parenti anziani</strong> — gestione semplice per assistenza domiciliare.</li>
-        <li><strong>Badanti e caregiver</strong> — aggiornamento dati in tempo reale con permessi.</li>
-      </ul>
-
-      <div className="stat-block-sito">
-        <p>
-          Secondo Eurostat, entro il 2050 il numero di persone over 65 raggiungerà
-          <strong> 134,5 milioni</strong> — circa il 30% della popolazione UE.
-          Soluzioni semplici di tracciamento sono sempre più necessarie.
+        <p className="intro-text-sito">
+          A specialized platform for managing care of vulnerable individuals —
+          nutrition, hygiene, mobility. Ideal for facilities that need daily monitoring
+          without the complexity of full EHR systems.
         </p>
-      </div>
 
-      <div className="video-block-sito">
-        <iframe
-          width="100%"
-          height="460"
-          src="https://www.youtube-nocookie.com/embed/Mb68k4-_tLU"
-          title="Demo video"
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          loading="lazy"
-          style={{ border: 0, borderRadius: '12px' }}
-        />
-      </div>
+        <h2 id="institutions" className="section-title-sito">Institutions</h2>
+        <ul className="description-list-sito">
+          <li><strong>Nursing homes &amp; care facilities</strong> — ward-based organization, daily needs tracking.</li>
+          <li><strong>Rehabilitation centers</strong> — patient mobility and rehabilitation progress monitoring.</li>
+          <li><strong>Social services / NGOs</strong> — coordination for community care programs.</li>
+        </ul>
 
-      <div className="contact-block-sito">
-        <p>Hai bisogno di personalizzazioni?</p>
-        <a href="mailto:tsitronov2017@gmail.com" className="cta-button-sito">
-          Scrivimi 📬
-        </a>
-      </div>
+        <h2 id="individuals" className="section-title-sito">Individuals</h2>
+        <ul className="description-list-sito">
+          <li><strong>Families with elderly relatives</strong> — simple home care management.</li>
+          <li><strong>Private caregivers</strong> — real-time data updates with role-based access.</li>
+        </ul>
 
-      <footer className="footer-sito">
-        <NavLink to="/privacy">Privacy Policy</NavLink>
-        <span>·</span>
-        <a href="mailto:tsitronov2017@gmail.com">tsitronov2017@gmail.com</a>
-        <span>·</span>
-        <span>© {new Date().getFullYear()}</span>
-      </footer>
+        <div className="stat-block-sito">
+          <p>
+            According to Eurostat, by 2050 the number of people aged 65+ will reach
+            <strong> 134.5 million</strong> — approximately 30% of the EU population.
+            Simple, effective care-tracking solutions are increasingly essential.
+          </p>
+        </div>
+
+        <div className="video-block-sito">
+          <iframe
+            width="100%"
+            height="460"
+            src="https://www.youtube-nocookie.com/embed/Mb68k4-_tLU"
+            title="Demo video"
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            loading="lazy"
+            style={{ border: 0, borderRadius: '12px' }}
+          />
+        </div>
+
+        <div className="contact-block-sito">
+          <p>Need a custom solution?</p>
+          <a href="mailto:tsitronov2017@gmail.com" className="cta-button-sito">
+            Contact Us 📬
+          </a>
+        </div>
+
+        <footer className="footer-sito">
+          <NavLink to="/privacy">Privacy Policy</NavLink>
+          <span>·</span>
+          <NavLink to="/terms">Terms &amp; Conditions</NavLink>
+          <span>·</span>
+          <a href="mailto:tsitronov2017@gmail.com">tsitronov2017@gmail.com</a>
+          <span>·</span>
+          <span>© {new Date().getFullYear()} CareTrack</span>
+        </footer>
 
       </div>
     </div>

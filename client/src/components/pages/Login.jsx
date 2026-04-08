@@ -30,17 +30,17 @@ const Login = () => {
           navigate('/utenti');
           return;
         } else {
-          setLocalError('Risposta del server non valida');
+          setLocalError('Invalid server response');
           break;
         }
       } catch (err) {
         attempts++;
         if (err.response?.status === 401) {
-          setLocalError(err.response?.data?.error || 'Accesso o password non validi');
+          setLocalError(err.response?.data?.error || 'Invalid username or password');
           break;
         }
         if (err.response?.status === 429) {
-          setLocalError('Troppi tentativi — attendi 15 minuti');
+          setLocalError('Too many attempts — please wait 15 minutes');
           break;
         }
         // Жди перед retry (2с, 4с, 6с)
@@ -54,7 +54,7 @@ const Login = () => {
     <div className="container-login"> 
       <div className="main-content-login"> 
         <div className="content-login">
-         <h3 className="title-login">Pagina di accesso</h3> 
+         <h3 className="title-login">Sign In</h3>
          <div className="article-list-login">
           {loading && <div className="loading-spinner"></div>}
           {localError && <p className="error-login">{localError}</p>}
@@ -63,8 +63,8 @@ const Login = () => {
               <input
                 type="text"
                 className="input-login"
-                placeholder="login"
-                {...register('username', { required: 'Accesso richiesto' })}
+                placeholder="Username"
+                {...register('username', { required: 'Username is required' })}
               />
               {errors.username && (
                 <p className="error-login">{errors.username.message}</p>
@@ -72,14 +72,14 @@ const Login = () => {
               <input
                 type="password"
                 className="input-login"
-                placeholder="password"
-                {...register('password', { required: 'Password richiesta' })}
+                placeholder="Password"
+                {...register('password', { required: 'Password is required' })}
               />
               {errors.password && (
                 <p className="error-login">{errors.password.message}</p>
               )}
               <button type="submit" className="button-login" disabled={loading}>
-                {loading ? 'in corso...' : 'Accedi'}
+                {loading ? 'Signing in...' : 'Sign In'}
               </button>
             </form>
 

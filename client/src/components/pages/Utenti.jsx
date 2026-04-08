@@ -57,16 +57,16 @@ const Utenti = () => {
   const itemsPerPage = 4;
 
   const categoryLabels = useMemo(() => ({
-    reparto: 'reparto',
-    stanza: 'stanza',
-    cognome: 'nome',
-    bagno: 'bagno',
-    barba: 'barba',
-    autonomia: 'autonomia',
-    vestiti: 'vestiti',
-    alimentazione: 'alimentazione',
-    accessori: 'accessori',
-    altro: 'altro',
+    reparto: 'ward',
+    stanza: 'room',
+    cognome: 'name',
+    bagno: 'bath',
+    barba: 'shaving',
+    autonomia: 'mobility',
+    vestiti: 'clothing',
+    alimentazione: 'nutrition',
+    accessori: 'accessories',
+    altro: 'notes',
   }), []);
 
 
@@ -226,7 +226,7 @@ const Utenti = () => {
 
             <BotChat />
 
-            <div className="sidebar-reparti">reparti
+            <div className="sidebar-reparti">Wards
               <ul className="repartoNome reparti-list">
                 {reparti.map((reparto, i) => (
                   <li key={i}>
@@ -248,7 +248,7 @@ const Utenti = () => {
               </ul>
 
               {isAuth && Number(categoria) >= 2 &&
-                <div className="toggleLink" onClick={toggleUtentiForm}> Aggiungi 🙂 </div>
+                <div className="toggleLink" onClick={toggleUtentiForm}>+ Add</div>
               }
             </div>
 
@@ -290,7 +290,7 @@ const Utenti = () => {
                       onClick={handleSalva}
                       disabled={isLoading}
                     >
-                      {isLoading ? <span className="spinner"></span> : '💾 salva'}
+                      {isLoading ? <span className="spinner"></span> : '💾 Save'}
                     </button>
                     <button
                       type="button"
@@ -298,7 +298,7 @@ const Utenti = () => {
                       onClick={resetForm}
                       disabled={isLoading}
                     >
-                      ❌ cancellare
+                      ❌ Cancel
                     </button>
                   </>
                 ) : (
@@ -309,7 +309,7 @@ const Utenti = () => {
                       onClick={handleAggiungi}
                       disabled={isLoading}
                     >
-                      {isLoading ? <span className="spinner"></span> : '➕ aggiungi'}
+                      {isLoading ? <span className="spinner"></span> : '➕ Add'}
                     </button>
                     <button
                       type="button"
@@ -317,7 +317,7 @@ const Utenti = () => {
                       onClick={resetForm}
                       disabled={isLoading}
                     >
-                      ❌ cancellare
+                      ❌ Cancel
                     </button>
                   </>
                 )}
@@ -369,7 +369,7 @@ const Utenti = () => {
                           className="btn-azione btn-delete" 
                           onClick={(e) => { 
                             e.stopPropagation(); 
-                            if (window.confirm("Sei sicuro di voler eliminare?")) {
+                            if (window.confirm("Delete this resident?")) {
                               dispatch(eliminaUtente(item.id));
                             }
                           }}

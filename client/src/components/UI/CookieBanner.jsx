@@ -25,13 +25,13 @@ const CookieBanner = () => {
   return (
     <div className="cookie-banner" role="dialog" aria-label="Cookie consent">
       <p className="cookie-banner-text">
-        Questo sito utilizza cookie tecnici necessari per il funzionamento (autenticazione, preferenze tema).
-        Nessun cookie di tracciamento o profilazione. &nbsp;
+        This site uses essential cookies required for authentication and theme preferences.
+        No tracking or advertising cookies are used.{' '}
         <NavLink to="/privacy" className="cookie-link">Privacy Policy</NavLink>
       </p>
       <div className="cookie-banner-actions">
-        <button className="btn-salva" onClick={accept}>Accetta</button>
-        <button className="btn-elimina" onClick={reject}>Rifiuta</button>
+        <button className="btn-salva" onClick={accept}>Accept</button>
+        <button className="btn-elimina" onClick={reject}>Decline</button>
       </div>
     </div>
   );

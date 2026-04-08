@@ -4,7 +4,7 @@ const ModaleChatbot = ({ botResponse, setOpenModal }) => {
   const contentRef = useRef(null);
   const [showArrow, setShowArrow] = useState(false);
 
-  const isDarkMode = document.body.classList.contains('dark'); // или из твоего контекста темы
+  const isDarkMode = document.body.classList.contains('dark');
 
   useEffect(() => {
     const element = contentRef.current;
@@ -108,7 +108,7 @@ const ModaleChatbot = ({ botResponse, setOpenModal }) => {
             color: isDarkMode ? '#fff' : '#333'
           }}
         >
-          ❌ Chiudi
+          ❌ Close
         </button>
       </div>
     </div>

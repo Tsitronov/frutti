@@ -6,13 +6,13 @@ const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiun
               <input
             value={form.nome || ""}
             onChange={(e) => setForm({ ...form, nome: e.target.value })}
-            placeholder="nome"
+            placeholder="Name"
           />
           <input
             list="suggestions"
             value={form.categoria || ""}
             onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-            placeholder="categoria"
+            placeholder="Category"
           />
           <datalist id="suggestions">
             {categorieUniche.map((cat, i) => (
@@ -23,7 +23,7 @@ const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiun
           <textarea
             value={form.descrizione || ""}
             onChange={(e) => {setForm({ ...form, descrizione: e.target.value })}}
-            placeholder="descrizione"
+            placeholder="Description"
           >
           </textarea>
 
@@ -31,19 +31,19 @@ const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiun
         {form.id !== null ? (
           <>
             <button type="button" onClick={handleSalva} disabled={isLoading} >
-             {isLoading ? <span className="spinner"></span> : '💾 Modifica'} 
+             {isLoading ? <span className="spinner"></span> : '💾 Update'}
             </button>
             <button type="button" className="btn-elimina" onClick={toggleFruttiForm} disabled={isLoading} >
-              ❌ Annulla
+              ❌ Cancel
             </button>
           </>
         ) : (
           <>
-            <button type="button" onClick={handleAggiungiFrutto} disabled={isLoading} > 
-              {isLoading ? <span className="spinner"></span> : '➕ Aggiungi'}
+            <button type="button" onClick={handleAggiungiFrutto} disabled={isLoading} >
+              {isLoading ? <span className="spinner"></span> : '➕ Add'}
             </button>
             <button type="button" className="btn-elimina" onClick={toggleFruttiForm} disabled={isLoading} >
-              ❌ Annulla
+              ❌ Cancel
             </button>
           </>
         )}

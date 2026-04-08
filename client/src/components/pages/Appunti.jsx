@@ -135,7 +135,7 @@ const Appunti = () => {
       <div className="sidebar">
 
       {isAuth && Number(categoria) >= 2 &&
-        <div className="toggleLink" onClick={toggleAppuntiForm}>Aggiungi 🙂</div>
+        <div className="toggleLink" onClick={toggleAppuntiForm}>+ Add</div>
       }
 
         <div className="categories">
@@ -202,7 +202,7 @@ const Appunti = () => {
                   {isAuth && Number(categoria) >= 2 &&
                     <div className="actions">
                       <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
-                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Sei sicuro di voler eliminare?") && dispatch(eliminaAppunto(item.id))}>❌</button>
+                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Delete this note?") && dispatch(eliminaAppunto(item.id))}>❌</button>
                     </div>
                   }
                 </div>

@@ -46,7 +46,7 @@ const ModaleGenerale = ({
           type="button"
           onClick={() => setCategoriaSelezionata(null)}
         >
-          ❌ Chiudi
+          ❌ Close
         </button>
       </div>
     </div>

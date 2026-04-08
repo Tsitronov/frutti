@@ -13,15 +13,15 @@ export default function BotChat() {
   };
 
   return (
-    <div className="bot-chat" title={"questo bot  - scrivi per esempio: 203 o reparto 3 o Smit o trovi Smit"}>
+    <div className="bot-chat" title={"Search residents — e.g.: dept 3, Smith, or room 201"}>
       <input
         type="text"
         value={message}
-        placeholder="rep 2 o Smit o 201"
+        placeholder="dept 2, Smith, or 201"
         onChange={e => setMessage(e.target.value)}
         onKeyDown={e => e.key === "Enter" && handleSend()}
       />
-      <button style = {{marginTop: "10px"}} onClick={handleSend}>Отправить</button>
+      <button style={{ marginTop: "10px" }} onClick={handleSend}>Search</button>
     </div>
   );
 }

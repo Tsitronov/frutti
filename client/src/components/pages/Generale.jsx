@@ -134,7 +134,7 @@ const Generale = () => {
 
       <div className="sidebar">
         {isAuth && Number(categoria) >= 2 &&
-          <div className="toggleLink" onClick={toggleFruttiForm}>Aggiungi 🙂</div>
+          <div className="toggleLink" onClick={toggleFruttiForm}>+ Add</div>
         }
         <div className="categories">
           {categorieUniche.map((cat, index) => (
@@ -202,7 +202,7 @@ const Generale = () => {
                   {isAuth && Number(categoria) >= 2 &&
                     <div className="actions">
                       <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
-                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Sei sicuro di voler eliminare?") && dispatch(eliminaFrutto(item.id))}>❌</button>
+                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Delete this item?") && dispatch(eliminaFrutto(item.id))}>❌</button>
                     </div>
                   }
                 </div>

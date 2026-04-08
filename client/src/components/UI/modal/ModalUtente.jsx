@@ -10,7 +10,7 @@ const ModalUtente = ({ modalData, getColorClass, setShowModal }) => {
             </li>
           ))}
         </ul>
-        <button type="button" onClick={() => setShowModal(false)}>Chiudi</button>
+        <button type="button" onClick={() => setShowModal(false)}>Close</button>
       </div>
     </div>
   );

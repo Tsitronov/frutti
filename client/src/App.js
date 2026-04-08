@@ -16,7 +16,9 @@ import Report from './components/pages/Report';
 import Admin from './components/pages/Admin';
 import TeamPhotos from './components/pages/TeamPhotos';
 import PrivacyPolicy from './components/pages/PrivacyPolicy';
+import TermsConditions from './components/pages/TermsConditions';
 import CookieBanner from './components/UI/CookieBanner';
+import ErrorBoundary from './components/ErrorBoundary';
 
 import './App.css';
 
@@ -87,25 +89,28 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria, loading, setLoading  }}>
-      <CookieBanner />
-      <Routes>
-        <Route path="/" element={<SulSito />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/privacy" element={<PrivacyPolicy />} />
+    <ErrorBoundary>
+      <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria, loading, setLoading }}>
+        <CookieBanner />
+        <Routes>
+          <Route path="/" element={<SulSito />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsConditions />} />
 
-        <Route path="/generale" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
-        <Route path="/appunti" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />
-        <Route path="/articoli" element={<ProtectedRoute><Articoli /></ProtectedRoute>} />
-        <Route path="/utenti" element={<ProtectedRoute><Utenti /></ProtectedRoute>} />
-        <Route path="/utentiTable" element={<ProtectedRoute><UtentiTable /></ProtectedRoute>} />
-        <Route path="/report" element={<ProtectedRoute><Report /></ProtectedRoute>} />
-        <Route path="/team-photos" element={<ProtectedRoute><TeamPhotos /></ProtectedRoute>} />
-        <Route path="/admin" element={<ProtectedRoute requireAdmin={true}><Admin /></ProtectedRoute>} />
+          <Route path="/generale" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
+          <Route path="/appunti" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />
+          <Route path="/articoli" element={<ProtectedRoute><Articoli /></ProtectedRoute>} />
+          <Route path="/utenti" element={<ProtectedRoute><Utenti /></ProtectedRoute>} />
+          <Route path="/utentiTable" element={<ProtectedRoute><UtentiTable /></ProtectedRoute>} />
+          <Route path="/report" element={<ProtectedRoute><Report /></ProtectedRoute>} />
+          <Route path="/team-photos" element={<ProtectedRoute><TeamPhotos /></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute requireAdmin={true}><Admin /></ProtectedRoute>} />
 
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </AuthContext.Provider>
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </AuthContext.Provider>
+    </ErrorBoundary>
   );
 }
 
