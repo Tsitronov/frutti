@@ -89,7 +89,7 @@ const Appunti = () => {
       descrizione: item.descrizione || "",
       categoria: item.categoria || ""
     });
-    toggleAppuntiForm();
+    setShowForm(true);
   }, []);
 
   const handleSalva = useCallback(() => {

@@ -90,7 +90,7 @@ const Articoli = () => {
       descrizione: item.descrizione || "",
       categoria: item.categoria || ""
     });
-    toggleArticoliForm();
+    setShowForm(true);
   }, []);
 
   const handleSalva = useCallback(() => {

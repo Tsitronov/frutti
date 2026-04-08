@@ -89,7 +89,7 @@ const Generale = () => {
       descrizione: item.descrizione || "",
       categoria: item.categoria || ""
     });
-    toggleFruttiForm();
+    setShowForm(true);
   }, []);
 
   const handleSalva = useCallback(() => {
