@@ -48,7 +48,6 @@ const Navbar = () => {
     try {
       await api.post('/api/logout');
     } catch (err) {
-      console.error('Ошибка при выходе:', err);
     } finally {
       setIsAuth(false);
       setCategoria(null);

@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { AuthContext } from './context';
 import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute';
-import api, { setTokens } from './api.js';
+import { setTokens } from './api.js';
 
 import Login from './components/pages/Login';
 import SulSito from './components/pages/SulSito';
@@ -15,6 +15,8 @@ import UtentiTable from './components/pages/UtentiTable';
 import Report from './components/pages/Report';
 import Admin from './components/pages/Admin';
 import TeamPhotos from './components/pages/TeamPhotos';
+import PrivacyPolicy from './components/pages/PrivacyPolicy';
+import CookieBanner from './components/UI/CookieBanner';
 
 import './App.css';
 
@@ -40,7 +42,9 @@ function App() {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 8000);
 
-        const res = await fetch('https://frutti-backend.onrender.com/api/refresh', {
+        const apiUrl = process.env.REACT_APP_API_URL || '';
+
+        const res = await fetch(`${apiUrl}/api/refresh`, {
           method: 'POST',
           credentials: 'include',
           signal: controller.signal
@@ -52,7 +56,7 @@ function App() {
           const data = await res.json();
           setTokens(data.accessToken);
 
-          const valRes = await fetch('https://frutti-backend.onrender.com/api/validateToken', {
+          const valRes = await fetch(`${apiUrl}/api/validateToken`, {
             credentials: 'include',
             headers: { Authorization: `Bearer ${data.accessToken}` }
           });
@@ -65,7 +69,6 @@ function App() {
         }
 
       } catch (err) {
-        console.log("Нет сессии или кука не пришла — идём на логин");
       } finally {
         setLoading(false);
       }
@@ -85,9 +88,11 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria, loading, setLoading  }}>
+      <CookieBanner />
       <Routes>
         <Route path="/" element={<SulSito />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
 
         <Route path="/generale" element={<ProtectedRoute><Generale /></ProtectedRoute>} />
         <Route path="/appunti" element={<ProtectedRoute><Appunti /></ProtectedRoute>} />

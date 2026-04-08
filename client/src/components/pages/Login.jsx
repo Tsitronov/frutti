@@ -25,8 +25,6 @@ const Login = () => {
 
         if (response.data?.accessToken) {
           setTokens(response.data.accessToken);
-          sessionStorage.setItem('accessToken', response.data.accessToken);
-          console.log('Login success, token saved');
           setIsAuth(true);
           setCategoria(response.data.categoria);
           navigate('/utenti');
@@ -37,7 +35,6 @@ const Login = () => {
         }
       } catch (err) {
         attempts++;
-        console.error(`Login attempt ${attempts} failed:`, err.response?.status, err.message);
         if (err.response?.status === 401) {
           setLocalError(err.response?.data?.error || 'Accesso o password non validi');
           break;

@@ -84,6 +84,14 @@ const SulSito = () => {
         </a>
       </div>
 
+      <footer className="footer-sito">
+        <NavLink to="/privacy">Privacy Policy</NavLink>
+        <span>·</span>
+        <a href="mailto:tsitronov2017@gmail.com">tsitronov2017@gmail.com</a>
+        <span>·</span>
+        <span>© {new Date().getFullYear()}</span>
+      </footer>
+
       </div>
     </div>
   );

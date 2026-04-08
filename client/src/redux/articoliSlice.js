@@ -113,7 +113,6 @@ const articoliSlice = createSlice({
       if (index !== -1) {
         // Обновляем объект безопасно (сохраняем старые поля, если сервер не вернул все)
         state.lista[index] = { ...state.lista[index], ...updated };
-        console.log(`Успешно обновили Articolo с id ${updatedId} на индексе ${index}`);
       } else {
         console.warn(
           `Не нашли Articolo с id ${updatedId} в списке. ` +
@@ -124,7 +123,6 @@ const articoliSlice = createSlice({
 
     .addCase(modificaArticolo.rejected, (state, action) => {
       state.error = action.payload || 'Ошибка обновления Articolo';
-      console.error("modificaArticolo rejected:", action.payload);
     })
 
       // delete

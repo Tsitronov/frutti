@@ -38,7 +38,6 @@ const UtentiTable = () => {
   useEffect(() => {
     dispatch(fetchUtenti()).then((action) => {
       if (fetchUtenti.fulfilled.match(action)) {
-        console.log('Utenti caricati:', action.payload.length);
       }
     });
   }, [dispatch]);
