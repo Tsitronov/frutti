@@ -37,6 +37,7 @@ const Articoli = () => {
     descrizione: "",
     categoria: ""
   });
+  const [showForm, setShowForm] = useState(false);
   const [scrollStates, setScrollStates] = useState({});
   const testoRefs = useRef({});
 
@@ -110,10 +111,7 @@ const Articoli = () => {
     }
   }, [form, dispatch]);
 
-  const toggleArticoliForm = () => {
-    const articoliForm = document.querySelector('.articoliForm');
-    articoliForm.classList.toggle('articoliFormDisplayNone');
-  };
+  const toggleArticoliForm = () => setShowForm(prev => !prev);
 
   const cambiaPagina = (numero) => {
     dispatch(setCurrentPage(numero));
@@ -135,7 +133,7 @@ const Articoli = () => {
     <div className="container">
       <Navbar />
 
-      <div className="sidebar-articoli">
+      <div className="sidebar">
 
       {isAuth && Number(categoria) >= 2 &&
         <div className="toggleLink" onClick={toggleArticoliForm}>Aggiungi 🙂</div>
@@ -158,15 +156,17 @@ const Articoli = () => {
             {error && <span className="carico-dati">{error}</span>}
           </div>
 
-          <ArticoliForm
-            form={form}
-            setForm={setForm}
-            categorieUniche={categorieUniche}
-            handleSalva={handleSalva}
-            handleAggiungiArticolo={handleAggiungiArticolo}
-            toggleArticoliForm={toggleArticoliForm}
-            isLoading = {isLoading}
-          />
+          {showForm && (
+            <ArticoliForm
+              form={form}
+              setForm={setForm}
+              categorieUniche={categorieUniche}
+              handleSalva={handleSalva}
+              handleAggiungiArticolo={handleAggiungiArticolo}
+              toggleArticoliForm={toggleArticoliForm}
+              isLoading={isLoading}
+            />
+          )}
 
           <div className="article-list-articoli">
             {articoliVisibili.map(item => (

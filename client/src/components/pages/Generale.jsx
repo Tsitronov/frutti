@@ -36,6 +36,7 @@ const Generale = () => {
     descrizione: "",
     categoria: ""
   });
+  const [showForm, setShowForm] = useState(false);
   const [scrollStates, setScrollStates] = useState({});
   const testoRefs = useRef({});
 
@@ -109,10 +110,7 @@ const Generale = () => {
     }
   }, [form, dispatch]);
 
-  const toggleFruttiForm = () => {
-    const fruttiForm = document.querySelector('.generaleForm');
-    fruttiForm.classList.toggle('fruttiFormDisplayNone');
-  };
+  const toggleFruttiForm = () => setShowForm(prev => !prev);
 
   const cambiaPagina = (numero) => {
     dispatch(setCurrentPage(numero));
@@ -134,7 +132,7 @@ const Generale = () => {
     <div className="container">
       <Navbar />
 
-      <div className="sidebar-appunti">
+      <div className="sidebar">
         {isAuth && Number(categoria) >= 2 &&
           <div className="toggleLink" onClick={toggleFruttiForm}>Aggiungi 🙂</div>
         }
@@ -156,15 +154,17 @@ const Generale = () => {
             {error && <span className="carico-dati">{error}</span>}
           </div>
 
-          <GeneraleForm
-            form={form}
-            setForm={setForm}
-            categorieUniche={categorieUniche}
-            handleSalva={handleSalva}
-            handleAggiungiFrutto={handleAggiungiFrutto}
-            toggleFruttiForm={toggleFruttiForm}
-            isLoading = {isLoading}
-          />
+          {showForm && (
+            <GeneraleForm
+              form={form}
+              setForm={setForm}
+              categorieUniche={categorieUniche}
+              handleSalva={handleSalva}
+              handleAggiungiFrutto={handleAggiungiFrutto}
+              toggleFruttiForm={toggleFruttiForm}
+              isLoading={isLoading}
+            />
+          )}
 
           <div className="article-list">
             {fruttiVisibili.map(item => (

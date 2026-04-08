@@ -46,6 +46,7 @@ const Utenti = () => {
     accessori: "",
     altro: "",
   });
+  const [showForm, setShowForm] = useState(false);
   const [modificaId, setModificaId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState({ campo: "", valore: "", cognomi: [] });
@@ -141,10 +142,7 @@ const Utenti = () => {
     return "blue";
   }, []);
 
-  const toggleUtentiForm = () => {
-    const utentiForm = document.querySelector('.utentiForm');
-    utentiForm.classList.toggle('utentiFormDisplayNone');
-  };
+  const toggleUtentiForm = () => setShowForm(prev => !prev);
 
   const resetForm = () => {
     setForm({
@@ -264,7 +262,8 @@ const Utenti = () => {
 
           </div>
 
-          <div className="utentiForm utentiFormDisplayNone">
+          {showForm && (
+          <div className="utentiForm">
             <div className="modal">
               <div className="modal-content">
                 {["reparto", "stanza", "cognome", "bagno", "barba", "autonomia", "vestiti", "alimentazione", "accessori"].map((campo) => (
@@ -325,6 +324,7 @@ const Utenti = () => {
               </div>
             </div>
           </div>
+          )}
 
           <div className="article-list">
             {utentiVisibili.map((item) => {

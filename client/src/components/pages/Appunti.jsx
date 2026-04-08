@@ -36,6 +36,7 @@ const Appunti = () => {
     descrizione: "",
     categoria: ""
   });
+  const [showForm, setShowForm] = useState(false);
   const [scrollStates, setScrollStates] = useState({});
   const testoRefs = useRef({});
 
@@ -109,10 +110,7 @@ const Appunti = () => {
     }
   }, [form, dispatch]);
 
-  const toggleAppuntiForm = () => {
-    const appuntiForm = document.querySelector('.appuntiForm');
-    appuntiForm.classList.toggle('appuntiFormDisplayNone');
-  };
+  const toggleAppuntiForm = () => setShowForm(prev => !prev);
 
   const cambiaPagina = (numero) => {
     dispatch(setCurrentPage(numero));
@@ -134,7 +132,7 @@ const Appunti = () => {
     <div className="container">
       <Navbar />
 
-      <div className="sidebar-appunti">
+      <div className="sidebar">
 
       {isAuth && Number(categoria) >= 2 &&
         <div className="toggleLink" onClick={toggleAppuntiForm}>Aggiungi 🙂</div>
@@ -158,15 +156,17 @@ const Appunti = () => {
             {error && <span className="carico-dati">{error}</span>}
           </div>
 
-          <AppuntiForm
-            form={form}
-            setForm={setForm}
-            categorieUniche={categorieUniche}
-            handleSalva={handleSalva}
-            handleAggiungiAppunto={handleAggiungiAppunto}
-            toggleAppuntiForm={toggleAppuntiForm}
-            isLoading = {isLoading}
-          />
+          {showForm && (
+            <AppuntiForm
+              form={form}
+              setForm={setForm}
+              categorieUniche={categorieUniche}
+              handleSalva={handleSalva}
+              handleAggiungiAppunto={handleAggiungiAppunto}
+              toggleAppuntiForm={toggleAppuntiForm}
+              isLoading={isLoading}
+            />
+          )}
 
           <div className="article-list-appunti">
             {appuntiVisibili.map(item => (
