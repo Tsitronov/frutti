@@ -77,6 +77,8 @@ const Navbar = () => {
 
   return (
     <nav className={`top-nav navbar ${theme}`}>
+      <div className="nav-brand">CareTrack</div>
+
       {isMobile && (
         <button 
           className={`mobile-hamburger ${isMobileMenuOpen ? 'open' : ''}`} 
