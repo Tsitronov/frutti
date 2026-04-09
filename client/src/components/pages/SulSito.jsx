@@ -1,7 +1,10 @@
+import { useState } from "react";
 import Navbar from "../UI/navbar/Navbar";
 import { NavLink } from "react-router-dom";
 
 const SulSito = () => {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
   return (
     <div className="main-container-sito">
       <Navbar />
@@ -66,15 +69,25 @@ const SulSito = () => {
         </div>
 
         <div className="video-block-sito">
-          <iframe
-            width="100%"
-            height="460"
-            src="https://www.youtube-nocookie.com/embed/Mb68k4-_tLU"
-            title="Demo video"
-            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-            loading="lazy"
-            style={{ border: 0, borderRadius: '12px' }}
-          />
+          {videoLoaded ? (
+            <iframe
+              width="100%"
+              height="460"
+              src="https://www.youtube-nocookie.com/embed/Mb68k4-_tLU?autoplay=1"
+              title="Demo video"
+              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+              style={{ border: 0, borderRadius: '12px' }}
+            />
+          ) : (
+            <button
+              className="video-facade"
+              onClick={() => setVideoLoaded(true)}
+              aria-label="Play demo video"
+            >
+              <span className="video-play-icon">▶</span>
+              <span>Watch Demo</span>
+            </button>
+          )}
         </div>
 
         <div className="contact-block-sito">
