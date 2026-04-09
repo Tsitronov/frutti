@@ -79,7 +79,7 @@ const Login = () => {
                 <p className="error-login">{errors.password.message}</p>
               )}
               <button type="submit" className="button-login" disabled={loading}>
-                {loading ? 'Signing in...' : 'Sign In'}
+                {loading ? 'Accesso...' : 'Accedi'}
               </button>
             </form>
 

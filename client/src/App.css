@@ -2667,6 +2667,10 @@ body.dark .mobile-menu-overlay button:hover {
     display: flex !important;
   }
 
+  .nav-brand {
+    display: none;
+  }
+
   .navbar {
     position: fixed;
     top: 0;

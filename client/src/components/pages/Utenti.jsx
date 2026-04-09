@@ -290,7 +290,7 @@ const Utenti = () => {
                       onClick={handleSalva}
                       disabled={isLoading}
                     >
-                      {isLoading ? <span className="spinner"></span> : '💾 Save'}
+                      {isLoading ? <span className="spinner"></span> : '💾 Salva'}
                     </button>
                     <button
                       type="button"
@@ -298,7 +298,7 @@ const Utenti = () => {
                       onClick={resetForm}
                       disabled={isLoading}
                     >
-                      ❌ Cancel
+                      ❌ Annulla
                     </button>
                   </>
                 ) : (
@@ -309,7 +309,7 @@ const Utenti = () => {
                       onClick={handleAggiungi}
                       disabled={isLoading}
                     >
-                      {isLoading ? <span className="spinner"></span> : '➕ Add'}
+                      {isLoading ? <span className="spinner"></span> : '➕ Aggiungi'}
                     </button>
                     <button
                       type="button"
@@ -317,7 +317,7 @@ const Utenti = () => {
                       onClick={resetForm}
                       disabled={isLoading}
                     >
-                      ❌ Cancel
+                      ❌ Annulla
                     </button>
                   </>
                 )}
@@ -369,7 +369,7 @@ const Utenti = () => {
                           className="btn-azione btn-delete" 
                           onClick={(e) => { 
                             e.stopPropagation(); 
-                            if (window.confirm("Delete this resident?")) {
+                            if (window.confirm("Eliminare questo ospite?")) {
                               dispatch(eliminaUtente(item.id));
                             }
                           }}

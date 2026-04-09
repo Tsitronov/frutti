@@ -31,19 +31,19 @@ const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiun
         {form.id !== null ? (
           <>
             <button type="button" onClick={handleSalva} disabled={isLoading} >
-             {isLoading ? <span className="spinner"></span> : '💾 Update'}
+             {isLoading ? <span className="spinner"></span> : '💾 Salva'}
             </button>
             <button type="button" className="btn-elimina" onClick={toggleFruttiForm} disabled={isLoading} >
-              ❌ Cancel
+              ❌ Annulla
             </button>
           </>
         ) : (
           <>
             <button type="button" onClick={handleAggiungiFrutto} disabled={isLoading} >
-              {isLoading ? <span className="spinner"></span> : '➕ Add'}
+              {isLoading ? <span className="spinner"></span> : '➕ Aggiungi'}
             </button>
             <button type="button" className="btn-elimina" onClick={toggleFruttiForm} disabled={isLoading} >
-              ❌ Cancel
+              ❌ Annulla
             </button>
           </>
         )}

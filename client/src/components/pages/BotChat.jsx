@@ -21,7 +21,7 @@ export default function BotChat() {
         onChange={e => setMessage(e.target.value)}
         onKeyDown={e => e.key === "Enter" && handleSend()}
       />
-      <button style={{ marginTop: "10px" }} onClick={handleSend}>Search</button>
+      <button style={{ marginTop: "10px" }} onClick={handleSend}>Cerca</button>
     </div>
   );
 }
