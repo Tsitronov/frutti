@@ -130,9 +130,11 @@ const Navbar = () => {
         </ul>
       )}
 
-      <button className="theme-toggle-mobile" onClick={(e) => { e.stopPropagation(); toggleThemeLocal(); }}>
-         {theme === "light" ? "🌙" : "☀️"}
-      </button>
+      {!isMobile && (
+        <button className="theme-toggle-mobile" onClick={(e) => { e.stopPropagation(); toggleThemeLocal(); }}>
+          {theme === "light" ? "🌙" : "☀️"}
+        </button>
+      )}
     </nav>
   );
 };
