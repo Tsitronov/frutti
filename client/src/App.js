@@ -1,24 +1,24 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { AuthContext } from './context';
 import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute';
 import { setTokens } from './api.js';
-
-import Login from './components/pages/Login';
-import SulSito from './components/pages/SulSito';
-import Generale from './components/pages/Generale';
-import Appunti from './components/pages/Appunti';
-import Articoli from './components/pages/Articoli';
-import Utenti from './components/pages/Utenti';
-import UtentiTable from './components/pages/UtentiTable';
-import Report from './components/pages/Report';
-import Admin from './components/pages/Admin';
-import TeamPhotos from './components/pages/TeamPhotos';
-import PrivacyPolicy from './components/pages/PrivacyPolicy';
-import TermsConditions from './components/pages/TermsConditions';
 import CookieBanner from './components/UI/CookieBanner';
 import ErrorBoundary from './components/ErrorBoundary';
+
+const Login = lazy(() => import('./components/pages/Login'));
+const SulSito = lazy(() => import('./components/pages/SulSito'));
+const Generale = lazy(() => import('./components/pages/Generale'));
+const Appunti = lazy(() => import('./components/pages/Appunti'));
+const Articoli = lazy(() => import('./components/pages/Articoli'));
+const Utenti = lazy(() => import('./components/pages/Utenti'));
+const UtentiTable = lazy(() => import('./components/pages/UtentiTable'));
+const Report = lazy(() => import('./components/pages/Report'));
+const Admin = lazy(() => import('./components/pages/Admin'));
+const TeamPhotos = lazy(() => import('./components/pages/TeamPhotos'));
+const PrivacyPolicy = lazy(() => import('./components/pages/PrivacyPolicy'));
+const TermsConditions = lazy(() => import('./components/pages/TermsConditions'));
 
 import './App.css';
 
@@ -92,6 +92,7 @@ function App() {
     <ErrorBoundary>
       <AuthContext.Provider value={{ isAuth, setIsAuth, categoria, setCategoria, loading, setLoading }}>
         <CookieBanner />
+        <Suspense fallback={<div className="loading-screen"><div className="loading-spinner"></div></div>}>
         <Routes>
           <Route path="/" element={<SulSito />} />
           <Route path="/login" element={<Login />} />
@@ -109,6 +110,7 @@ function App() {
 
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+        </Suspense>
       </AuthContext.Provider>
     </ErrorBoundary>
   );

@@ -175,7 +175,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 input::placeholder, textarea::placeholder {
-  color: #94a3b8;
+  color: #64748b;
 }
 
 /* Buttons - Ultra Modern */
