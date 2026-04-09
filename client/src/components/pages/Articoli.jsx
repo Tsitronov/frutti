@@ -198,7 +198,7 @@ const Articoli = () => {
                   {isAuth && Number(categoria) >= 2 &&
                     <div className="actions">
                       <button type="button" className="btn-azione btn-update" onClick={() => handleModifica(item)}>✏️</button>
-                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Delete this article?") && dispatch(eliminaArticolo(item.id))}>❌</button>
+                      <button type="button" className="btn-azione btn-delete" onClick={() => window.confirm("Eliminare questo elemento?") && dispatch(eliminaArticolo(item.id))}>❌</button>
                     </div>
                   }
                 </div>
@@ -220,6 +220,10 @@ const Articoli = () => {
           categoriaSelezionata={categoriaSelezionata}
           setCategoriaSelezionata={setCategoriaSelezionata}
           articoliFiltrati={articoliFiltrati}
+          handleModifica={handleModifica}
+          onElimina={(id) => dispatch(eliminaArticolo(id))}
+          isAuth={isAuth}
+          categoria={categoria}
         />
       )}
     </div>

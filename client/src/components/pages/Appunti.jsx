@@ -224,6 +224,10 @@ const Appunti = () => {
           categoriaSelezionata={categoriaSelezionata}
           setCategoriaSelezionata={setCategoriaSelezionata}
           appuntiFiltrati={appuntiFiltrati}
+          handleModifica={handleModifica}
+          onElimina={(id) => dispatch(eliminaAppunto(id))}
+          isAuth={isAuth}
+          categoria={categoria}
         />
       )}
     </div>

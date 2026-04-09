@@ -224,6 +224,10 @@ const Generale = () => {
           categoriaSelezionata={categoriaSelezionata}
           setCategoriaSelezionata={setCategoriaSelezionata}
           fruttiFiltrati={fruttiFiltrati}
+          handleModifica={handleModifica}
+          onElimina={(id) => dispatch(eliminaFrutto(id))}
+          isAuth={isAuth}
+          categoria={categoria}
         />
       )}
     </div>

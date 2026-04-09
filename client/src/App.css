@@ -1223,6 +1223,13 @@ body.dark .container {
   gap: 0.2rem;
   max-width: 600px;
 }
+.modal-actions {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0.25rem 0 0.5rem;
+}
+
 .modal-content .modal-buttons {
   display: flex;
   justify-content: center;
