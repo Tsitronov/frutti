@@ -1,6 +1,6 @@
 const GeneraleForm = ({form, setForm, categorieUniche, handleSalva, handleAggiungiFrutto, toggleFruttiForm, isLoading }) => {
     return(
-    <div className="generaleForm fruttiFormDisplayNone">
+    <div className="generaleForm">
           <div className="modal">
         <div className="modal-content">
               <input

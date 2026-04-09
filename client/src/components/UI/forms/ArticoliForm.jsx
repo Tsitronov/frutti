@@ -1,6 +1,6 @@
 const ArticoliForm = ({form, setForm, categorieUniche, handleSalva, handleAggiungiArticolo, toggleArticoliForm, isLoading}) => {
 	return(
-    <div className="articoliForm articoliFormDisplayNone">
+    <div className="articoliForm">
 		  <div className="modal">
         <div className="modal-content">
           <input

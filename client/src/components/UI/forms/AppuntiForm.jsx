@@ -1,6 +1,6 @@
 const AppuntiForm = ({form, setForm, categorieUniche, handleSalva, handleAggiungiAppunto, toggleAppuntiForm, isLoading}) => {
   return(
-    <div className="appuntiForm appuntiFormDisplayNone">
+    <div className="appuntiForm">
       <div className="modal">
         <div className="modal-content">
               <input
