@@ -42,7 +42,7 @@ function App() {
 
       try {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 8000);
+        const timeout = setTimeout(() => controller.abort(), 2000);
 
         const apiUrl = process.env.REACT_APP_API_URL || '';
 
