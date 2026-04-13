@@ -45,7 +45,7 @@ const ModaleArticoli = ({
                   <button
                     type="button"
                     className="btn-azione btn-delete"
-                    onClick={() => window.confirm("Eliminare questo elemento?") && onElimina(f.id)}
+                    onClick={() => { if (window.confirm("Eliminare questo elemento?")) { onElimina(f.id); setCategoriaSelezionata(null); } }}
                   >❌</button>
                 </li>
               )}
