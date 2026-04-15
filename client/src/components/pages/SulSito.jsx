@@ -73,7 +73,7 @@ const SulSito = () => {
             <iframe
               width="100%"
               height="460"
-              src="https://www.youtube-nocookie.com/embed/Mb68k4-_tLU?autoplay=1"
+              src="https://www.youtube-nocookie.com/embed/gS6DLZ9uhyg?autoplay=1"
               title="Demo video"
               allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
               style={{ border: 0, borderRadius: '12px' }}
